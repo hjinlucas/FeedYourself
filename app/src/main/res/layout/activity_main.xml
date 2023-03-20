@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/exploreTextView"
         android:layout_marginStart="16dp" />
 
-    <!--layout for the horizontal RecyclerView in main page-->
+    <!-- layout for the horizontal RecyclerView in main paglayout for the horizontal RecyclerView in main page -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/horizontalRecyclerView"
         android:layout_width="0dp"
@@ -60,5 +60,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <!-- layout for the choose meal type sections -->
+    <TextView
+        android:id="@+id/chooseMealTypeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Meal Type"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp" />
+
+    <LinearLayout
+        android:id="@+id/mealTypeLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/chooseMealTypeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/breakfastTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Breakfast"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/brunchTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Brunch"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lunchTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Lunch"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dinnerTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Dinner"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!--  Confirmation btn layout  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/confirmation_icon"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
