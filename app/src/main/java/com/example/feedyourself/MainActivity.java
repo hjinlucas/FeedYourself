@@ -3,6 +3,7 @@ package com.example.feedyourself;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -140,13 +141,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toggleMealTypeDescriptionVisibility(CardView mealTypeCard) {
-        TextView mealTypeDescriptionTextView = mealTypeCard.findViewById(R.id.mealTypeDescriptionTextView);
-        if (mealTypeDescriptionTextView.getVisibility() == View.GONE) {
-            mealTypeDescriptionTextView.setVisibility(View.VISIBLE);
+        TextView ingredientsTitle = mealTypeCard.findViewById(R.id.ingredientsTitle);
+        TextView flavorTitle = mealTypeCard.findViewById(R.id.flavorTitle);
+        LinearLayout ingredientsLayout = mealTypeCard.findViewById(R.id.ingredientsLayout);
+        LinearLayout flavorLayout = mealTypeCard.findViewById(R.id.flavorLayout);
+
+        if (ingredientsTitle.getVisibility() == View.GONE) {
+            ingredientsTitle.setVisibility(View.VISIBLE);
+            flavorTitle.setVisibility(View.VISIBLE);
+            ingredientsLayout.setVisibility(View.VISIBLE);
+            flavorLayout.setVisibility(View.VISIBLE);
         } else {
-            mealTypeDescriptionTextView.setVisibility(View.GONE);
+            ingredientsTitle.setVisibility(View.GONE);
+            flavorTitle.setVisibility(View.GONE);
+            ingredientsLayout.setVisibility(View.GONE);
+            flavorLayout.setVisibility(View.GONE);
         }
     }
+
 
 }
 
