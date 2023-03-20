@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
@@ -89,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
         //==================================================================================================
         // Add this code inside the onCreate method, after initializing the horizontal RecyclerView
 
-        breakfastTextView = findViewById(R.id.breakfastTextView);
-        brunchTextView = findViewById(R.id.brunchTextView);
-        lunchTextView = findViewById(R.id.lunchTextView);
-        dinnerTextView = findViewById(R.id.dinnerTextView);
-        confirmationButton = findViewById(R.id.confirmationButton);
+        CardView breakfastCard = findViewById(R.id.breakfastCard);
+        CardView brunchCard = findViewById(R.id.brunchCard);
+        CardView lunchCard = findViewById(R.id.lunchCard);
+        CardView dinnerCard = findViewById(R.id.dinnerCard);
 
         View.OnClickListener mealTypeClickListener = new View.OnClickListener() {
             @Override
@@ -101,15 +101,22 @@ public class MainActivity extends AppCompatActivity {
                 // Perform any action you want when a meal type is selected
 
                 // Show the confirmation button when a meal type is selected
+                setupMealTypeCardClickListeners();
                 confirmationButton.setVisibility(View.VISIBLE);
             }
         };
 
-        breakfastTextView.setOnClickListener(mealTypeClickListener);
-        brunchTextView.setOnClickListener(mealTypeClickListener);
-        lunchTextView.setOnClickListener(mealTypeClickListener);
-        dinnerTextView.setOnClickListener(mealTypeClickListener);
+        breakfastCard.setOnClickListener(mealTypeClickListener);
+        brunchCard.setOnClickListener(mealTypeClickListener);
+        lunchCard.setOnClickListener(mealTypeClickListener);
+        dinnerCard.setOnClickListener(mealTypeClickListener);
 
+
+
+        //==================================================================================================
+        //================================== Confirmation btn ==============================================
+        //==================================================================================================
+        confirmationButton = findViewById(R.id.confirmationButton);
         confirmationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,5 +126,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void setupMealTypeCardClickListeners() {
+        CardView breakfastCard = findViewById(R.id.breakfastCard);
+        CardView brunchCard = findViewById(R.id.brunchCard);
+        CardView lunchCard = findViewById(R.id.lunchCard);
+        CardView dinnerCard = findViewById(R.id.dinnerCard);
+
+        breakfastCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(breakfastCard));
+        brunchCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(brunchCard));
+        lunchCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(lunchCard));
+        dinnerCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(dinnerCard));
+    }
+
+    private void toggleMealTypeDescriptionVisibility(CardView mealTypeCard) {
+        TextView mealTypeDescriptionTextView = mealTypeCard.findViewById(R.id.mealTypeDescriptionTextView);
+        if (mealTypeDescriptionTextView.getVisibility() == View.GONE) {
+            mealTypeDescriptionTextView.setVisibility(View.VISIBLE);
+        } else {
+            mealTypeDescriptionTextView.setVisibility(View.GONE);
+        }
+    }
+
 }
 
