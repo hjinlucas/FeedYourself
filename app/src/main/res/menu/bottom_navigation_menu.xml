@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_main_page"
+        android:icon="@drawable/ic_main_page"
+        android:title="Main Page" />
+    <item
+        android:id="@+id/nav_find"
+        android:icon="@drawable/ic_find"
+        android:title="Find" />
+    <item
+        android:id="@+id/nav_saved_list"
+        android:icon="@drawable/ic_saved_list"
+        android:title="Saved List" />
+    <item
+        android:id="@+id/nav_user"
+        android:icon="@drawable/ic_user"
+        android:title="User" />
+</menu>

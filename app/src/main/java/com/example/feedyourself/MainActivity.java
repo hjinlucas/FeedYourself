@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupBottomNavigation();
 
         //==================================================================================================
         //============= OnClickListener for small menu in main page ========================================
@@ -158,6 +161,27 @@ public class MainActivity extends AppCompatActivity {
             flavorLayout.setVisibility(View.GONE);
         }
     }
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_main_page:
+                    // Load the main page content here
+                    break;
+                case R.id.nav_find:
+                    // Load the find page content here
+                    break;
+                case R.id.nav_saved_list:
+                    // Load the saved list page content here
+                    break;
+                case R.id.nav_user:
+                    // Load the user page content here
+                    break;
+            }
+            return true;
+        });
+    }
+
 
 
 }
