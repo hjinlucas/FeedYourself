@@ -1,6 +1,6 @@
 # Feed Yourself
 
-    This App is based on my android studio project from App Dev Course at NEU, I worked with two other team members in the course. We studied several topics about android development in that course. And I am now use the prototype we dicussed to recreate and make the project contents a real usable App.
+This App is based on my android studio project from App Dev Course at NEU, I worked with two other team members in the course. We studied several topics about android development in that course. And I am now use the prototype we dicussed to recreate and make the project contents a real usable App.
 
 ## Description
 
