@@ -1,125 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+    tools:context=".MainActivity">
 
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp" />
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/forYouTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ForYou"
-            android:textStyle="bold"
-            android:textColor="#000"
-            app:layout_constraintBottom_toBottomOf="@+id/logoImageView"
-            app:layout_constraintStart_toEndOf="@+id/logoImageView"
-            android:layout_marginStart="16dp" />
-
-        <TextView
-            android:id="@+id/exploreTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Explore"
-            android:textStyle="bold"
-            android:textColor="#000"
-            app:layout_constraintBottom_toBottomOf="@+id/forYouTextView"
-            app:layout_constraintStart_toEndOf="@+id/forYouTextView"
-            android:layout_marginStart="16dp" />
-
-        <TextView
-            android:id="@+id/premiumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Premium"
-            android:textStyle="bold"
-            android:textColor="#000"
-            app:layout_constraintBottom_toBottomOf="@+id/exploreTextView"
-            app:layout_constraintStart_toEndOf="@+id/exploreTextView"
-            android:layout_marginStart="16dp" />
-
-        <!-- layout for the horizontal RecyclerView in main paglayout for the horizontal RecyclerView in main page -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/horizontalRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/logoImageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-        <!-- layout for the choose meal type sections -->
-        <TextView
-            android:id="@+id/chooseMealTypeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Meal Type"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" />
-
-        <LinearLayout
-            android:id="@+id/mealTypeLinearLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/chooseMealTypeTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <include
-                layout="@layout/meal_type_card"
-                android:id="@+id/breakfastCard" />
-
-            <include
-                android:id="@+id/brunchCard"
-                layout="@layout/meal_type_card" />
-
-            <include
-                layout="@layout/meal_type_card"
-                android:id="@+id/lunchCard" />
-
-            <include
-                layout="@layout/meal_type_card"
-                android:id="@+id/dinnerCard" />
-
-        </LinearLayout>
-
-        <!--  Confirmation btn layout  -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/confirmationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/confirmation_icon"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="72dp" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -130,6 +25,5 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
