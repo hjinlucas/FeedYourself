@@ -43,10 +43,10 @@ public class RegisterFragment extends Fragment {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            FragmentLogin fragmentLogin = new FragmentLogin();
+            MainPageFragment mainPageFragment = new MainPageFragment();
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, fragmentLogin)
+                    .replace(R.id.fragment_container, mainPageFragment)
                     .commit();
         }
     }
@@ -111,10 +111,10 @@ public class RegisterFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Account Created.",
                                             Toast.LENGTH_SHORT).show();
 
-                                    RegisterFragment registerFragment = new RegisterFragment();
+                                    FragmentLogin fragmentLogin = new FragmentLogin();
                                     getActivity().getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.fragment_container, registerFragment)
+                                            .replace(R.id.fragment_container, fragmentLogin)
                                             .commit();
                                 }
 

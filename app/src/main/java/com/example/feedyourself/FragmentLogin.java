@@ -39,10 +39,10 @@ public class FragmentLogin extends Fragment {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            FragmentLogin fragmentLogin = new FragmentLogin();
+            MainPageFragment mainPageFragment = new MainPageFragment();
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, fragmentLogin)
+                    .replace(R.id.fragment_container, mainPageFragment)
                     .commit();
         }
     }
