@@ -6,4 +6,6 @@
     <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="click_to_login">Click_to_login</string>
+    <string name="click_to_register">Click_to_register</string>
 </resources>

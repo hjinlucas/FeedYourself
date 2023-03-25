@@ -1,18 +1,9 @@
 package com.example.feedyourself;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.Arrays;
-import java.util.List;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -53,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            return loadFragment(selectedFragment);
+            if (selectedFragment != null) {
+                return loadFragment(selectedFragment);
+            } else {
+                return false;
+            }
         });
     }
 
