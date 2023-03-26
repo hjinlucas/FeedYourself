@@ -27,6 +27,8 @@ public class RegisterFragment extends Fragment {
     TextInputEditText editTextEmail, editTextPassword;
     Button btn_reg;
 
+    Button btn_goToLogin;
+
     FirebaseAuth mAuth;
 
     ProgressBar progressBar;
@@ -62,18 +64,19 @@ public class RegisterFragment extends Fragment {
         editTextPassword = view.findViewById(R.id.password);
         btn_reg = view.findViewById(R.id.btn_register);
         progressBar = view.findViewById(R.id.progressBar);
-        textView = view.findViewById(R.id.loginNow);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Replace the current fragment with FragmentLogin
-                FragmentLogin loginFragment = new FragmentLogin();
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, loginFragment)
-                        .commit();
-            }
-        });
+        btn_goToLogin = view.findViewById(R.id.btn_to_login);
+//        textView = view.findViewById(R.id.loginNow);
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Replace the current fragment with FragmentLogin
+//                FragmentLogin loginFragment = new FragmentLogin();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.fragment_container, loginFragment)
+//                        .commit();
+//            }
+//        });
 
 
         btn_reg.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +133,18 @@ public class RegisterFragment extends Fragment {
                         });
             }
         });
+
+        btn_goToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentLogin fragmentLogin = new FragmentLogin();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragmentLogin)
+                        .commit();
+            }
+        });
+
 
         return view;
     }

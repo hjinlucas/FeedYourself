@@ -27,6 +27,8 @@ public class FragmentLogin extends Fragment {
     Button btn_login;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
+
+    Button btn_to_register;
     TextView textView;
 
     public FragmentLogin() {
@@ -58,18 +60,19 @@ public class FragmentLogin extends Fragment {
         editTextPassword = view.findViewById(R.id.password);
         btn_login = view.findViewById(R.id.btn_login);
         progressBar = view.findViewById(R.id.progressBar);
-        textView = view.findViewById(R.id.registerNow);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Replace the current fragment with RegisterFragment
-                RegisterFragment registerFragment = new RegisterFragment();
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, registerFragment)
-                        .commit();
-            }
-        });
+        btn_to_register = view.findViewById(R.id.btn_to_register);
+//        textView = view.findViewById(R.id.registerNow);
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Replace the current fragment with RegisterFragment
+//                RegisterFragment registerFragment = new RegisterFragment();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.fragment_container, registerFragment)
+//                        .commit();
+//            }
+//        });
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +115,17 @@ public class FragmentLogin extends Fragment {
                                 }
                             }
                         });
+            }
+        });
+
+        btn_to_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterFragment registerFragment = new RegisterFragment();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, registerFragment)
+                        .commit();
             }
         });
 

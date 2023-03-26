@@ -20,4 +20,7 @@
     <string name="default_profile_image">Default_profile_image</string>
     <string name="default_user_name">user007</string>
     <string name="three_dot_menu">Three_dot_menu</string>
+    <string name="Login">login</string>
+    <string name="ClickToLogin">Click to login</string>
+    <string name="ClickToRegister">Click To Register</string>
 </resources>
