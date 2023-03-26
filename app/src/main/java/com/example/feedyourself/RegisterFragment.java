@@ -38,18 +38,18 @@ public class RegisterFragment extends Fragment {
     }
 
     //check if user have already logged in
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            MainPageFragment mainPageFragment = new MainPageFragment();
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, mainPageFragment)
-                    .commit();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            MainPageFragment mainPageFragment = new MainPageFragment();
+//            getActivity().getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragment_container, mainPageFragment)
+//                    .commit();
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
