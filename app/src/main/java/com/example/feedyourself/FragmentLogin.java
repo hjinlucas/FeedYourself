@@ -34,18 +34,18 @@ public class FragmentLogin extends Fragment {
     }
 
     //check if user have already logged in
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null){
-//            MainPageFragment mainPageFragment = new MainPageFragment();
-//            getActivity().getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, mainPageFragment)
-//                    .commit();
-//        }
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            UserInfoFragment userInfoFragment = new UserInfoFragment();
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, userInfoFragment)
+                    .commit();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,10 +99,10 @@ public class FragmentLogin extends Fragment {
                                     Toast.makeText(getActivity(), "Login Successfully!",
                                             Toast.LENGTH_SHORT).show();
 
-                                    MainPageFragment mainPageFragment = new MainPageFragment();
+                                    UserInfoFragment userInfoFragment = new UserInfoFragment();
                                     getActivity().getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.fragment_container, mainPageFragment)
+                                            .replace(R.id.fragment_container, userInfoFragment)
                                             .commit();
 
                                 } else {
