@@ -6,8 +6,8 @@
     <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="click_to_login">Click_to_login</string>
-    <string name="click_to_register">Click_to_register</string>
+    <string name="click_to_login">Click to login</string>
+    <string name="click_to_register">Click to register</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -17,4 +17,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="default_profile_image">Default_profile_image</string>
+    <string name="default_user_name">user007</string>
+    <string name="three_dot_menu">Three_dot_menu</string>
 </resources>
