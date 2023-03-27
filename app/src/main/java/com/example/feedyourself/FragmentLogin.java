@@ -101,7 +101,7 @@ public class FragmentLogin extends Fragment {
 
         google_sign_in.setOnClickListener(V -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken("596346761447-h00645fm0g93pmc260o6afts89b4lkn3.apps.googleusercontent.com")
+                    .requestIdToken("596346761447-v2rlnh3i9b7mmm5t0c4ajhbikj4b2kpd.apps.googleusercontent.com")
                     .requestEmail()
                     .build();
             mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
