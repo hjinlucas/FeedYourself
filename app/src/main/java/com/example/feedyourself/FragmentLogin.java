@@ -184,8 +184,12 @@ public class FragmentLogin extends Fragment {
             AuthenticateWithGoogle(account);
 
         }catch(ApiException e){
-            Log.w("SignInError", "signInResult:failed code=" + e.getStatusCode() + " message=" + e.getMessage());
-            Toast.makeText(getActivity(), "Google sign in failed", Toast.LENGTH_SHORT).show();
+            if (e.getStatusCode() == 12501) {
+                Log.w("SignInError", "signInResult: user canceled");
+            } else {
+                Log.w("SignInError", "signInResult:failed code=" + e.getStatusCode() + " message=" + e.getMessage());
+                Toast.makeText(getActivity(), "Google sign in failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     private void AuthenticateWithGoogle(GoogleSignInAccount account){
