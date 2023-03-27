@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +26,23 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigation();
         loadFragment(new MainPageFragment());
 
+        //create recipes in firebase RTDB
+        //createAndStoreRecipes();
+    }
+
+    private void createAndStoreRecipes() {
+        DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
+
+        // Create some recipes
+        List<String> ingredients1 = Arrays.asList("Ingredient1", "Ingredient2", "Ingredient3");
+        Recipe recipe1 = new Recipe("1", "Recipe Name 1", "Breakfast", ingredients1, "Sweet");
+
+        List<String> ingredients2 = Arrays.asList("Ingredient4", "Ingredient5", "Ingredient6");
+        Recipe recipe2 = new Recipe("2", "Recipe Name 2", "Lunch", ingredients2, "Spicy");
+
+        // Store the recipes in Firebase
+        recipesRef.child(recipe1.getId()).setValue(recipe1);
+        recipesRef.child(recipe2.getId()).setValue(recipe2);
     }
 
     private void setupBottomNavigation() {
@@ -34,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new MainPageFragment();
                     break;
                 case R.id.nav_find:
-                    //selectedFragment = new FindFragment();
+                    selectedFragment = new SearchFragment();
                     break;
                 case R.id.nav_saved_list:
                     //selectedFragment = new SavedListFragment();
