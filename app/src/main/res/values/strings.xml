@@ -4,7 +4,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="click_to_login">Click to login</string>
     <string name="click_to_register">Click to register</string>
@@ -23,4 +23,6 @@
     <string name="Login">login</string>
     <string name="ClickToLogin">Click to login</string>
     <string name="ClickToRegister">Click To Register</string>
+    <string name="client_id">700061135517-7ag69uo6rciln0liup4dmaus8mc38lv1.apps.googleusercontent.com</string>
+
 </resources>
