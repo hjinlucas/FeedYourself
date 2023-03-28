@@ -1,12 +1,14 @@
 package com.example.feedyourself;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -32,8 +34,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        holder.cardImageView.setImageResource(imageIds.get(position));
+        int imageId = imageIds.get(position);
+        holder.cardImageView.setImageResource(imageId);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, RecipeDetailsActivity.class);
+            intent.putExtra("RECIPE_NAME", "Example Recipe Name"); // Replace with actual recipe name
+            // Pass any other required data
+
+            ActivityCompat.startActivity(context, intent, null);
+        });
     }
+
 
     @Override
     public int getItemCount() {
