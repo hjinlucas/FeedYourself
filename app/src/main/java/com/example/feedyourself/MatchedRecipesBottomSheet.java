@@ -16,7 +16,7 @@ public class MatchedRecipesBottomSheet extends BottomSheetDialogFragment {
 
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
-    private List<Recipe> recipeList;
+    private List<Recipe> recipes;
 
     @Nullable
     @Override
@@ -27,17 +27,20 @@ public class MatchedRecipesBottomSheet extends BottomSheetDialogFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getActivity(), recipeList);
+        recipes = new ArrayList<>();
+        recipeAdapter = new RecipeAdapter(getActivity(), recipes);
         recyclerView.setAdapter(recipeAdapter);
 
         return view;
     }
 
     public void setRecipes(List<Recipe> recipes) {
-        recipeList.clear();
-        recipeList.addAll(recipes);
-        recipeAdapter.notifyDataSetChanged();
+        if (this.recipes == null) {
+            this.recipes = new ArrayList<>();
+        }
+        this.recipes.clear();
+        this.recipes.addAll(recipes);
     }
+
 }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,7 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +42,11 @@ public class MainPageFragment extends Fragment {
     private CardView dinnerCard;
     private FloatingActionButton confirmationButton;
 
+    private List<CheckBox> ingredientCheckBoxes;
+    private List<CheckBox> flavorCheckBoxes;
+
+    private String selectedMealType;
+
     private int expandedPosition = 0;
     @Nullable
     @Override
@@ -45,6 +57,16 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        CheckBox checkBox1 = view.findViewById(R.id.checkBox1);
+        CheckBox checkBox2 = view.findViewById(R.id.checkBox2);
+        CheckBox checkBox3 = view.findViewById(R.id.checkBox3);
+        CheckBox checkBox4 = view.findViewById(R.id.checkBox4);
+        CheckBox checkBox5 = view.findViewById(R.id.checkBox5);
+        CheckBox checkBox6 = view.findViewById(R.id.checkBox6);
+        CheckBox checkBox7 = view.findViewById(R.id.checkBox7);
+
+
 
         // Initialize views and set up click listeners for the main page content here
         //==================================================================================================
@@ -155,15 +177,144 @@ public class MainPageFragment extends Fragment {
         //================================== Confirmation btn ==============================================
         //==================================================================================================
         confirmationButton = view.findViewById(R.id.confirmationButton);
+
+
+
+        ingredientCheckBoxes = new ArrayList<>();
+        flavorCheckBoxes = new ArrayList<>();
+
+        for (int i = 1; i <= 6; i++) {
+            int ingredientId = getResources().getIdentifier("checkBox" + i, "id", getActivity().getPackageName());
+            ingredientCheckBoxes.add(view.findViewById(ingredientId));
+        }
+
+        for (int i = 1; i <= 3; i++) {
+            int flavorId = getResources().getIdentifier("flavorCheckBox" + i, "id", getActivity().getPackageName());
+            flavorCheckBoxes.add(view.findViewById(flavorId));
+        }
+
+        View.OnClickListener mealTypeClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.breakfastCard:
+                        selectedMealType = "Breakfast";
+                        break;
+                    case R.id.brunchCard:
+                        selectedMealType = "Brunch";
+                        break;
+                    case R.id.lunchCard:
+                        selectedMealType = "Lunch";
+                        break;
+                    case R.id.dinnerCard:
+                        selectedMealType = "Dinner";
+                        break;
+                }
+            }
+        };
+
         confirmationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle click event for the confirmation button
-                // For example, navigate to the next page with the selected meal type
+                List<Recipe> filteredRecipes = filterRecipes();
+
+                // Show the filtered recipes in the bottom sheet
+                MatchedRecipesBottomSheet bottomSheet = new MatchedRecipesBottomSheet();
+                bottomSheet.setRecipes(filteredRecipes);
+                bottomSheet.show(getParentFragmentManager(), "matchedRecipesBottomSheet");
+
             }
         });
 
     }
+
+    private List<Recipe> filterRecipes() {
+        // Get the selected options (meal type, ingredients, and flavors) from the checkboxes
+        List<String> selectedIngredients = getSelectedIngredients();
+        String selectedFlavors = getSelectedFlavors();
+
+        DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
+        List<Recipe> filteredRecipes = new ArrayList<>();
+
+        recipesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Recipe recipe = snapshot.getValue(Recipe.class);
+
+                    // Check if the recipe matches the selected options
+                    if (recipe.getMealType().equalsIgnoreCase(getSelectedMealType())
+                            && recipe.getIngredients().containsAll(selectedIngredients)
+                            && recipe.getFlavor().equalsIgnoreCase(getSelectedFlavors())) {
+                        filteredRecipes.add(recipe);
+                    }
+                }
+
+                // Create a MatchedRecipesBottomSheet instance and pass the filtered recipes to it
+                MatchedRecipesBottomSheet bottomSheet = new MatchedRecipesBottomSheet();
+                bottomSheet.setRecipes(filteredRecipes);
+                bottomSheet.show(getChildFragmentManager(), "matchedRecipesBottomSheet");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
+        return filteredRecipes;
+    }
+
+    private String getSelectedMealType() {
+        switch (expandedPosition) {
+            case 0:
+                return "Breakfast";
+            case 1:
+                return "Brunch";
+            case 2:
+                return "Lunch";
+            case 3:
+                return "Dinner";
+            default:
+                return ""; // Return an empty string if no meal type is selected
+        }
+    }
+
+
+    private List<String> getSelectedIngredients() {
+        List<String> selectedIngredients = new ArrayList<>();
+
+
+        for (CheckBox checkBox : ingredientCheckBoxes) {
+            if (checkBox.isChecked()) {
+                selectedIngredients.add(checkBox.getText().toString());
+            }
+        }
+
+        return selectedIngredients;
+
+    }
+
+    private String getSelectedFlavors() {
+
+        CheckBox spicyCheckBox = getView().findViewById(R.id.checkBox5);
+        CheckBox sweetCheckBox = getView().findViewById(R.id.checkBox6);
+        CheckBox saltyCheckBox = getView().findViewById(R.id.checkBox7);
+
+
+        if (sweetCheckBox.isChecked()) {
+            return "Sweet";
+        } else if (saltyCheckBox.isChecked()) {
+            return "Salty";
+        } else if (spicyCheckBox.isChecked()) {
+            return "Spicy";
+        }
+
+        return "";
+
+
+    }
+
 
     private void setMealTypeCardViewClickListener(CardView cardView) {
         cardView.setOnClickListener(v -> {
