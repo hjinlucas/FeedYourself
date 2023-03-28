@@ -6,21 +6,15 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp">
 
 
         <ImageView
             android:id="@+id/cardImageView"
             android:layout_width="400dp"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/meal_beef_tomato" />
 
-
-    </RelativeLayout>
 
 
 

@@ -88,7 +88,7 @@ public class MainPageFragment extends Fragment {
         RecyclerView horizontalRecyclerView = view.findViewById(R.id.horizontalRecyclerView);
 
         List<Integer> imageIds = Arrays.asList(
-                R.drawable.ic_launcher_background,
+                R.drawable.meal_beef_tomato,
                 R.drawable.ic_launcher_background,
                 R.drawable.ic_launcher_background,
                 R.drawable.ic_launcher_background
@@ -113,9 +113,17 @@ public class MainPageFragment extends Fragment {
         // Add this code inside the onCreate method, after initializing the horizontal RecyclerView
 
         CardView breakfastCard = view.findViewById(R.id.breakfastCard);
+        TextView breakfastTitle = breakfastCard.findViewById(R.id.mealTypeTitle);
+        breakfastTitle.setText("Breakfast");
         CardView brunchCard = view.findViewById(R.id.brunchCard);
+        TextView brunchTitle = brunchCard.findViewById(R.id.mealTypeTitle);
+        brunchTitle.setText("Brunch");
         CardView lunchCard = view.findViewById(R.id.lunchCard);
+        TextView lunchTitle = lunchCard.findViewById(R.id.mealTypeTitle);
+        lunchTitle.setText("Lunch");
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
+        TextView dinnerTitle = dinnerCard.findViewById(R.id.mealTypeTitle);
+        dinnerTitle.setText("Dinner");
 
         // Expand the first card view by default
         expandCardView(breakfastCard);

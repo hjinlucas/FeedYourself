@@ -27,22 +27,22 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new MainPageFragment());
 
         //create recipes in firebase RTDB
-        //createAndStoreRecipes();
+        createAndStoreRecipes();
     }
 
     private void createAndStoreRecipes() {
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
 
         // Create some recipes
-        List<String> ingredients1 = Arrays.asList("Ingredient1", "Ingredient2", "Ingredient3");
-        Recipe recipe1 = new Recipe("1", "Recipe Name 1", "Breakfast", ingredients1, "Sweet");
+        List<String> ingredients1 = Arrays.asList("Beef", "Potato");
+        Recipe recipe1 = new Recipe("3", "Stewed Beef Brisket with Potatoes", "Dinner", ingredients1, "Sweet");
 
-        List<String> ingredients2 = Arrays.asList("Ingredient4", "Ingredient5", "Ingredient6");
-        Recipe recipe2 = new Recipe("2", "Recipe Name 2", "Lunch", ingredients2, "Spicy");
+//        List<String> ingredients2 = Arrays.asList("Ingredient4", "Ingredient5", "Ingredient6");
+//        Recipe recipe2 = new Recipe("2", "Recipe Name 2", "Lunch", ingredients2, "Spicy");
 
         // Store the recipes in Firebase
         recipesRef.child(recipe1.getId()).setValue(recipe1);
-        recipesRef.child(recipe2.getId()).setValue(recipe2);
+//        recipesRef.child(recipe2.getId()).setValue(recipe2);
     }
 
     private void setupBottomNavigation() {
