@@ -5,10 +5,14 @@ import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView recipeNameTextView;
+    private TextView recipeMealTypeTextView;
+    private TextView recipeFlavorTextView;
+    private TextView recipeIngredientsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +20,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_details);
 
         recipeNameTextView = findViewById(R.id.recipeNameTextView);
+//        recipeMealTypeTextView = findViewById(R.id.recipeMealTypeTextView);
+//        recipeFlavorTextView = findViewById(R.id.recipeFlavorTextView);
+//        recipeIngredientsTextView = findViewById(R.id.recipeIngredientsTextView);
 
         Intent intent = getIntent();
         if (intent != null) {
-            String recipeName = intent.getStringExtra("RECIPE_NAME");
-            recipeNameTextView.setText(recipeName);
+            Recipe recipe = intent.getParcelableExtra("selectedRecipe");
+            recipeNameTextView.setText(recipe.getName());
+            recipeMealTypeTextView.setText(recipe.getMealType());
+            recipeFlavorTextView.setText(recipe.getFlavor());
+            recipeIngredientsTextView.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
         }
     }
 }

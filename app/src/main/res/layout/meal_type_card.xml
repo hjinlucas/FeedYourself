@@ -38,24 +38,28 @@
             android:visibility="gone">
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Broccoli" />
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carrots" />
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Beef" />
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,18 +84,21 @@
             android:visibility="gone">
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Spicy" />
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sweet" />
 
             <CheckBox
+                android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

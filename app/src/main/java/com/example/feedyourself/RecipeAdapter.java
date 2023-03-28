@@ -1,6 +1,7 @@
 package com.example.feedyourself;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.recipeMealType.setText(recipe.getMealType());
         holder.recipeFlavor.setText(recipe.getFlavor());
         holder.recipeIngredients.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RecipeDetailsActivity.class);
+                intent.putExtra("selectedRecipe", recipe); // Make sure your Recipe class implements Parcelable
+                context.startActivity(intent);
+            }
+        });
     }
 
 

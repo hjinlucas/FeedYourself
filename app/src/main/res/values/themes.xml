@@ -13,4 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="MyCheckboxStyle">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>
