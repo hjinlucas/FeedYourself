@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FeedYourself</string>
-    <string name="login">Login</string>
+    <string name="login">Sign In</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="register">Register</string>
+    <string name="register">Sign Up</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="click_to_login">Click to login</string>
@@ -22,7 +22,8 @@
     <string name="three_dot_menu">Three_dot_menu</string>
     <string name="Login">login</string>
     <string name="ClickToLogin">Click to login</string>
-    <string name="ClickToRegister">Click To Register</string>
+    <string name="ClickToRegister">Register</string>
     <string name="client_id">700061135517-7ag69uo6rciln0liup4dmaus8mc38lv1.apps.googleusercontent.com</string>
+    <string name="SignIn">Sign In to continue</string>
 
 </resources>
