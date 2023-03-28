@@ -22,8 +22,10 @@
     <string name="three_dot_menu">Three_dot_menu</string>
     <string name="Login">login</string>
     <string name="ClickToLogin">Click to login</string>
-    <string name="ClickToRegister">Register</string>
+    <string name="ClickToRegister">Sign Up</string>
     <string name="client_id">700061135517-7ag69uo6rciln0liup4dmaus8mc38lv1.apps.googleusercontent.com</string>
     <string name="SignIn">Sign In to continue</string>
+    <string name="SignUp">Sign Up to continue</string>
+    <string name="searchBar">Get A Recipe Now</string>
 
 </resources>

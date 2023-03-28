@@ -20,11 +20,10 @@
                     android:id="@+id/logoImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher_round"
+                    android:src="@mipmap/ic_main_nobg_fore"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp" />
+ />
 
                 <TextView
                     android:id="@+id/forYouTextView"
@@ -113,18 +112,17 @@
                 </LinearLayout>
 
                 <!--  Confirmation btn layout  -->
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/confirmationButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/confirmation_icon"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="72dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/confirmationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/confirmation_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </ScrollView>

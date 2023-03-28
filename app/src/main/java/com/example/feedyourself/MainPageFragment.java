@@ -18,6 +18,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.transition.AutoTransition;
+import androidx.transition.TransitionManager;
+
+
 public class MainPageFragment extends Fragment {
 
     private TextView forYouTextView;
@@ -31,6 +35,7 @@ public class MainPageFragment extends Fragment {
     private CardView dinnerCard;
     private FloatingActionButton confirmationButton;
 
+    private int expandedPosition = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,21 +117,29 @@ public class MainPageFragment extends Fragment {
         CardView lunchCard = view.findViewById(R.id.lunchCard);
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
 
-        View.OnClickListener mealTypeClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Perform any action you want when a meal type is selected
+        // Expand the first card view by default
+        expandCardView(breakfastCard);
 
-                // Show the confirmation button when a meal type is selected
-                setupMealTypeCardClickListeners();
-                confirmationButton.setVisibility(View.VISIBLE);
-            }
-        };
 
-        breakfastCard.setOnClickListener(mealTypeClickListener);
-        brunchCard.setOnClickListener(mealTypeClickListener);
-        lunchCard.setOnClickListener(mealTypeClickListener);
-        dinnerCard.setOnClickListener(mealTypeClickListener);
+        setMealTypeCardViewClickListener(breakfastCard);
+        setMealTypeCardViewClickListener(brunchCard);
+        setMealTypeCardViewClickListener(lunchCard);
+        setMealTypeCardViewClickListener(dinnerCard);
+
+//        View.OnClickListener mealTypeClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Perform any action you want when a meal type is selected
+//
+//                // Show the confirmation button when a meal type is selected
+//                confirmationButton.setVisibility(View.VISIBLE);
+//            }
+//        };
+//
+//        breakfastCard.setOnClickListener(mealTypeClickListener);
+//        brunchCard.setOnClickListener(mealTypeClickListener);
+//        lunchCard.setOnClickListener(mealTypeClickListener);
+//        dinnerCard.setOnClickListener(mealTypeClickListener);
 
 
 
@@ -144,36 +157,37 @@ public class MainPageFragment extends Fragment {
 
     }
 
-    private void setupMealTypeCardClickListeners() {
-//        CardView breakfastCard = findViewById(R.id.breakfastCard);
-//        CardView brunchCard = findViewById(R.id.brunchCard);
-//        CardView lunchCard = findViewById(R.id.lunchCard);
-//        CardView dinnerCard = findViewById(R.id.dinnerCard);
-
-        breakfastCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(breakfastCard));
-        brunchCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(brunchCard));
-        lunchCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(lunchCard));
-        dinnerCard.setOnClickListener(view -> toggleMealTypeDescriptionVisibility(dinnerCard));
+    private void setMealTypeCardViewClickListener(CardView cardView) {
+        cardView.setOnClickListener(v -> {
+            int clickedPosition = ((ViewGroup) cardView.getParent()).indexOfChild(cardView);
+            CardView prevCard = (CardView) ((ViewGroup) cardView.getParent()).getChildAt(expandedPosition);
+            if (clickedPosition != expandedPosition) {
+                expandCardView(cardView);
+                collapseCardView(prevCard);
+                expandedPosition = clickedPosition;
+            }
+        });
     }
 
-    private void toggleMealTypeDescriptionVisibility(CardView mealTypeCard) {
-        TextView ingredientsTitle = mealTypeCard.findViewById(R.id.ingredientsTitle);
-        TextView flavorTitle = mealTypeCard.findViewById(R.id.flavorTitle);
-        LinearLayout ingredientsLayout = mealTypeCard.findViewById(R.id.ingredientsLayout);
-        LinearLayout flavorLayout = mealTypeCard.findViewById(R.id.flavorLayout);
 
-        if (ingredientsTitle.getVisibility() == View.GONE) {
-            ingredientsTitle.setVisibility(View.VISIBLE);
-            flavorTitle.setVisibility(View.VISIBLE);
-            ingredientsLayout.setVisibility(View.VISIBLE);
-            flavorLayout.setVisibility(View.VISIBLE);
-        } else {
-            ingredientsTitle.setVisibility(View.GONE);
-            flavorTitle.setVisibility(View.GONE);
-            ingredientsLayout.setVisibility(View.GONE);
-            flavorLayout.setVisibility(View.GONE);
-        }
+    private void expandCardView(CardView cardView) {
+        TransitionManager.beginDelayedTransition((ViewGroup) cardView.getParent(), new AutoTransition());
+
+        cardView.findViewById(R.id.ingredientsTitle).setVisibility(View.VISIBLE);
+        cardView.findViewById(R.id.ingredientsLayout).setVisibility(View.VISIBLE);
+        cardView.findViewById(R.id.flavorTitle).setVisibility(View.VISIBLE);
+        cardView.findViewById(R.id.flavorLayout).setVisibility(View.VISIBLE);
     }
+
+    private void collapseCardView(CardView cardView) {
+        TransitionManager.beginDelayedTransition((ViewGroup) cardView.getParent(), new AutoTransition());
+
+        cardView.findViewById(R.id.ingredientsTitle).setVisibility(View.GONE);
+        cardView.findViewById(R.id.ingredientsLayout).setVisibility(View.GONE);
+        cardView.findViewById(R.id.flavorTitle).setVisibility(View.GONE);
+        cardView.findViewById(R.id.flavorLayout).setVisibility(View.GONE);
+    }
+
 
 
 

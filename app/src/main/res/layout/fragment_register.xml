@@ -24,7 +24,7 @@
 
 
     <TextView
-        android:text="@string/SignIn"
+        android:text="@string/SignUp"
         android:textSize="16sp"
         android:layout_marginBottom="12sp"
         android:layout_width="match_parent"
