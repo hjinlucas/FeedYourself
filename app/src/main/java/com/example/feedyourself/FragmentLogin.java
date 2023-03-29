@@ -43,6 +43,8 @@ public class FragmentLogin extends Fragment {
     TextView textView;
     Button google_sign_in;
 
+    Button btn_forgetPassword;
+
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedViewModel sharedViewModel;
@@ -78,6 +80,7 @@ public class FragmentLogin extends Fragment {
         btn_login = view.findViewById(R.id.btn_login);
         progressBar = view.findViewById(R.id.progressBar);
         btn_to_register = view.findViewById(R.id.btn_to_register);
+        btn_forgetPassword =view.findViewById(R.id.btn_forgetPassword);
 //        textView = view.findViewById(R.id.registerNow);
 //        textView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -163,6 +166,19 @@ public class FragmentLogin extends Fragment {
                         .commit();
             }
         });
+
+        btn_forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragmentForgotPassword)
+                        .commit();
+            }
+        });
+
+
     }
 
     private void signIn(){

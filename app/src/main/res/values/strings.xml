@@ -26,6 +26,7 @@
     <string name="client_id">700061135517-7ag69uo6rciln0liup4dmaus8mc38lv1.apps.googleusercontent.com</string>
     <string name="SignIn">Sign In to continue</string>
     <string name="SignUp">Sign Up to continue</string>
+    <string name="Retrieve">Retrieve Your Password</string>
     <string name="searchBar">Get A Recipe Now</string>
 
 </resources>

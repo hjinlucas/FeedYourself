@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_user:
                     selectedFragment = new RegisterFragment();
                     break;
+
             }
 
             if (selectedFragment != null) {
