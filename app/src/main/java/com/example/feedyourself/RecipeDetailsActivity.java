@@ -25,12 +25,12 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 //        recipeIngredientsTextView = findViewById(R.id.recipeIngredientsTextView);
 
         Intent intent = getIntent();
-        if (intent != null) {
-            Recipe recipe = intent.getParcelableExtra("selectedRecipe");
-            recipeNameTextView.setText(recipe.getName());
-            recipeMealTypeTextView.setText(recipe.getMealType());
-            recipeFlavorTextView.setText(recipe.getFlavor());
-            recipeIngredientsTextView.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
-        }
+//        if (intent != null) {
+//            Recipe recipe = intent.getParcelableExtra("selectedRecipe");
+//            recipeNameTextView.setText(recipe.getName());
+//            recipeMealTypeTextView.setText(recipe.getMealType());
+//            recipeFlavorTextView.setText(recipe.getFlavor());
+//            recipeIngredientsTextView.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
+//        }
     }
 }

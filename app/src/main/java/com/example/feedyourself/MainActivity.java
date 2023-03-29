@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new SearchFragment();
                     break;
                 case R.id.nav_saved_list:
-                    //selectedFragment = new SavedListFragment();
+                    selectedFragment = new SavedFragment();
                     break;
                 case R.id.nav_user:
                     selectedFragment = new RegisterFragment();
