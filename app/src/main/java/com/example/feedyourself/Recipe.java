@@ -6,12 +6,17 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DataSnapshot;
+
 public class Recipe implements Parcelable{
     private String id;
     private String name;
     private String mealType;
     private List<String> ingredients;
     private String flavor;
+
+    private boolean isSaved;
+
 
 
     public Recipe() {
@@ -66,6 +71,14 @@ public class Recipe implements Parcelable{
         return flavor;
     }
 
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
+    }
+
 
     protected Recipe(Parcel in) {
         name = in.readString();
@@ -101,5 +114,14 @@ public class Recipe implements Parcelable{
         dest.writeString(flavor);
         dest.writeStringList(ingredients);
     }
+
+    public static Recipe fromDataSnapshot(DataSnapshot dataSnapshot) {
+        Recipe recipe = dataSnapshot.getValue(Recipe.class);
+        if (recipe != null) {
+            recipe.setId(dataSnapshot.getKey());
+        }
+        return recipe;
+    }
+
 }
 
