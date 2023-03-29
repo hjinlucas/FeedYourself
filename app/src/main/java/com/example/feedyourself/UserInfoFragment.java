@@ -52,5 +52,6 @@ public class UserInfoFragment extends Fragment {
             binding.profileName.setText("Name: " + name);
         });
 
+
     }
 }
