@@ -233,6 +233,6 @@ public class FragmentLogin extends Fragment {
             UserInfoFragment userInfoFragment = new UserInfoFragment();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,userInfoFragment).commit();
         }
-
+//
     }
 }
