@@ -104,7 +104,7 @@ public class FragmentLogin extends Fragment {
 
         google_sign_in.setOnClickListener(V -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken("596346761447-v2rlnh3i9b7mmm5t0c4ajhbikj4b2kpd.apps.googleusercontent.com")
+                    .requestIdToken("596346761447-togmbri8f6169ivhlmumoop3iqo3jg6v.apps.googleusercontent.com")
                     .requestEmail()
                     .build();
             mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
@@ -230,10 +230,6 @@ public class FragmentLogin extends Fragment {
     private void updateUI(FirebaseUser account){
         if(account != null){
 
-            String email = account.getEmail();
-            String name = account.getDisplayName();
-            sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-            sharedViewModel.add(email, name);
             UserInfoFragment userInfoFragment = new UserInfoFragment();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,userInfoFragment).commit();
         }

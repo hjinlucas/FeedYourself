@@ -12,14 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.feedyourself.databinding.FragmentUserInfoBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class UserInfoFragment extends Fragment {
 
     private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
     private Button Logout;
     private FragmentUserInfoBinding binding;
-
+    GoogleSignInOptions gso;
     private SharedViewModel sharedViewModel;
     public UserInfoFragment(){
 
@@ -29,6 +34,12 @@ public class UserInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("596346761447-togmbri8f6169ivhlmumoop3iqo3jg6v.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+        fetchUserInfo();
 
         return binding.getRoot();
     }
@@ -36,22 +47,32 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
         binding.logoutButton.setOnClickListener(V -> {
 
 
-            FragmentLogin login = new FragmentLogin();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, login).commit();
-            mAuth.signOut();
+            logOut();
         });
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.get().observe(getViewLifecycleOwner(),data -> {
-            String email = data.get("Email");
-            String name = data.get("Name");
+
+
+
+    }
+    private void logOut(){
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
+        FragmentLogin login = new FragmentLogin();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, login).commit();
+
+
+    }
+    private void fetchUserInfo(){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            String displayName = currentUser.getDisplayName();
+            String email = currentUser.getEmail();
             binding.profileEmail.setText("Email: " + email);
-            binding.profileName.setText("Name: " + name);
-        });
-
-
+            binding.profileName.setText("Name: " + displayName);
+        }
     }
 }
