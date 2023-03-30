@@ -1,4 +1,4 @@
-package com.example.feedyourself;
+package com.example.feedyourself.user;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

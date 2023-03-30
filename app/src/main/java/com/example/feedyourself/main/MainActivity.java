@@ -1,9 +1,15 @@
-package com.example.feedyourself;
+package com.example.feedyourself.main;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.feedyourself.R;
+import com.example.feedyourself.Recipe;
+import com.example.feedyourself.saved.SavedFragment;
+import com.example.feedyourself.search.SearchFragment;
+import com.example.feedyourself.user.RegisterFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;

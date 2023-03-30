@@ -1,4 +1,4 @@
-package com.example.feedyourself;
+package com.example.feedyourself.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.example.feedyourself.R;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
     private TextView recipeNameTextView;

@@ -1,4 +1,4 @@
-package com.example.feedyourself;
+package com.example.feedyourself.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedyourself.ImageAdapter;
+import com.example.feedyourself.R;
+import com.example.feedyourself.Recipe;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;

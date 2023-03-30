@@ -1,4 +1,4 @@
-package com.example.feedyourself;
+package com.example.feedyourself.user;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,12 +13,13 @@ import android.widget.Button;
 
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.example.feedyourself.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class FragmentForgotPassword extends Fragment {

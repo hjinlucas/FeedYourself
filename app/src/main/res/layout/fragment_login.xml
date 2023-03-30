@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".FragmentLogin">
+    tools:context=".user.FragmentLogin">
 
     <ImageView
         android:id="@+id/logo_image"
@@ -86,6 +86,15 @@
             >
 
             <Button
+                android:id="@+id/btn_to_register"
+                android:text="@string/ClickToRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <Button
                 android:id="@+id/btn_login"
                 android:text="@string/login"
                 android:layout_width="wrap_content"
@@ -95,14 +104,7 @@
                 android:layout_marginLeft="5dp"/>
 
 
-            <Button
-                android:id="@+id/btn_to_register"
-                android:text="@string/ClickToRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+
 
 
         </LinearLayout>

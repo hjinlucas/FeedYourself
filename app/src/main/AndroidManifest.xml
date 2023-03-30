@@ -21,14 +21,14 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".RecipeDetailsActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".main.RecipeDetailsActivity"
+            android:parentActivityName=".main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".main.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true" />
     </application>
 
