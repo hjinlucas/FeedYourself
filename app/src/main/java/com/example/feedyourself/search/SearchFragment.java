@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment {
 
     private void searchRecipes(String query) {
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
-        recipesRef.addValueEventListener(new ValueEventListener() {
+                recipesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recipeList.clear();

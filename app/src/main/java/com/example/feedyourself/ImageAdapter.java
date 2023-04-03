@@ -20,7 +20,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     private List<Integer> imageIds;
     private Context context;
-    private OnItemClickListener onItemClickListener;
+//    private OnItemClickListener onItemClickListener;
 
     public ImageAdapter(Context context, List<Integer> imageIds) {
         this.context = context;
@@ -39,6 +39,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         int imageId = imageIds.get(position);
         holder.cardImageView.setImageResource(imageId);
 
+
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, RecipeDetailsActivity.class);
             intent.putExtra("RECIPE_NAME", "Example Recipe Name"); // Replace with actual recipe name
@@ -54,29 +55,30 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return imageIds.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ImageViewHolder extends RecyclerView.ViewHolder  {
         ImageView cardImageView;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             cardImageView = itemView.findViewById(R.id.cardImageView);
-            itemView.setOnClickListener(this);
+
+
         }
 
-        @Override
-        public void onClick(View view) {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(getAdapterPosition());
-            }
-        }
+//        @Override
+//        public void onClick(View view) {
+//            if (onItemClickListener != null) {
+//                onItemClickListener.onItemClick(getAdapterPosition());
+//            }
+//        }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
+//    public interface OnItemClickListener {
+//        void onItemClick(int position);
+//    }
+//
+//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+//        this.onItemClickListener = onItemClickListener;
+//    }
 }
 

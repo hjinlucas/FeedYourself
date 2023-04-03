@@ -36,14 +36,12 @@ import androidx.transition.TransitionManager;
 public class MainPageFragment extends Fragment {
 
     private RecyclerView horizontalRecyclerView;
-    private CardView breakfastCard, brunchCard, lunchCard, dinnerCard;
+//    private CardView breakfastCard, brunchCard, lunchCard, dinnerCard;
     private FloatingActionButton confirmationButton;
-    private List<CheckBox> ingredientCheckBoxes;
-    private List<CheckBox> flavorCheckBoxes;
-    private String selectedMealType;
+//    private TextView ingredientsTitle;
     private int expandedPosition = 0;
 
-    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7;
+//    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7;
     private List<Recipe> allRecipes = new ArrayList<>();
 
     @Nullable
@@ -62,13 +60,14 @@ public class MainPageFragment extends Fragment {
         //==================================================================================================
 
         confirmationButton = view.findViewById(R.id.confirmationButton);
-        checkBox1 = view.findViewById(R.id.checkBox1);
-        checkBox2 = view.findViewById(R.id.checkBox2);
-        checkBox3 = view.findViewById(R.id.checkBox3);
-        checkBox4 = view.findViewById(R.id.checkBox4);
-        checkBox5 = view.findViewById(R.id.checkBox5);
-        checkBox6 = view.findViewById(R.id.checkBox6);
-        checkBox7 = view.findViewById(R.id.checkBox7);
+//        ingredientsTitle = view.findViewById(R.id.ingredientsTitle);
+//        checkBox1 = view.findViewById(R.id.checkBox1);
+//        checkBox2 = view.findViewById(R.id.checkBox2);
+//        checkBox3 = view.findViewById(R.id.checkBox3);
+//        checkBox4 = view.findViewById(R.id.checkBox4);
+//        checkBox5 = view.findViewById(R.id.checkBox5);
+//        checkBox6 = view.findViewById(R.id.checkBox6);
+//        checkBox7 = view.findViewById(R.id.checkBox7);
 
         confirmationButton.setOnClickListener(v -> {
 
@@ -77,10 +76,10 @@ public class MainPageFragment extends Fragment {
 
 
 
-        breakfastCard = view.findViewById(R.id.breakfastCard);
-        brunchCard = view.findViewById(R.id.brunchCard);
-        lunchCard = view.findViewById(R.id.lunchCard);
-        dinnerCard = view.findViewById(R.id.dinnerCard);
+//        breakfastCard = view.findViewById(R.id.breakfastCard);
+//        brunchCard = view.findViewById(R.id.brunchCard);
+//        lunchCard = view.findViewById(R.id.lunchCard);
+//        dinnerCard = view.findViewById(R.id.dinnerCard);
 
         //==================================================================================================
         //============= OnClickListener for cards that display meal recommendations =======================
@@ -98,13 +97,13 @@ public class MainPageFragment extends Fragment {
         ImageAdapter imageAdapter = new ImageAdapter(requireContext(), imageIds);
         horizontalRecyclerView.setAdapter(imageAdapter);
 
-        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                // Handle click event for the ImageView in the CardView
-                // You can get the selected image ID with imageIds.get(position)
-            }
-        });
+//        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                // Handle click event for the ImageView in the CardView
+//                // You can get the selected image ID with imageIds.get(position)
+//            }
+//        });
 
 
         //==================================================================================================
@@ -115,15 +114,66 @@ public class MainPageFragment extends Fragment {
         CardView breakfastCard = view.findViewById(R.id.breakfastCard);
         TextView breakfastTitle = breakfastCard.findViewById(R.id.mealTypeTitle);
         breakfastTitle.setText("Breakfast");
-        CardView brunchCard = view.findViewById(R.id.brunchCard);
-        TextView brunchTitle = brunchCard.findViewById(R.id.mealTypeTitle);
-        brunchTitle.setText("Brunch");
+
+
         CardView lunchCard = view.findViewById(R.id.lunchCard);
         TextView lunchTitle = lunchCard.findViewById(R.id.mealTypeTitle);
         lunchTitle.setText("Lunch");
+        CheckBox lunchcheckBox1 = lunchCard.findViewById(R.id.checkBox1);
+        lunchcheckBox1.setText("Turkey");
+        CheckBox lunchcheckBox2 = lunchCard.findViewById(R.id.checkBox2);
+        lunchcheckBox2.setText("Bread");
+        CheckBox lunchcheckBox3 = lunchCard.findViewById(R.id.checkBox3);
+        lunchcheckBox3.setText("Ham");
+        CheckBox lunchcheckBox4 = lunchCard.findViewById(R.id.checkBox4);
+        lunchcheckBox4.setText("Lettuce");
+        CheckBox lunchcheckBox5 = lunchCard.findViewById(R.id.checkBox5);
+        lunchcheckBox5.setText("Cheese");
+        CheckBox lunchcheckBox6 = lunchCard.findViewById(R.id.checkBox6);
+        lunchcheckBox6.setText("Tuna");
+        CheckBox lunchcheckBox7 = lunchCard.findViewById(R.id.checkBox7);
+        lunchcheckBox7.setText("Mayonnaise");
+
+        CardView brunchCard = view.findViewById(R.id.brunchCard);
+        TextView brunchTitle = brunchCard.findViewById(R.id.mealTypeTitle);
+        brunchTitle.setText("Brunch");
+        CheckBox brunchcheckBox1 = brunchCard.findViewById(R.id.checkBox1);
+        brunchcheckBox1.setText("Eggs");
+        CheckBox brunchcheckBox2 = brunchCard.findViewById(R.id.checkBox2);
+        brunchcheckBox2.setText("Bacon");
+        CheckBox brunchcheckBox3 = brunchCard.findViewById(R.id.checkBox3);
+        brunchcheckBox3.setText("Avocado");
+        CheckBox brunchcheckBox4 = brunchCard.findViewById(R.id.checkBox4);
+        brunchcheckBox4.setText("Tomatoes");
+        CheckBox brunchcheckBox5 = brunchCard.findViewById(R.id.checkBox5);
+        brunchcheckBox5.setText("Bagels");
+        CheckBox brunchcheckBox6 = brunchCard.findViewById(R.id.checkBox6);
+        brunchcheckBox6.setText("Smoked salmon");
+        CheckBox brunchcheckBox7 = brunchCard.findViewById(R.id.checkBox7);
+        brunchcheckBox7.setText("Cream cheese");
+
+
+
+
+
+
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
         TextView dinnerTitle = dinnerCard.findViewById(R.id.mealTypeTitle);
         dinnerTitle.setText("Dinner");
+        CheckBox dinnercheckBox1 = dinnerCard.findViewById(R.id.checkBox1);
+        dinnercheckBox1.setText("Rice");
+        CheckBox dinnercheckBox2 = dinnerCard.findViewById(R.id.checkBox2);
+        dinnercheckBox2.setText("Pasta");
+        CheckBox dinnercheckBox3 = dinnerCard.findViewById(R.id.checkBox3);
+        dinnercheckBox3.setText("Chicken breast");
+        CheckBox dinnercheckBox4 = dinnerCard.findViewById(R.id.checkBox4);
+        dinnercheckBox4.setText("Salmon");
+        CheckBox dinnercheckBox5 = dinnerCard.findViewById(R.id.checkBox5);
+        dinnercheckBox5.setText("Broccoli");
+        CheckBox dinnercheckBox6 = dinnerCard.findViewById(R.id.checkBox6);
+        dinnercheckBox6.setText("Bell peppers");
+        CheckBox dinnercheckBox7 = dinnerCard.findViewById(R.id.checkBox7);
+        dinnercheckBox7.setText("Olive oil");
 
         // Expand the first card view by default
         expandCardView(breakfastCard);

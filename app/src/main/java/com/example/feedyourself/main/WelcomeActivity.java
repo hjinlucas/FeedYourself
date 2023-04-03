@@ -28,12 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
         // Set the duration for the welcome page (e.g., 2000 milliseconds = 2 seconds)
         int welcomePageDuration = 1600;
 
-        new Handler().postDelayed(() -> {
-            // Start the main activity after the specified duration
-            Intent mainIntent = new Intent(WelcomeActivity.this, MainActivity.class);
-            startActivity(mainIntent);
-            finish();
-        }, welcomePageDuration);
+
 
         //Animations
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
@@ -42,6 +37,12 @@ public class WelcomeActivity extends AppCompatActivity {
         imageView = findViewById(R.id.welcome_image);
 
         imageView.setAnimation(topAnim);
+        new Handler().postDelayed(() -> {
+            // Start the main activity after the specified duration
+            Intent mainIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+            finish();
+        }, welcomePageDuration);
     }
 
 }

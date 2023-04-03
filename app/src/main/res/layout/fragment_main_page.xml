@@ -94,8 +94,8 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <include
-                        layout="@layout/meal_type_card"
-                        android:id="@+id/breakfastCard" />
+                        android:id="@+id/breakfastCard"
+                        layout="@layout/meal_type_card" />
 
                     <include
                         android:id="@+id/brunchCard"
