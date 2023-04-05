@@ -7,15 +7,12 @@
     app:cardCornerRadius="16dp">
 
 
-
         <ImageView
             android:id="@+id/cardImageView"
             android:layout_width="400dp"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/meal_beef_tomato" />
-
-
 
 
 </androidx.cardview.widget.CardView>

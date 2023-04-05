@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    protected boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -91,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void openRegisterFragment() {
-        Fragment registerFragment = new RegisterFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, registerFragment);
-        transaction.commit();
-    }
+//    private void openRegisterFragment() {
+//        Fragment registerFragment = new RegisterFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.fragment_container, registerFragment);
+//        transaction.commit();
+//    }
 
 
 

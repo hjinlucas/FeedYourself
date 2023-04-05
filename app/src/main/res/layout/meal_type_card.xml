@@ -88,21 +88,21 @@
                 android:id="@+id/checkBox5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Spicy" />
+                android:text="Eggs" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sweet" />
+                android:text="sausage" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salty" />
+                android:text="Onion" />
         </LinearLayout>
 
     </LinearLayout>
