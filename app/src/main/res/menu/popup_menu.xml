@@ -3,4 +3,8 @@
     <item
         android:id="@+id/choose_from_gallery"
         android:title="@string/Galley"/>
+
+    <item
+        android:id="@+id/take_selfie"
+        android:title="Use Camera" />
 </menu>

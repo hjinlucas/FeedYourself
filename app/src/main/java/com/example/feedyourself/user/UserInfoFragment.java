@@ -3,6 +3,7 @@ package com.example.feedyourself.user;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,11 +17,14 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import android.Manifest;
 import com.example.feedyourself.R;
 import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,6 +37,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -41,7 +47,8 @@ import java.util.Map;
 public class UserInfoFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-
+    private static final int TAKE_PHOTO_REQUEST = 2;
+    private static final int CAMERA_PERMISSION_REQUEST = 100;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private Button Logout;
@@ -134,6 +141,9 @@ public class UserInfoFragment extends Fragment {
                 case R.id.choose_from_gallery:
                     openGallery();
                     return true;
+                case R.id.take_selfie:
+                    takeSelfie();
+                    return true;
                 default:
                     return false;
             }
@@ -141,12 +151,27 @@ public class UserInfoFragment extends Fragment {
 
         popupMenu.show();
     }
-
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+    }
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    private void takeSelfie() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission();
+        } else {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivityForResult(intent, TAKE_PHOTO_REQUEST);
+            } else {
+                Toast.makeText(requireContext(), "No camera app found!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -157,6 +182,12 @@ public class UserInfoFragment extends Fragment {
             Uri imageUri = null;
             if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
                 imageUri = data.getData();
+            } else if (requestCode == TAKE_PHOTO_REQUEST && data != null && data.getExtras() != null) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    imageUri = getImageUri(requireContext(), imageBitmap);
+                }
             }
             if (imageUri != null) {
                 updateProfileImage(imageUri);
@@ -202,6 +233,19 @@ public class UserInfoFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     // Error updating profile image URL
                 });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CAMERA_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takeSelfie();
+            } else {
+                Toast.makeText(requireContext(), "Camera permission is required to take a selfie", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
 
