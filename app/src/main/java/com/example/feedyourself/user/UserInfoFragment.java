@@ -49,6 +49,8 @@ public class UserInfoFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int TAKE_PHOTO_REQUEST = 2;
     private static final int CAMERA_PERMISSION_REQUEST = 100;
+    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST = 101;
+
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private Button Logout;
@@ -151,9 +153,15 @@ public class UserInfoFragment extends Fragment {
 
         popupMenu.show();
     }
+
     private void requestCameraPermission() {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
     }
+
+    private void requestWriteExternalStoragePermission() {
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST);
+    }
+
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -164,6 +172,8 @@ public class UserInfoFragment extends Fragment {
     private void takeSelfie() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
+        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestWriteExternalStoragePermission();
         } else {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
@@ -245,7 +255,12 @@ public class UserInfoFragment extends Fragment {
             } else {
                 Toast.makeText(requireContext(), "Camera permission is required to take a selfie", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takeSelfie();
+            } else {
+                Toast.makeText(requireContext(), "Write external storage permission is required", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
-
