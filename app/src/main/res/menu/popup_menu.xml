@@ -3,8 +3,12 @@
     <item
         android:id="@+id/choose_from_gallery"
         android:title="@string/Galley"/>
+    <item
+        android:id="@+id/edit_user_name"
+        android:title="Edit username" />
 
     <item
-        android:id="@+id/take_selfie"
-        android:title="Use Camera" />
+        android:id="@+id/change_background_image"
+        android:title="Change Background Image" />
+
 </menu>

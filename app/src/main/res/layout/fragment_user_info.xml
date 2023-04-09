@@ -26,8 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
-        android:onClick="showImagePicker"/>
+        android:adjustViewBounds="true" />
 
     <TextView
         android:id="@+id/user_name"
@@ -62,7 +61,8 @@
         android:contentDescription="@string/three_dot_menu"
         android:src="@drawable/ic_dot_menu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorPrimary" />
 
     <Button
         android:id="@+id/logout_button"
@@ -82,19 +82,8 @@
         android:layout_height="wrap_content"
         android:text="Email: "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile_name"
-        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logout_button"
         app:layout_constraintVertical_bias="0.529" />
-
-    <TextView
-        android:id="@+id/profile_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name: "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_email"
-        app:layout_constraintTop_toBottomOf="@+id/logout_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

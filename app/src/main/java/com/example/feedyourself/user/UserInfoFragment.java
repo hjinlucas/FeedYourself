@@ -1,30 +1,30 @@
 package com.example.feedyourself.user;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import android.Manifest;
 import com.example.feedyourself.R;
 import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,8 +37,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import android.provider.MediaStore;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -48,12 +46,13 @@ public class UserInfoFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int TAKE_PHOTO_REQUEST = 2;
-    private static final int CAMERA_PERMISSION_REQUEST = 100;
-    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST = 101;
+    private static final int PICK_BACKGROUND_IMAGE_REQUEST = 3;
+
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private Button Logout;
+    private ImageView threeDotMenu;
     private ImageView profileImage;
     private StorageReference storageReference;
     private FirebaseFirestore fireStore;
@@ -74,9 +73,10 @@ public class UserInfoFragment extends Fragment {
         fetchUserInfo();
 
         profileImage = binding.profileImage;
+        threeDotMenu = binding.threeDotMenu;
         storageReference = FirebaseStorage.getInstance().getReference("profile_images");
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        threeDotMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopupMenu(v);
@@ -109,18 +109,25 @@ public class UserInfoFragment extends Fragment {
             String displayName = currentUser.getDisplayName();
             String email = currentUser.getEmail();
             binding.profileEmail.setText("Email: " + email);
-            binding.profileName.setText("Name: " + displayName);
 
-            // Load the user's profile image
+            // Load the user's profile data
             String userId = currentUser.getUid();
             fireStore.collection("users").document(userId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
+                            // Load the user's name
+                            String userName = documentSnapshot.getString("userName");
+                            if (userName != null) {
+                                binding.userName.setText(userName);
+                            } else {
+                                binding.userName.setText(displayName);
+                            }
+
+                            // Load the user's profile image
                             String imageUrl = documentSnapshot.getString("profileImageUrl");
                             if (imageUrl != null) {
-                                // Load the image with a placeholder and/or an image loading animation
                                 RequestOptions requestOptions = new RequestOptions()
-                                        .placeholder(R.drawable.default_image) // Replace with your default profile image drawable resource
+                                        .placeholder(R.drawable.default_image)
                                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                                         .centerCrop();
 
@@ -128,6 +135,20 @@ public class UserInfoFragment extends Fragment {
                                         .load(imageUrl)
                                         .apply(requestOptions)
                                         .into(profileImage);
+                            }
+
+                            // Load the user's background image
+                            String backgroundImageUrl = documentSnapshot.getString("backgroundImageUrl");
+                            if (backgroundImageUrl != null) {
+                                RequestOptions requestOptions = new RequestOptions()
+                                        .placeholder(R.drawable.top_background_gradient)
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                        .centerCrop();
+
+                                Glide.with(requireContext())
+                                        .load(backgroundImageUrl)
+                                        .apply(requestOptions)
+                                        .into(binding.topBackground);
                             }
                         }
                     });
@@ -143,8 +164,11 @@ public class UserInfoFragment extends Fragment {
                 case R.id.choose_from_gallery:
                     openGallery();
                     return true;
-                case R.id.take_selfie:
-                    takeSelfie();
+                case R.id.edit_user_name:
+                    showEditUsernameDialog();
+                    return true;
+                case R.id.change_background_image:
+                    openBackgroundGallery();
                     return true;
                 default:
                     return false;
@@ -153,15 +177,6 @@ public class UserInfoFragment extends Fragment {
 
         popupMenu.show();
     }
-
-    private void requestCameraPermission() {
-        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
-    }
-
-    private void requestWriteExternalStoragePermission() {
-        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST);
-    }
-
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -169,20 +184,6 @@ public class UserInfoFragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    private void takeSelfie() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestCameraPermission();
-        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestWriteExternalStoragePermission();
-        } else {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivityForResult(intent, TAKE_PHOTO_REQUEST);
-            } else {
-                Toast.makeText(requireContext(), "No camera app found!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -202,7 +203,44 @@ public class UserInfoFragment extends Fragment {
             if (imageUri != null) {
                 updateProfileImage(imageUri);
             }
+            if (requestCode == PICK_BACKGROUND_IMAGE_REQUEST && data != null && data.getData() != null) {
+                Uri backgroundImageUri = data.getData();
+                updateTopBackgroundImage(backgroundImageUri);
+            }
         }
+    }
+
+    private void updateTopBackgroundImage(Uri backgroundImageUri) {
+        // Update the ImageView with the new background image
+        Glide.with(requireContext())
+                .load(backgroundImageUri)
+                .centerCrop()
+                .into(binding.topBackground);
+
+        // Save the new background image to Firebase Storage
+        String userId = mAuth.getCurrentUser().getUid();
+        StorageReference backgroundRef = storageReference.child("background_images/" + userId + ".jpg");
+        backgroundRef.putFile(backgroundImageUri).addOnSuccessListener(taskSnapshot -> {
+            // Get the download URL and update the user's background image URL in Firebase Firestore
+            backgroundRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String backgroundImageUrl = uri.toString();
+                updateUserBackgroundImageUrl(userId, backgroundImageUrl);
+            });
+        });
+    }
+
+    private void updateUserBackgroundImageUrl(String userId, String backgroundImageUrl) {
+        DocumentReference userDocRef = fireStore.collection("users").document(userId);
+        Map<String, Object> data = new HashMap<>();
+        data.put("backgroundImageUrl", backgroundImageUrl);
+
+        userDocRef.set(data, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> {
+                    // Background image URL updated successfully
+                })
+                .addOnFailureListener(e -> {
+                    // Error updating background image URL
+                });
     }
 
     private Uri getImageUri(Context context, Bitmap imageBitmap) {
@@ -245,22 +283,46 @@ public class UserInfoFragment extends Fragment {
                 });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    private void showEditUsernameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Edit Username");
 
-        if (requestCode == CAMERA_PERMISSION_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                takeSelfie();
-            } else {
-                Toast.makeText(requireContext(), "Camera permission is required to take a selfie", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                takeSelfie();
-            } else {
-                Toast.makeText(requireContext(), "Write external storage permission is required", Toast.LENGTH_SHORT).show();
-            }
+        final EditText input = new EditText(requireContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String newUsername = input.getText().toString();
+            updateUserName(newUsername);
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+    private void updateUserName(String newUserName) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            // Update the user's name in Firestore
+            fireStore.collection("users").document(userId).update("userName", newUserName)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(requireContext(), "User name updated successfully", Toast.LENGTH_SHORT).show();
+                        // Update the displayed user name
+                        binding.userName.setText(newUserName);
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(requireContext(), "Failed to update user name", Toast.LENGTH_SHORT).show();
+                    });
         }
     }
+
+    private void openBackgroundGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Background Image"), PICK_BACKGROUND_IMAGE_REQUEST);
+    }
+
 }
