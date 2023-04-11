@@ -1,4 +1,4 @@
-package com.example.feedyourself.user;
+package com.example.feedyourself.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class FragmentLogin extends Fragment {
+public class LoginFragment extends Fragment {
 
     TextInputEditText editTextEmail, editTextPassword;
     Button btn_login;
@@ -49,7 +49,7 @@ public class FragmentLogin extends Fragment {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedViewModel sharedViewModel;
-    public FragmentLogin() {
+    public LoginFragment() {
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -171,10 +171,10 @@ public class FragmentLogin extends Fragment {
         btn_forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentForgotPassword fragmentForgotPassword = new FragmentForgotPassword();
+                ForgotPasswordFragment forgotPasswordFragment = new ForgotPasswordFragment();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, fragmentForgotPassword)
+                        .replace(R.id.fragment_container, forgotPasswordFragment)
                         .commit();
             }
         });

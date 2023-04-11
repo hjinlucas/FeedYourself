@@ -1,10 +1,8 @@
-package com.example.feedyourself;
+package com.example.feedyourself.adapters;
 
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 

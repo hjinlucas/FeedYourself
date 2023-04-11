@@ -1,4 +1,4 @@
-package com.example.feedyourself;
+package com.example.feedyourself.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedyourself.R;
 import com.example.feedyourself.main.RecipeDetailsActivity;
 
 import java.util.List;

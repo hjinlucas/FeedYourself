@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainPageFragment">
+    tools:context=".fragments.MainPageFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,47 +18,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/logoImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_main_nobg_fore"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
- />
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:src="@drawable/text_logo_art"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/forYouTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ForYou"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    app:layout_constraintBottom_toBottomOf="@+id/logoImageView"
-                    app:layout_constraintStart_toEndOf="@+id/logoImageView"
-                    android:layout_marginStart="16dp" />
 
-                <TextView
-                    android:id="@+id/exploreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Explore"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    app:layout_constraintBottom_toBottomOf="@+id/forYouTextView"
-                    app:layout_constraintStart_toEndOf="@+id/forYouTextView"
-                    android:layout_marginStart="16dp" />
-
-                <TextView
-                    android:id="@+id/premiumTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Premium"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    app:layout_constraintBottom_toBottomOf="@+id/exploreTextView"
-                    app:layout_constraintStart_toEndOf="@+id/exploreTextView"
-                    android:layout_marginStart="16dp" />
 
                 <!-- layout for the horizontal RecyclerView in main paglayout for the horizontal RecyclerView in main page -->
                 <androidx.recyclerview.widget.RecyclerView

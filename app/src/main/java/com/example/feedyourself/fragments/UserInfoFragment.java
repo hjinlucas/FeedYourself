@@ -1,4 +1,4 @@
-package com.example.feedyourself.user;
+package com.example.feedyourself.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -99,7 +99,7 @@ public class UserInfoFragment extends Fragment {
     private void logOut() {
         mAuth.signOut();
         mGoogleSignInClient.signOut();
-        FragmentLogin login = new FragmentLogin();
+        LoginFragment login = new LoginFragment();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, login).commit();
     }
 

@@ -1,4 +1,4 @@
-package com.example.feedyourself.saved;
+package com.example.feedyourself.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.R;
-import com.example.feedyourself.Recipe;
-import com.example.feedyourself.RecipeAdapter;
+import com.example.feedyourself.adapters.Recipe;
+import com.example.feedyourself.adapters.RecipeAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

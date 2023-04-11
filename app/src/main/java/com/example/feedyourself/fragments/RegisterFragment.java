@@ -1,4 +1,4 @@
-package com.example.feedyourself.user;
+package com.example.feedyourself.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -114,10 +114,10 @@ public class RegisterFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Account Created.",
                                             Toast.LENGTH_SHORT).show();
 
-                                    FragmentLogin fragmentLogin = new FragmentLogin();
+                                    LoginFragment loginFragment = new LoginFragment();
                                     getActivity().getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.fragment_container, fragmentLogin)
+                                            .replace(R.id.fragment_container, loginFragment)
                                             .commit();
                                 }
 
@@ -137,10 +137,10 @@ public class RegisterFragment extends Fragment {
         btn_goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentLogin fragmentLogin = new FragmentLogin();
+                LoginFragment loginFragment = new LoginFragment();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, fragmentLogin)
+                        .replace(R.id.fragment_container, loginFragment)
                         .commit();
             }
         });
