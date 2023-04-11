@@ -42,29 +42,29 @@
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Broccoli" />
+                android:text="milk" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Carrots" />
+                android:text="Smoked Bacon" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beef" />
+                android:text="Cheddar Cheese" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chicken"
-                tools:ignore="DuplicateIds" />
+                android:text="Tomatoes"
+                />
 
         </LinearLayout>
 

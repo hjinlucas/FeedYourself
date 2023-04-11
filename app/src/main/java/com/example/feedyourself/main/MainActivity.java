@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create some recipes
         List<String> ingredients1 = Arrays.asList("Beef", "Potato");
-        Recipe recipe1 = new Recipe("3", "Stewed Beef Brisket with Potatoes", "Dinner", ingredients1, "Sweet");
+        Recipe recipe1 = new Recipe("3", "Stewed Beef Brisket with Potatoes", "Dinner", ingredients1, "Sweet",false,0,0,"",0);
 
 //        List<String> ingredients2 = Arrays.asList("Ingredient4", "Ingredient5", "Ingredient6");
 //        Recipe recipe2 = new Recipe("2", "Recipe Name 2", "Lunch", ingredients2, "Spicy");
@@ -49,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         // Store the recipes in Firebase
         recipesRef.child(recipe1.getId()).setValue(recipe1);
 //        recipesRef.child(recipe2.getId()).setValue(recipe2);
+
+        List<String> ingredients2 = Arrays.asList("onion","milk","tomatoes","cheddar cheese","Sausage");
+        Recipe recipe2 = new Recipe("2","Sausage and Cheese Pie","Breakfast",ingredients2,"",false,500, 90,"Preheat oven to 400°F.#Cook sausage and onion in a large saucepan over medium-high heat 8 to 10 minutes or until thoroughly cooked, stirring frequently; drain. Stir in salt and pepper. Spoon sausage mixture into a lightly greased, 9-inch glass pie plate.#Combine milk, baking mix and eggs in a medium bowl and blend with a wire whisk. Pour batter over sausage in pie plate.#Bake 25 minutes or until knife inserted in center comes out clean. Remove from oven. Top with sliced tomato and sprinkle with cheese. Bake an additional 5 minutes or until cheese is melted.#Let stand minutes before serving.", R.drawable.cheese_pie);
+        recipesRef.child(recipe2.getId()).setValue(recipe2);
+
+        List<String> ingredients3 = Arrays.asList("Smoked Bacon","milk","French bread cubes","cheddar cheese");
+        Recipe recipe3 = new Recipe("1","Easy Bacon and Egg Casserole","Breakfast",ingredients3,"",false,400, 50,"Preheat oven to 350°F.#Place bacon slices in unheated skillet. Cook slowly over LOW heat, turning occasionally and draining excess drippings as needed. Crumble and set aside.#Beat eggs, milk and pepper in large bowl with a wire whisk until well blended. Add bread cubes; stir gently until evenly coated. Stir in bacon crumbles and 1 ½ cups cheese.#Pour into lightly greased 13x9-inch baking dish; sprinkle with remaining cheese.#Bake 45 minutes or until knife inserted in center comes out clean. Let stand 10 minutes before cutting into 12 squares to serve.",R.drawable.bacon_egg_casserole);
+        recipesRef.child(recipe3.getId()).setValue(recipe3);
     }
 
     private void setupBottomNavigation() {

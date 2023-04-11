@@ -17,18 +17,31 @@ public class Recipe implements Parcelable{
 
     private boolean isSaved;
 
+    private Integer calories;
+
+    private Integer time;
+
+    private String directions;
+
+    private Integer imgId;
+
 
 
     public Recipe() {
         // Required empty public constructor
     }
 
-    public Recipe(String id, String name, String mealType, List<String> ingredients, String flavor) {
+    public Recipe(String id, String name, String mealType, List<String> ingredients, String flavor, boolean isSaved, Integer calories, Integer time, String directions, Integer imgId) {
         this.id = id;
         this.name = name;
         this.mealType = mealType;
         this.ingredients = ingredients;
         this.flavor = flavor;
+        this.isSaved= isSaved;
+        this.calories = calories;
+        this.time = time;
+        this.directions = directions;
+        this.imgId = imgId;
     }
 
     public void setId(String id) {
@@ -79,6 +92,37 @@ public class Recipe implements Parcelable{
         isSaved = saved;
     }
 
+    public Integer getCalories() {
+        return calories;
+    }
+
+    public Integer getImgId() {
+        return imgId;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public String getDirections() {
+        return directions;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
+    }
+
+    public void setDirections(String directions) {
+        this.directions = directions;
+    }
+
+    public void setImgId(Integer imgId) {
+        this.imgId = imgId;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
 
     protected Recipe(Parcel in) {
         name = in.readString();

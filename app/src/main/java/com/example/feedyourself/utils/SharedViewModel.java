@@ -1,5 +1,7 @@
 package com.example.feedyourself.utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -13,20 +15,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SharedViewModel<K, V> extends ViewModel {
-    private MutableLiveData<HashMap<K, V>> data = new MutableLiveData<>(new HashMap<K, V>());
+public class SharedViewModel extends ViewModel {
+    private MutableLiveData<HashMap<String, List<String>>> ingredients = new MutableLiveData<>(new HashMap<>());
 
-    public void add(K key, V value) {
-        HashMap<K, V> map = new HashMap<>();
-        map.put(key, value);
-        data.setValue(map);
+    public MutableLiveData<HashMap<String, List<String>>> getIngredients() {
+        return ingredients;
+    }
+    public void setIngredients(String mealType, List<String> ingredientList) {
+        HashMap<String, List<String>> currentIngredients = ingredients.getValue();
+        if (currentIngredients != null) {
+            currentIngredients.put(mealType, ingredientList);
+            ingredients.setValue(currentIngredients);
+        }
     }
 
-    public LiveData<HashMap<K, V>> get() {
-        return data;
-    }
 
-    public void clear() {
-        data.setValue(new HashMap<>());
-    }
+
+
+
 }

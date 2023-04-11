@@ -38,6 +38,7 @@ public class SearchFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recipeList = new ArrayList<>();

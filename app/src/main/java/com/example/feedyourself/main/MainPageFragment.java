@@ -1,11 +1,14 @@
 package com.example.feedyourself.main;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.ImageAdapter;
@@ -37,7 +41,7 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 
-public class MainPageFragment extends Fragment {
+ public class MainPageFragment extends Fragment {
 
     private RecyclerView horizontalRecyclerView;
 //    private CardView breakfastCard, brunchCard, lunchCard, dinnerCard;
@@ -52,12 +56,38 @@ public class MainPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_main_page, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        ScrollView scrollView = view.findViewById(R.id.scrollView1);
+//        OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                    scrollView.setEdgeEffectFactory(new EdgeEffectFactory() {
+//                        @NonNull
+//                        @Override
+//                        public EdgeEffect createEdgeEffect(@NonNull RecyclerView view, int direction) {
+//                            return new CustomEdgeEffect(view.getContext());
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//
+//        scrollView.setHorizontalScrollBarEnabled(false);
+//        scrollView.setVerticalScrollBarEnabled(false);
 
 
         //==================================================================================================
@@ -242,21 +272,25 @@ public class MainPageFragment extends Fragment {
         setMealTypeCardViewClickListener(brunchCard);
         setMealTypeCardViewClickListener(lunchCard);
         setMealTypeCardViewClickListener(dinnerCard);
-        SharedViewModel<String, Boolean> sharedViewModel = new SharedViewModel<>();
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         confirmationButton.setOnClickListener(v -> {
             switch (clickedPosition){
                 case 0:
                     if(!breakfastcheckBox1.isChecked() && !breakfastcheckBox2.isChecked()&& !breakfastcheckBox3.isChecked()&& !breakfastcheckBox4.isChecked() &&!breakfastcheckBox5.isChecked() &&!breakfastcheckBox6.isChecked()&& !breakfastcheckBox7.isChecked()){
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
-
+                        List<String> ingredients = new ArrayList<>();
                         for (CheckBox box:BrecheckBoxes
                              ) {
                             if(box.isChecked()){
-                                sharedViewModel.add(box.getText().toString(), true);
-                                loadFragment(new SelectRecipeFragment());
+                                ingredients.add(box.getText().toString());
                             }
                         }
+                        sharedViewModel.setIngredients("Breakfast", ingredients);
+
+                        loadFragment(new SelectRecipeFragment());
+
                     }
                     break;
 
@@ -264,26 +298,32 @@ public class MainPageFragment extends Fragment {
                     if(!brunchcheckBox1.isChecked() && !brunchcheckBox2.isChecked()&& !brunchcheckBox3.isChecked()&& !brunchcheckBox4.isChecked() &&!brunchcheckBox5.isChecked() &&!brunchcheckBox6.isChecked()&& !brunchcheckBox7.isChecked()){
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
+                        List<String> ingredients = new ArrayList<>();
                         for (CheckBox box:BrucheckBoxes
                         ) {
                             if(box.isChecked()){
-                                sharedViewModel.add(box.getText().toString(), true);
-                                loadFragment(new SelectRecipeFragment());
+                                ingredients.add(box.getText().toString());
                             }
                         }
+                        sharedViewModel.setIngredients("Brunch", ingredients);
+                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+                        loadFragment(new SelectRecipeFragment());
                     }
                     break;
                 case 2:
                     if(!lunchcheckBox1.isChecked() && !lunchcheckBox2.isChecked()&& !lunchcheckBox3.isChecked()&& !lunchcheckBox4.isChecked() &&!lunchcheckBox5.isChecked() &&!lunchcheckBox6.isChecked()&& !lunchcheckBox7.isChecked()){
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
+                        List<String> ingredients = new ArrayList<>();
                         for (CheckBox box:LuncheckBoxes
                         ) {
                             if(box.isChecked()){
-                                sharedViewModel.add(box.getText().toString(), true);
-                                loadFragment(new SelectRecipeFragment());
+                                ingredients.add(box.getText().toString());
                             }
                         }
+                        sharedViewModel.setIngredients("Lunch", ingredients);
+                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+                        loadFragment(new SelectRecipeFragment());
                     }
                     break;
 
@@ -291,13 +331,16 @@ public class MainPageFragment extends Fragment {
                     if(!dinnercheckBox1.isChecked() && !dinnercheckBox2.isChecked()&& !dinnercheckBox3.isChecked()&& !dinnercheckBox4.isChecked() &&!dinnercheckBox5.isChecked() &&!dinnercheckBox6.isChecked()&& !dinnercheckBox7.isChecked()){
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
+                        List<String> ingredients = new ArrayList<>();
                         for (CheckBox box:DincheckBoxes
                         ) {
                             if(box.isChecked()){
-                                sharedViewModel.add(box.getText().toString(), true);
-                                loadFragment(new SelectRecipeFragment());
+                                ingredients.add(box.getText().toString());
                             }
                         }
+                        sharedViewModel.setIngredients("Dinner", ingredients);
+                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+                        loadFragment(new SelectRecipeFragment());
                     }
                     break;
             }
