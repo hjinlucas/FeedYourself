@@ -49,14 +49,14 @@
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smoked Bacon" />
+                android:text="Bacon" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cheddar Cheese" />
+                android:text="Cheese" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"

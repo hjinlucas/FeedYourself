@@ -29,9 +29,10 @@ import java.util.List;
 
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 
- public class MainPageFragment extends Fragment {
+public class MainPageFragment extends Fragment {
 
     private RecyclerView horizontalRecyclerView;
 //    private CardView breakfastCard, brunchCard, lunchCard, dinnerCard;
@@ -107,18 +108,18 @@ import androidx.transition.TransitionManager;
         //==================================================================================================
         //============= OnClickListener for cards that display meal recommendations =======================
         //==================================================================================================
-        RecyclerView horizontalRecyclerView = view.findViewById(R.id.horizontalRecyclerView);
+        ViewPager2 viewPager =  view.findViewById(R.id.viewPager);
 
         List<Integer> imageIds = Arrays.asList(
-                R.drawable.meal_beef_tomato,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background
+                R.drawable.hori1,
+                R.drawable.hori2,
+                R.drawable.hori3,
+                R.drawable.hori4
                 //just for test now, replace image later
         );
 
-        ImageAdapter imageAdapter = new ImageAdapter(requireContext(), imageIds);
-        horizontalRecyclerView.setAdapter(imageAdapter);
+        ImageAdapter adapter = new ImageAdapter(imageIds);
+        viewPager.setAdapter(adapter);
 
 //        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
 //            @Override

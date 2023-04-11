@@ -4,97 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MainPageFragment">
+    tools:context=".fragments.MainPageFragment"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:src="@drawable/text_logo_art"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/viewPager"/>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView1"/>
 
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:overScrollMode="always"
-        android:id = "@+id/scrollView1"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:src="@drawable/text_logo_art"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <!-- layout for the choose meal type sections -->
+            <TextView
+                android:id="@+id/chooseMealTypeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Choose Meal Type"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView" />
 
+            <LinearLayout
+                android:id="@+id/mealTypeLinearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseMealTypeTitle">
 
+                <include
+                    android:id="@+id/breakfastCard"
+                    layout="@layout/meal_type_card" />
 
-                <!-- layout for the horizontal RecyclerView in main paglayout for the horizontal RecyclerView in main page -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/horizontalRecyclerView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/logoImageView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <include
+                    android:id="@+id/brunchCard"
+                    layout="@layout/meal_type_card" />
 
-                <!-- layout for the choose meal type sections -->
-                <TextView
-                    android:id="@+id/chooseMealTypeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Choose Meal Type"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp" />
+                <include
+                    android:id="@+id/lunchCard"
+                    layout="@layout/meal_type_card" />
 
-                <LinearLayout
-                    android:id="@+id/mealTypeLinearLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/chooseMealTypeTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                <include
+                    android:id="@+id/dinnerCard"
+                    layout="@layout/meal_type_card" />
 
-                    <include
-                        android:id="@+id/breakfastCard"
-                        layout="@layout/meal_type_card" />
+            </LinearLayout>
 
-                    <include
-                        android:id="@+id/brunchCard"
-                        layout="@layout/meal_type_card" />
+            <!--  Confirmation btn layout  -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/confirmationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/confirmation_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                    <include
-                        layout="@layout/meal_type_card"
-                        android:id="@+id/lunchCard" />
-
-                    <include
-                        layout="@layout/meal_type_card"
-                        android:id="@+id/dinnerCard" />
-
-                </LinearLayout>
-
-                <!--  Confirmation btn layout  -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/confirmationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/confirmation_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/colorPrimary"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </ScrollView>
