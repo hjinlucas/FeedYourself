@@ -10,22 +10,19 @@
 
     <ImageView
         android:id="@+id/logoImageView"
-        android:layout_width="120dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:src="@drawable/text_logo_art"
+        android:src="@drawable/text_logo_primary"
+        android:foregroundGravity="center_horizontal"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/viewPager"/>
-
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
         app:layout_constraintBottom_toTopOf="@+id/scrollView1"/>
+
+
+
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -33,30 +30,38 @@
         android:layout_height="0dp"
         android:overScrollMode="always"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPager">
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/chooseMealTypeTitle"/>
+
             <!-- layout for the choose meal type sections -->
             <TextView
                 android:id="@+id/chooseMealTypeTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Choose Meal Type"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Start From Choose A Meal Tyle"
+                android:textSize="14sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
             <LinearLayout
                 android:id="@+id/mealTypeLinearLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,21 +85,22 @@
 
             </LinearLayout>
 
-            <!--  Confirmation btn layout  -->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/confirmationButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/confirmation_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </ScrollView>
+
+    <!--  Confirmation btn layout  -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/confirmation_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

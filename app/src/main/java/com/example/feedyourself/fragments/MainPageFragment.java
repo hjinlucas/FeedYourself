@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,9 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        CardView card1 = view.findViewById(R.id.cardImageView);
 //        ScrollView scrollView = view.findViewById(R.id.scrollView1);
 //        OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 //        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
@@ -130,6 +134,8 @@ public class MainPageFragment extends Fragment {
 //        });
 
 
+
+
         //==================================================================================================
         //============= OnClickListener for cards that display image of breakfast, brunch, etc =============
         //==================================================================================================
@@ -159,6 +165,8 @@ public class MainPageFragment extends Fragment {
 
         List<CheckBox> LuncheckBoxes = new ArrayList<>();
         CardView lunchCard = view.findViewById(R.id.lunchCard);
+        ImageView lunchBackground = lunchCard.findViewById(R.id.backgroundImage);
+        lunchBackground.setImageResource(R.drawable.lunch);
         TextView lunchTitle = lunchCard.findViewById(R.id.mealTypeTitle);
         lunchTitle.setText("Lunch");
         CheckBox lunchcheckBox1 = lunchCard.findViewById(R.id.checkBox1);
@@ -186,6 +194,8 @@ public class MainPageFragment extends Fragment {
 
         List<CheckBox> BrucheckBoxes = new ArrayList<>();
         CardView brunchCard = view.findViewById(R.id.brunchCard);
+        ImageView brunchBackground = brunchCard.findViewById(R.id.backgroundImage);
+        brunchBackground.setImageResource(R.drawable.brunch);
         TextView brunchTitle = brunchCard.findViewById(R.id.mealTypeTitle);
         brunchTitle.setText("Brunch");
 
@@ -225,6 +235,8 @@ public class MainPageFragment extends Fragment {
 
         List<CheckBox> DincheckBoxes = new ArrayList<>();
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
+        ImageView dinnerBackground = dinnerCard.findViewById(R.id.backgroundImage);
+        dinnerBackground.setImageResource(R.drawable.dinner);
         TextView dinnerTitle = dinnerCard.findViewById(R.id.mealTypeTitle);
         dinnerTitle.setText("Dinner");
         CheckBox dinnercheckBox1 = dinnerCard.findViewById(R.id.checkBox1);
