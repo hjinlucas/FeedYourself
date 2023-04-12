@@ -10,27 +10,16 @@
 
     <ImageView
         android:id="@+id/logo_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
         android:src="@mipmap/ic_main_nobg"/>
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome Back"
-        android:textSize="35sp"
-        android:fontFamily="@font/bungee"
-        />
-
-
-    <TextView
-        android:text="@string/SignIn"
-        android:textSize="16sp"
-        android:layout_marginBottom="12sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/text_logo_vari" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,61 +56,61 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <TextView
             android:id="@+id/btn_forgetPassword"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
             android:backgroundTint="@color/white"
             android:text="Forget Password?"
+            android:textStyle="italic"
             android:layout_gravity="right"
             android:elevation="0dp"
             android:layout_margin="5dp"/>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
 
-            <Button
-                android:id="@+id/btn_to_register"
-                android:text="@string/ClickToRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
 
             <Button
                 android:id="@+id/btn_login"
                 android:text="@string/login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"/>
+                android:background="@drawable/button_background"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
 
 
 
-
-        </LinearLayout>
 
 
         <Button
             android:id="@+id/google_sign_in_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Sign-in with google"
             android:drawablePadding="8dp"
             android:drawableLeft="@drawable/ic_google_login"
+            android:background="@drawable/button_background"
             android:padding="8dp"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/btn_to_register"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:textStyle="italic"
+            android:text="New to Feed Yourself? Click to Register." />
+
 
     </LinearLayout>
+
 
 
     <ProgressBar

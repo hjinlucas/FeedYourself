@@ -40,11 +40,11 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
 
-    Button btn_to_register;
+    TextView btn_to_register;
     TextView textView;
     Button google_sign_in;
 
-    Button btn_forgetPassword;
+    TextView btn_forgetPassword;
 
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;

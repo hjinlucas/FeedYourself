@@ -27,7 +27,7 @@ public class RegisterFragment extends Fragment {
     TextInputEditText editTextEmail, editTextPassword;
     Button btn_reg;
 
-    Button btn_goToLogin;
+    TextView btn_goToLogin;
 
     FirebaseAuth mAuth;
 
