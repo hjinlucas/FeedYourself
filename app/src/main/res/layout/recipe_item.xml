@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Recipe Name"
             android:textSize="18sp"
+            android:layout_marginRight="14dp"
             android:textStyle="bold" />
 
         <TextView
