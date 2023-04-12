@@ -1,9 +1,11 @@
 package com.example.feedyourself.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -45,15 +50,15 @@ import java.util.Map;
 public class UserInfoFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int TAKE_PHOTO_REQUEST = 2;
+    static final int TAKE_PHOTO_REQUEST = 2;
     private static final int PICK_BACKGROUND_IMAGE_REQUEST = 3;
-
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private Button Logout;
     private ImageView threeDotMenu;
     private ImageView profileImage;
+    private ImageButton profileButton;
     private StorageReference storageReference;
     private FirebaseFirestore fireStore;
     private FragmentUserInfoBinding binding;
@@ -74,16 +79,49 @@ public class UserInfoFragment extends Fragment {
 
         profileImage = binding.profileImage;
         threeDotMenu = binding.threeDotMenu;
+        profileButton = binding.imageButton;
         storageReference = FirebaseStorage.getInstance().getReference("profile_images");
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, R.menu.profile_popup_menu);
+            }
+        });
 
         threeDotMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v);
+                showPopupMenu(v, R.menu.three_dot_popup_menu);
             }
         });
 
         return binding.getRoot();
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(menuResource, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.choose_from_gallery:
+                    openGallery();
+                    return true;
+                case R.id.take_photo:
+                    requestCameraPermission();
+                    return true;
+                case R.id.edit_user_name:
+                    showEditUsernameDialog();
+                    return true;
+                case R.id.change_background_image:
+                    openBackgroundGallery();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
+        popupMenu.show();
     }
 
     @Override
@@ -155,28 +193,23 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.choose_from_gallery:
-                    openGallery();
-                    return true;
-                case R.id.edit_user_name:
-                    showEditUsernameDialog();
-                    return true;
-                case R.id.change_background_image:
-                    openBackgroundGallery();
-                    return true;
-                default:
-                    return false;
-            }
-        });
 
-        popupMenu.show();
+    private void requestCameraPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO_REQUEST);
+        } else {
+            openCamera();
+        }
     }
+
+
+
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_PHOTO_REQUEST);
+    }
+
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -324,5 +357,4 @@ public class UserInfoFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Background Image"), PICK_BACKGROUND_IMAGE_REQUEST);
     }
-
 }
