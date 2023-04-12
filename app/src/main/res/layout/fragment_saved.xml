@@ -7,15 +7,14 @@
     tools:context=".fragments.SavedFragment"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/saved_recipes_title"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Saved Recipes"
-        android:fontFamily="@font/bungee"
-        android:textSize="24sp"
+        android:layout_marginBottom="32dp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
+        android:src="@drawable/saved_recipes_text" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/saved_recipes_recycler_view"

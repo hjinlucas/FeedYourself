@@ -6,14 +6,13 @@
     android:orientation="vertical">
 
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/searchBar"
-        android:textSize="24sp"
-        android:fontFamily="@font/bungee"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
+        android:src="@drawable/get_recipe_text" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"

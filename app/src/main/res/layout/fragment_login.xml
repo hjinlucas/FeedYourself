@@ -16,10 +16,10 @@
         android:src="@mipmap/ic_main_nobg"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginBottom="32dp"
-        android:src="@drawable/text_logo_vari" />
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/text_signin" />
 
     <LinearLayout
         android:layout_width="match_parent"
