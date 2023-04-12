@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,6 +114,7 @@ public class MainPageFragment extends Fragment {
         //============= OnClickListener for cards that display meal recommendations =======================
         //==================================================================================================
         ViewPager2 viewPager =  view.findViewById(R.id.viewPager);
+        ProgressBar scrollBar = view.findViewById(R.id.scrollBar);
 
         List<Integer> imageIds = Arrays.asList(
                 R.drawable.hori1,
@@ -124,6 +126,17 @@ public class MainPageFragment extends Fragment {
 
         ImageAdapter adapter = new ImageAdapter(imageIds);
         viewPager.setAdapter(adapter);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+
+                int totalPages = viewPager.getAdapter().getItemCount();
+                float progress = ((float) position + positionOffset) / (totalPages - 1);
+                scrollBar.setProgress((int) (progress * scrollBar.getMax()));
+            }
+        });
 
 //        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
 //            @Override

@@ -40,19 +40,28 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/chooseMealTypeTitle"/>
+
+            <ProgressBar
+                android:id="@+id/scrollBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="140dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:progressDrawable="@drawable/custom_scroll_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/viewPager"
+                app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
             <!-- layout for the choose meal type sections -->
             <TextView
                 android:id="@+id/chooseMealTypeTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Start From Choose A Meal Tyle"
-                android:textSize="14sp"
-                android:textStyle="italic|bold"
+                android:text="Start From Choose A Meal Type"
+                android:textSize="10sp"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewPager" />
