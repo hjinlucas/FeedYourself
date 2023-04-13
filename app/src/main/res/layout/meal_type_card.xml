@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="Meal Type"
             android:textColor="@color/white"
-            android:layout_margin="36dp"
+            android:layout_margin="35dp"
             android:textSize="42sp"
             android:textStyle="bold" />
 
