@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,17 +34,22 @@ import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class UserInfoFragment extends Fragment {
 
@@ -60,7 +64,7 @@ public class UserInfoFragment extends Fragment {
     private ImageView profileImage;
     private ImageButton profileButton;
     private StorageReference storageReference;
-    private FirebaseFirestore fireStore;
+    private DatabaseReference databaseReference;
     private FragmentUserInfoBinding binding;
     GoogleSignInOptions gso;
 
@@ -73,8 +77,7 @@ public class UserInfoFragment extends Fragment {
                 .requestIdToken("596346761447-togmbri8f6169ivhlmumoop3iqo3jg6v.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-        // Initialize the firestore variable before calling fetchUserInfo()
-        fireStore = FirebaseFirestore.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         fetchUserInfo();
 
         profileImage = binding.profileImage;
@@ -144,54 +147,68 @@ public class UserInfoFragment extends Fragment {
     private void fetchUserInfo() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            String displayName = currentUser.getDisplayName();
             String email = currentUser.getEmail();
             binding.profileEmail.setText("Email: " + email);
 
             // Load the user's profile data
             String userId = currentUser.getUid();
-            fireStore.collection("users").document(userId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            // Load the user's name
-                            String userName = documentSnapshot.getString("userName");
-                            if (userName != null) {
-                                binding.userName.setText(userName);
-                            } else {
-                                binding.userName.setText(displayName);
-                            }
-
-                            // Load the user's profile image
-                            String imageUrl = documentSnapshot.getString("profileImageUrl");
-                            if (imageUrl != null) {
-                                RequestOptions requestOptions = new RequestOptions()
-                                        .placeholder(R.drawable.default_image)
-                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                        .centerCrop();
-
-                                Glide.with(requireContext())
-                                        .load(imageUrl)
-                                        .apply(requestOptions)
-                                        .into(profileImage);
-                            }
-
-                            // Load the user's background image
-                            String backgroundImageUrl = documentSnapshot.getString("backgroundImageUrl");
-                            if (backgroundImageUrl != null) {
-                                RequestOptions requestOptions = new RequestOptions()
-                                        .placeholder(R.drawable.top_background_gradient)
-                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                        .centerCrop();
-
-                                Glide.with(requireContext())
-                                        .load(backgroundImageUrl)
-                                        .apply(requestOptions)
-                                        .into(binding.topBackground);
-                            }
+            databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    // Check if the user exists in the database and create it if not
+                    if (!dataSnapshot.exists()) {
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("id", userId);
+                        userData.put("email", email);
+                        userData.put("username", "DEFAULT"); // Set the default username to "DEFAULT"
+                        databaseReference.child(userId).setValue(userData);
+                        binding.userName.setText("DEFAULT");
+                    } else {
+                        // Load the user's name
+                        String userName = dataSnapshot.child("username").getValue(String.class);
+                        if (userName != null && !userName.isEmpty()) {
+                            binding.userName.setText(userName);
+                        } else {
+                            binding.userName.setText("DEFAULT");
                         }
-                    });
+                    }
+
+                    // Load the user's profile image
+                    String imageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                    if (imageUrl != null) {
+                        RequestOptions requestOptions = new RequestOptions()
+                                .placeholder(R.drawable.default_image)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .centerCrop();
+
+                        Glide.with(requireContext())
+                                .load(imageUrl)
+                                .apply(requestOptions)
+                                .into(profileImage);
+                    }
+
+                    // Load the user's background image
+                    String backgroundImageUrl = dataSnapshot.child("backgroundImageUrl").getValue(String.class);
+                    if (backgroundImageUrl != null) {
+                        RequestOptions requestOptions = new RequestOptions()
+                                .placeholder(R.drawable.top_background_gradient)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .centerCrop();
+
+                        Glide.with(requireContext())
+                                .load(backgroundImageUrl)
+                                .apply(requestOptions)
+                                .into(binding.topBackground);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
         }
     }
+
 
 
 
@@ -243,6 +260,13 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
+    private void openBackgroundGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Background Image"), PICK_BACKGROUND_IMAGE_REQUEST);
+    }
+
     private void updateTopBackgroundImage(Uri backgroundImageUri) {
         // Update the ImageView with the new background image
         Glide.with(requireContext())
@@ -263,11 +287,7 @@ public class UserInfoFragment extends Fragment {
     }
 
     private void updateUserBackgroundImageUrl(String userId, String backgroundImageUrl) {
-        DocumentReference userDocRef = fireStore.collection("users").document(userId);
-        Map<String, Object> data = new HashMap<>();
-        data.put("backgroundImageUrl", backgroundImageUrl);
-
-        userDocRef.set(data, SetOptions.merge())
+        databaseReference.child(userId).child("backgroundImageUrl").setValue(backgroundImageUrl)
                 .addOnSuccessListener(aVoid -> {
                     // Background image URL updated successfully
                 })
@@ -303,11 +323,7 @@ public class UserInfoFragment extends Fragment {
     }
 
     private void updateUserProfileImageUrl(String userId, String imageUrl) {
-        DocumentReference userDocRef = fireStore.collection("users").document(userId);
-        Map<String, Object> data = new HashMap<>();
-        data.put("profileImageUrl", imageUrl);
-
-        userDocRef.set(data, SetOptions.merge())
+        databaseReference.child(userId).child("profileImageUrl").setValue(imageUrl)
                 .addOnSuccessListener(aVoid -> {
                     // Profile image URL updated successfully
                 })
@@ -333,28 +349,24 @@ public class UserInfoFragment extends Fragment {
         builder.show();
     }
 
-    private void updateUserName(String newUserName) {
+    private void updateUserName(String newUsername) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-
-            // Update the user's name in Firestore
-            fireStore.collection("users").document(userId).update("userName", newUserName)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(requireContext(), "User name updated successfully", Toast.LENGTH_SHORT).show();
-                        // Update the displayed user name
-                        binding.userName.setText(newUserName);
+            databaseReference.child(userId).child("username").setValue(newUsername)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Update the displayed username
+                            binding.userName.setText(newUsername);
+                        }
                     })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(requireContext(), "Failed to update user name", Toast.LENGTH_SHORT).show();
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Handle the error
+                        }
                     });
         }
-    }
-
-    private void openBackgroundGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Background Image"), PICK_BACKGROUND_IMAGE_REQUEST);
     }
 }
