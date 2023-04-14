@@ -31,6 +31,8 @@ public class SearchFragment extends Fragment {
     private RecipeAdapter recipeAdapter;
     private List<Recipe> recipeList;
 
+    private List<String> savedRecipeIds;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,8 +43,10 @@ public class SearchFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        savedRecipeIds = new ArrayList<>();
+
         recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getActivity(), recipeList);
+        recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds);
         recyclerView.setAdapter(recipeAdapter);
 
         // Search and display recipes

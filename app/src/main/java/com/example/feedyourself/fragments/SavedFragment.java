@@ -29,6 +29,7 @@ public class SavedFragment extends Fragment {
     private RecipeAdapter recipeAdapter;
 
     private List<Recipe> recipeList;
+    private List<String> savedRecipeIds;
 
 
     public SavedFragment() {
@@ -41,13 +42,15 @@ public class SavedFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
 
+        savedRecipeIds = new ArrayList<>();
+
         recyclerView = view.findViewById(R.id.saved_recipes_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getActivity(), recipeList);
+        recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds);
         recyclerView.setAdapter(recipeAdapter);
 
         fetchSavedRecipes();
@@ -63,10 +66,14 @@ public class SavedFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recipeList.clear();
+                savedRecipeIds.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Recipe recipe = snapshot.getValue(Recipe.class);
-                    recipeList.add(recipe);
+                for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
+                    Recipe savedRecipe = recipeSnapshot.getValue(Recipe.class);
+                    if (savedRecipe != null) {
+                        savedRecipeIds.add(savedRecipe.getId());
+                        recipeList.add(savedRecipe);
+                    }
                 }
 
                 recipeAdapter.notifyDataSetChanged();

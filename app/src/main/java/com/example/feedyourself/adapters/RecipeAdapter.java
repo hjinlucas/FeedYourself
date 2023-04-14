@@ -28,9 +28,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     private Context context;
     private List<Recipe> recipeList;
 
-    public RecipeAdapter(Context context, List<Recipe> recipeList) {
+    private List<String> savedRecipeIds;
+
+
+    public RecipeAdapter(Context context, List<Recipe> recipeList, List<String> savedRecipeIds) {
         this.context = context;
         this.recipeList = recipeList;
+        this.savedRecipeIds = savedRecipeIds;
     }
 
     @NonNull
@@ -42,6 +46,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Recipe recipe = recipeList.get(position);
         holder.recipeName.setText(recipe.getName());
         holder.recipeMealType.setText(recipe.getMealType());
@@ -65,7 +70,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             }
         });
 
-        if (recipe.isSaved()) {
+        if (savedRecipeIds.contains(recipe.getId())) {
             holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_full);
         } else {
             holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_outline);
@@ -73,15 +78,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.saveRecipeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (recipe.isSaved()) {
+                if (savedRecipeIds.contains(recipe.getId())) {
                     // Remove the recipe from saved recipes
                     removeRecipe(recipe);
-                    recipe.setSaved(false);
+                    savedRecipeIds.remove(recipe.getId());
                     holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_outline);
                 } else {
                     // Save the recipe
                     saveRecipe(recipe);
-                    recipe.setSaved(true);
+                    savedRecipeIds.add(recipe.getId());
                     holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_full);
                 }
             }
