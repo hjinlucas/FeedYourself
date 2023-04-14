@@ -73,7 +73,25 @@ public class SearchFragment extends Fragment {
 
     private void searchRecipes(String query) {
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
-                recipesRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
+
+        savedRecipesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                savedRecipeIds.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String savedRecipeId = snapshot.getKey();
+                    savedRecipeIds.add(savedRecipeId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // errors
+            }
+        });
+
+        recipesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recipeList.clear();
