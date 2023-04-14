@@ -18,6 +18,7 @@ import com.example.feedyourself.R;
 import com.example.feedyourself.main.RecipeDetailsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,6 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     private Context context;
     private List<Recipe> recipeList;
+    private String userId;
 
     private List<String> savedRecipeIds;
 
@@ -35,6 +37,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.context = context;
         this.recipeList = recipeList;
         this.savedRecipeIds = savedRecipeIds;
+        this.userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @NonNull
@@ -123,7 +126,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     private void saveRecipe(Recipe recipe) {
         Log.d("RecipeAdapter", "Saving recipe: " + recipe.toString());
 
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
         savedRecipesRef.child(recipe.getId()).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -137,7 +140,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
 
     private void removeRecipe(Recipe recipe) {
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes").child(recipe.getId());
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes").child(recipe.getId());
         savedRecipesRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -149,8 +152,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             }
         });
     }
-
-
-
 }
 
+
+
+Link

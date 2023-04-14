@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.RecipeAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,8 @@ public class SearchFragment extends Fragment {
     private List<Recipe> recipeList;
 
     private List<String> savedRecipeIds;
+    private String userId;
+
 
     @Nullable
     @Override
@@ -48,6 +51,7 @@ public class SearchFragment extends Fragment {
         recipeList = new ArrayList<>();
         recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds);
         recyclerView.setAdapter(recipeAdapter);
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Search and display recipes
         searchRecipes("");
@@ -73,7 +77,7 @@ public class SearchFragment extends Fragment {
 
     private void searchRecipes(String query) {
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
 
         savedRecipesRef.addValueEventListener(new ValueEventListener() {
             @Override

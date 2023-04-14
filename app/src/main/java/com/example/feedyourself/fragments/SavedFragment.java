@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.RecipeAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ public class SavedFragment extends Fragment {
 
     private List<Recipe> recipeList;
     private List<String> savedRecipeIds;
+    private String userId;
 
 
     public SavedFragment() {
@@ -52,7 +54,7 @@ public class SavedFragment extends Fragment {
         recipeList = new ArrayList<>();
         recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds);
         recyclerView.setAdapter(recipeAdapter);
-
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fetchSavedRecipes();
 
 
@@ -61,7 +63,7 @@ public class SavedFragment extends Fragment {
 
     private void fetchSavedRecipes() {
         Log.d("SavedFragment", "fetchSavedRecipes called");
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
         savedRecipesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
