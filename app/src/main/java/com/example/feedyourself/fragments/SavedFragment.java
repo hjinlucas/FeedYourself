@@ -1,6 +1,7 @@
 package com.example.feedyourself.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.RecipeAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +27,9 @@ import java.util.List;
 public class SavedFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
-    private List<Recipe> savedRecipes;
-    private DatabaseReference savedRecipesRef;
+
+    private List<Recipe> recipeList;
+
 
     public SavedFragment() {
         // Required empty public constructor
@@ -38,19 +43,40 @@ public class SavedFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.saved_recipes_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        savedRecipes = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getContext(), savedRecipes);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recipeList = new ArrayList<>();
+        recipeAdapter = new RecipeAdapter(getActivity(), recipeList);
         recyclerView.setAdapter(recipeAdapter);
 
-        savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
-        loadSavedRecipes();
+        fetchSavedRecipes();
+
 
         return view;
     }
 
-    private void loadSavedRecipes() {
+    private void fetchSavedRecipes() {
+        Log.d("SavedFragment", "fetchSavedRecipes called");
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
+        savedRecipesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recipeList.clear();
 
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Recipe recipe = snapshot.getValue(Recipe.class);
+                    recipeList.add(recipe);
+                }
+
+                recipeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // errors
+            }
+        });
     }
+
 }

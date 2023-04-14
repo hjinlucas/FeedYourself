@@ -3,6 +3,7 @@ package com.example.feedyourself.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.recipeName.setText(recipe.getName());
         holder.recipeMealType.setText(recipe.getMealType());
         holder.recipeFlavor.setText(recipe.getFlavor());
-        holder.recipeIngredients.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
+
+        if (recipe.getIngredients() != null) {
+            holder.recipeIngredients.setText("Ingredients: " + TextUtils.join(", ", recipe.getIngredients()));
+        } else {
+            holder.recipeIngredients.setText("Ingredients: N/A");
+        }
+
 
 
 
@@ -109,7 +116,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
 
     private void saveRecipe(Recipe recipe) {
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes").child(recipe.getId());
+        Log.d("RecipeAdapter", "Saving recipe: " + recipe.toString());
+
+        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes");
         savedRecipesRef.child(recipe.getId()).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
