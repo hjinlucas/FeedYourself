@@ -40,6 +40,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -58,7 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UserInfoFragment extends Fragment {
+public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     static final int TAKE_PHOTO_REQUEST = 2;
@@ -217,6 +218,9 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.mapView.onCreate(savedInstanceState);
+        binding.mapView.getMapAsync(this);
+
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
         binding.logoutButton.setOnClickListener(V -> {
@@ -240,6 +244,36 @@ public class UserInfoFragment extends Fragment {
         });
 
 
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        binding.mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        binding.mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        binding.mapView.onLowMemory();
     }
 
     private void logOut() {
