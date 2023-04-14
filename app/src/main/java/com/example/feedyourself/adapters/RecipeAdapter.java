@@ -19,6 +19,7 @@ import com.example.feedyourself.main.RecipeDetailsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,16 +29,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     private Context context;
     private List<Recipe> recipeList;
+    private List<String> savedRecipeIds;
+    private boolean isUserLoggedIn;
     private String userId;
 
-    private List<String> savedRecipeIds;
 
-
-    public RecipeAdapter(Context context, List<Recipe> recipeList, List<String> savedRecipeIds) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList, List<String> savedRecipeIds, boolean isUserLoggedIn) {
         this.context = context;
         this.recipeList = recipeList;
         this.savedRecipeIds = savedRecipeIds;
-        this.userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.isUserLoggedIn = isUserLoggedIn;
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            this.userId = currentUser.getUid();
+        }
     }
 
     @NonNull
@@ -81,21 +87,25 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.saveRecipeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (savedRecipeIds.contains(recipe.getId())) {
-                    // Remove the recipe from saved recipes
-                    removeRecipe(recipe);
-                    savedRecipeIds.remove(recipe.getId());
-                    holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_outline);
+                if (isUserLoggedIn) {
+                    if (savedRecipeIds.contains(recipe.getId())) {
+                        // Remove the recipe from saved recipes
+                        removeRecipe(recipe);
+                        savedRecipeIds.remove(recipe.getId());
+                        holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_outline);
+                    } else {
+                        // Save the recipe
+                        saveRecipe(recipe);
+                        savedRecipeIds.add(recipe.getId());
+                        holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_full);
+                    }
                 } else {
-                    // Save the recipe
-                    saveRecipe(recipe);
-                    savedRecipeIds.add(recipe.getId());
-                    holder.saveRecipeButton.setImageResource(R.drawable.ic_heart_full);
+                    // Show a toast message for users who are not logged in
+                    Toast.makeText(context, "You need to log in to save the recipe", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -124,32 +134,34 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
 
     private void saveRecipe(Recipe recipe) {
-        Log.d("RecipeAdapter", "Saving recipe: " + recipe.toString());
-
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
-        savedRecipesRef.child(recipe.getId()).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(context, "Recipe Saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+        if (isUserLoggedIn) {
+            DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
+            savedRecipesRef.child(recipe.getId()).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Recipe Saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void removeRecipe(Recipe recipe) {
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes").child(recipe.getId());
-        savedRecipesRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(context, "Recipe Removed", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+        if (isUserLoggedIn) {
+            DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes").child(recipe.getId());
+            savedRecipesRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Recipe Removed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

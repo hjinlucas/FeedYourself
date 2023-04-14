@@ -33,8 +33,10 @@ public class SearchFragment extends Fragment {
     private List<Recipe> recipeList;
 
     private List<String> savedRecipeIds;
+    private boolean isUserLoggedIn;
     private String userId;
-
+    private ValueEventListener savedRecipesListener;
+    private DatabaseReference savedRecipesRef;
 
     @Nullable
     @Override
@@ -49,9 +51,15 @@ public class SearchFragment extends Fragment {
         savedRecipeIds = new ArrayList<>();
 
         recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        isUserLoggedIn = mAuth.getCurrentUser() != null;
+        if (isUserLoggedIn) {
+            userId = mAuth.getCurrentUser().getUid();
+        }
+
+        // Initialize recipeAdapter with isUserLoggedIn
+        recipeAdapter = new RecipeAdapter(getActivity(), recipeList, savedRecipeIds, isUserLoggedIn);
         recyclerView.setAdapter(recipeAdapter);
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Search and display recipes
         searchRecipes("");
@@ -71,29 +79,64 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isUserLoggedIn) {
+            savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
+            savedRecipesListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    savedRecipeIds.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String savedRecipeId = snapshot.getKey();
+                        savedRecipeIds.add(savedRecipeId);
+                    }
+                    recipeAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // errors
+                }
+            };
+            savedRecipesRef.addValueEventListener(savedRecipesListener);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isUserLoggedIn && savedRecipesListener != null) {
+            savedRecipesRef.removeEventListener(savedRecipesListener);
+        }
+    }
     private void searchRecipes(String query) {
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
-        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
+        DatabaseReference savedRecipesRef = null;
+        if (isUserLoggedIn) {
+            savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
 
-        savedRecipesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                savedRecipeIds.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String savedRecipeId = snapshot.getKey();
-                    savedRecipeIds.add(savedRecipeId);
+            savedRecipesRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    savedRecipeIds.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String savedRecipeId = snapshot.getKey();
+                        savedRecipeIds.add(savedRecipeId);
+                    }
+                    recipeAdapter.notifyDataSetChanged();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // errors
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // errors
+                }
+            });
+        }
 
         recipesRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,6 +161,4 @@ public class SearchFragment extends Fragment {
         });
     }
 
-
 }
-
