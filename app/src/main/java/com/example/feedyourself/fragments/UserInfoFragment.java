@@ -19,7 +19,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +38,11 @@ import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -70,17 +75,24 @@ public class UserInfoFragment extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private FragmentUserInfoBinding binding;
+    private MapView mapView;
+    private GoogleMap mMap;
     GoogleSignInOptions gso;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
+
+
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("596346761447-togmbri8f6169ivhlmumoop3iqo3jg6v.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
+
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         // Initialize profileImage before calling fetchUserInfo()
         profileImage = binding.profileImage;
@@ -89,6 +101,8 @@ public class UserInfoFragment extends Fragment {
         String savedUsername = sharedPreferences.getString("username", "DEFAULT");
         binding.userName.setText(savedUsername);
         fetchUserInfo();
+
+
 
         profileImage = binding.profileImage;
         threeDotMenu = binding.threeDotMenu;
@@ -108,8 +122,70 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        initializeExpandableButtons();
+
         return binding.getRoot();
     }
+
+    private void initializeExpandableButtons() {
+        // About button click listener
+        binding.aboutButton.setOnClickListener(view -> {
+            if (binding.aboutLayout.getVisibility() == View.GONE) {
+                binding.aboutLayout.setVisibility(View.VISIBLE);
+                binding.aboutButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0);
+            } else {
+                binding.aboutLayout.setVisibility(View.GONE);
+                binding.aboutButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
+            }
+        });
+
+        // Nearby grocery button click listener
+        binding.nearbyGroceryButton.setOnClickListener(view -> {
+            if (binding.nearbyGroceryLayout.getVisibility() == View.GONE) {
+                binding.nearbyGroceryLayout.setVisibility(View.VISIBLE);
+                binding.nearbyGroceryButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0);
+
+                // Check for location permissions
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    // Initialize the MapView
+                    binding.mapView.onCreate(null);
+                    binding.mapView.getMapAsync(googleMap -> {
+                        googleMap.setMyLocationEnabled(true);
+                    });
+                } else {
+                    // Request location permissions
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                }
+            } else {
+                binding.nearbyGroceryLayout.setVisibility(View.GONE);
+                binding.nearbyGroceryButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                initializeMapView();
+            } else {
+                Toast.makeText(requireContext(), "Location permission is required to display the map.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void initializeMapView() {
+        binding.mapView.onCreate(null);
+        binding.mapView.getMapAsync(googleMap -> {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                googleMap.setMyLocationEnabled(true);
+            }
+        });
+    }
+
 
     private void showPopupMenu(View view, int menuResource) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
@@ -137,6 +213,7 @@ public class UserInfoFragment extends Fragment {
         popupMenu.show();
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -145,6 +222,24 @@ public class UserInfoFragment extends Fragment {
         binding.logoutButton.setOnClickListener(V -> {
             logOut();
         });
+
+        MaterialButton aboutButton = view.findViewById(R.id.about_button);
+        LinearLayout aboutLayout = view.findViewById(R.id.about_layout);
+
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (aboutLayout.getVisibility() == View.GONE) {
+                    aboutLayout.setVisibility(View.VISIBLE);
+                    aboutButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0);
+                } else {
+                    aboutLayout.setVisibility(View.GONE);
+                    aboutButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
+                }
+            }
+        });
+
+
     }
 
     private void logOut() {
