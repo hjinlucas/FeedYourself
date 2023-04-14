@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.feedyourself.R;
 import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -65,6 +67,8 @@ public class UserInfoFragment extends Fragment {
     private ImageButton profileButton;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
+    private SharedPreferences sharedPreferences;
+
     private FragmentUserInfoBinding binding;
     GoogleSignInOptions gso;
 
@@ -78,6 +82,12 @@ public class UserInfoFragment extends Fragment {
                 .requestEmail()
                 .build();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        // Initialize profileImage before calling fetchUserInfo()
+        profileImage = binding.profileImage;
+        sharedPreferences = requireActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        // Load the username from SharedPreferences
+        String savedUsername = sharedPreferences.getString("username", "DEFAULT");
+        binding.userName.setText(savedUsername);
         fetchUserInfo();
 
         profileImage = binding.profileImage;
@@ -146,25 +156,32 @@ public class UserInfoFragment extends Fragment {
 
     private void fetchUserInfo() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        sharedPreferences = requireActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+
         if (currentUser != null) {
             String email = currentUser.getEmail();
             binding.profileEmail.setText("Email: " + email);
 
             // Load the user's profile data
             String userId = currentUser.getUid();
+
+            // Load data from SharedPreferences first
+            String imageUrl = sharedPreferences.getString("profileImageUrl", null);
+            String backgroundImageUrl = sharedPreferences.getString("backgroundImageUrl", null);
+            loadImageWithGlide(imageUrl, R.drawable.default_image, profileImage);
+            loadImageWithGlide(backgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
+
             databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    // Check if the user exists in the database and create it if not
                     if (!dataSnapshot.exists()) {
                         Map<String, Object> userData = new HashMap<>();
                         userData.put("id", userId);
                         userData.put("email", email);
-                        userData.put("username", "DEFAULT"); // Set the default username to "DEFAULT"
+                        userData.put("username", "DEFAULT");
                         databaseReference.child(userId).setValue(userData);
                         binding.userName.setText("DEFAULT");
                     } else {
-                        // Load the user's name
                         String userName = dataSnapshot.child("username").getValue(String.class);
                         if (userName != null && !userName.isEmpty()) {
                             binding.userName.setText(userName);
@@ -173,32 +190,25 @@ public class UserInfoFragment extends Fragment {
                         }
                     }
 
-                    // Load the user's profile image
-                    String imageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
-                    if (imageUrl != null) {
-                        RequestOptions requestOptions = new RequestOptions()
-                                .placeholder(R.drawable.default_image)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .centerCrop();
+                    // Save the username to SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", binding.userName.getText().toString());
+                    editor.apply();
 
-                        Glide.with(requireContext())
-                                .load(imageUrl)
-                                .apply(requestOptions)
-                                .into(profileImage);
+
+                    String newImageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                    String newBackgroundImageUrl = dataSnapshot.child("backgroundImageUrl").getValue(String.class);
+
+                    // Save data to SharedPreferences and update images only if they have changed
+                    if (newImageUrl != null && !newImageUrl.equals(imageUrl)) {
+                        editor.putString("profileImageUrl", newImageUrl);
+                        editor.apply();
+                        loadImageWithGlide(newImageUrl, R.drawable.default_image, profileImage);
                     }
-
-                    // Load the user's background image
-                    String backgroundImageUrl = dataSnapshot.child("backgroundImageUrl").getValue(String.class);
-                    if (backgroundImageUrl != null) {
-                        RequestOptions requestOptions = new RequestOptions()
-                                .placeholder(R.drawable.top_background_gradient)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .centerCrop();
-
-                        Glide.with(requireContext())
-                                .load(backgroundImageUrl)
-                                .apply(requestOptions)
-                                .into(binding.topBackground);
+                    if (newBackgroundImageUrl != null && !newBackgroundImageUrl.equals(backgroundImageUrl)) {
+                        editor.putString("backgroundImageUrl", newBackgroundImageUrl);
+                        editor.apply();
+                        loadImageWithGlide(newBackgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
                     }
                 }
 
@@ -209,7 +219,20 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
+    private void loadImageWithGlide(String imageUrl, int placeholder, ImageView target) {
+        if (imageUrl != null) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .signature(new ObjectKey(imageUrl)) // Use Glide's signature to reload the image only when the source has been updated
+                    .centerCrop();
 
+            Glide.with(requireContext())
+                    .load(imageUrl)
+                    .apply(requestOptions)
+                    .into(target);
+        }
+    }
 
 
     private void requestCameraPermission() {
