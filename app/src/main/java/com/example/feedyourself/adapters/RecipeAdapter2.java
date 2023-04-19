@@ -65,7 +65,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView recipeName;
         public ImageView recipeImage;
-
+//
 
 //        public ImageView recipeImage;
 
