@@ -8,6 +8,17 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/breakfast" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,13 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Meal Type"
-            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_margin="35dp"
+            android:textSize="42sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ingredientsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Ingredients"
             android:textStyle="bold|italic"
             android:visibility="gone" />
@@ -39,6 +53,7 @@
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
+                android:background="@drawable/custom_checkbox"
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,14 +64,14 @@
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smoked Bacon" />
+                android:text="Bacon" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
                 android:id="@+id/checkBox3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cheddar Cheese" />
+                android:text="Cheese" />
 
             <CheckBox
                 android:theme="@style/MyCheckboxStyle"
@@ -106,5 +121,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

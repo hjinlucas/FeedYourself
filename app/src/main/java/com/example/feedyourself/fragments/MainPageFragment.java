@@ -1,14 +1,12 @@
-package com.example.feedyourself.main;
+package com.example.feedyourself.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +19,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.feedyourself.ImageAdapter;
+import com.example.feedyourself.adapters.ImageAdapter;
 import com.example.feedyourself.R;
-import com.example.feedyourself.Recipe;
+import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.utils.SharedViewModel;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,9 +31,10 @@ import java.util.List;
 
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 
- public class MainPageFragment extends Fragment {
+public class MainPageFragment extends Fragment {
 
     private RecyclerView horizontalRecyclerView;
 //    private CardView breakfastCard, brunchCard, lunchCard, dinnerCard;
@@ -63,6 +56,9 @@ import androidx.transition.TransitionManager;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        CardView card1 = view.findViewById(R.id.cardImageView);
 //        ScrollView scrollView = view.findViewById(R.id.scrollView1);
 //        OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 //        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
@@ -117,18 +113,30 @@ import androidx.transition.TransitionManager;
         //==================================================================================================
         //============= OnClickListener for cards that display meal recommendations =======================
         //==================================================================================================
-        RecyclerView horizontalRecyclerView = view.findViewById(R.id.horizontalRecyclerView);
+        ViewPager2 viewPager =  view.findViewById(R.id.viewPager);
+        ProgressBar scrollBar = view.findViewById(R.id.scrollBar);
 
         List<Integer> imageIds = Arrays.asList(
-                R.drawable.meal_beef_tomato,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_launcher_background
+                R.drawable.hori1,
+                R.drawable.hori2,
+                R.drawable.hori3,
+                R.drawable.hori4
                 //just for test now, replace image later
         );
 
-        ImageAdapter imageAdapter = new ImageAdapter(requireContext(), imageIds);
-        horizontalRecyclerView.setAdapter(imageAdapter);
+        ImageAdapter adapter = new ImageAdapter(imageIds);
+        viewPager.setAdapter(adapter);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+
+                int totalPages = viewPager.getAdapter().getItemCount();
+                float progress = ((float) position + positionOffset) / (totalPages - 1);
+                scrollBar.setProgress((int) (progress * scrollBar.getMax()));
+            }
+        });
 
 //        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
 //            @Override
@@ -137,6 +145,8 @@ import androidx.transition.TransitionManager;
 //                // You can get the selected image ID with imageIds.get(position)
 //            }
 //        });
+
+
 
 
         //==================================================================================================
@@ -168,6 +178,8 @@ import androidx.transition.TransitionManager;
 
         List<CheckBox> LuncheckBoxes = new ArrayList<>();
         CardView lunchCard = view.findViewById(R.id.lunchCard);
+        ImageView lunchBackground = lunchCard.findViewById(R.id.backgroundImage);
+        lunchBackground.setImageResource(R.drawable.lunch);
         TextView lunchTitle = lunchCard.findViewById(R.id.mealTypeTitle);
         lunchTitle.setText("Lunch");
         CheckBox lunchcheckBox1 = lunchCard.findViewById(R.id.checkBox1);
@@ -195,6 +207,8 @@ import androidx.transition.TransitionManager;
 
         List<CheckBox> BrucheckBoxes = new ArrayList<>();
         CardView brunchCard = view.findViewById(R.id.brunchCard);
+        ImageView brunchBackground = brunchCard.findViewById(R.id.backgroundImage);
+        brunchBackground.setImageResource(R.drawable.brunch);
         TextView brunchTitle = brunchCard.findViewById(R.id.mealTypeTitle);
         brunchTitle.setText("Brunch");
 
@@ -234,6 +248,8 @@ import androidx.transition.TransitionManager;
 
         List<CheckBox> DincheckBoxes = new ArrayList<>();
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
+        ImageView dinnerBackground = dinnerCard.findViewById(R.id.backgroundImage);
+        dinnerBackground.setImageResource(R.drawable.dinner);
         TextView dinnerTitle = dinnerCard.findViewById(R.id.mealTypeTitle);
         dinnerTitle.setText("Dinner");
         CheckBox dinnercheckBox1 = dinnerCard.findViewById(R.id.checkBox1);

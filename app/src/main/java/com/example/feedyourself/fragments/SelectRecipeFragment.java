@@ -1,4 +1,4 @@
-package com.example.feedyourself.main;
+package com.example.feedyourself.fragments;
 
 import android.os.Bundle;
 
@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.feedyourself.R;
-import com.example.feedyourself.Recipe;
+import com.example.feedyourself.adapters.Recipe;
+import com.example.feedyourself.adapters.RecipeAdapter2;
 import com.example.feedyourself.utils.SharedViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -6,19 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".main.RecipeDetailsActivity">
 
-    <TextView
-        android:id="@+id/recipeNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recipe Name"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipe_list_recycler_view"
+        android:layout_width="402dp"
+        android:layout_height="548dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
-
-
+    <ImageView
+        android:id="@+id/recipe_image_view"
+        android:layout_width="409dp"
+        android:layout_height="162dp"
+        android:src="@drawable/hori1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

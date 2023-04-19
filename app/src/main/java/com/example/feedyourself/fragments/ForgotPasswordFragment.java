@@ -1,4 +1,4 @@
-package com.example.feedyourself.user;
+package com.example.feedyourself.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,7 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class FragmentForgotPassword extends Fragment {
+public class ForgotPasswordFragment extends Fragment {
     TextInputEditText editTextEmail;
     Button recoverBtn;
     Button btn_goToLogin;
@@ -30,7 +30,7 @@ public class FragmentForgotPassword extends Fragment {
     RelativeLayout progressBar;
 
 
-    public FragmentForgotPassword() {
+    public ForgotPasswordFragment() {
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -70,10 +70,10 @@ public class FragmentForgotPassword extends Fragment {
                                     // Password reset email sent successfully
                                     Toast.makeText(getContext(), "Password reset email sent. Check your email inbox!", Toast.LENGTH_SHORT).show();
                                     // Navigate to another fragment or activity, e.g. login fragment/activity
-                                    FragmentLogin fragmentLogin = new FragmentLogin();
+                                    LoginFragment loginFragment = new LoginFragment();
                                     getActivity().getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.fragment_container, fragmentLogin)
+                                            .replace(R.id.fragment_container, loginFragment)
                                             .commit();
                                 } else {
                                     // If sending email fails, display a message to the user.

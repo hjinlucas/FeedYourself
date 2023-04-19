@@ -1,10 +1,8 @@
-package com.example.feedyourself;
+package com.example.feedyourself.adapters;
 
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 
@@ -125,11 +123,16 @@ public class Recipe implements Parcelable{
     }
 
     protected Recipe(Parcel in) {
+        id = in.readString();
         name = in.readString();
         mealType = in.readString();
-        flavor = in.readString();
         ingredients = in.createStringArrayList();
+        flavor = in.readString();
+        calories = (Integer) in.readValue(Integer.class.getClassLoader());
+        time = (Integer) in.readValue(Integer.class.getClassLoader());
+        directions = in.readString();
     }
+
 
     @Override
     public int describeContents() {
@@ -152,11 +155,14 @@ public class Recipe implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        // Write data to the Parcel
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(mealType);
-        dest.writeString(flavor);
         dest.writeStringList(ingredients);
+        dest.writeString(flavor);
+        dest.writeValue(calories);
+        dest.writeValue(time);
+        dest.writeString(directions);
     }
 
     public static Recipe fromDataSnapshot(DataSnapshot dataSnapshot) {
