@@ -94,6 +94,9 @@ public class SavedFragment extends Fragment {
                         if (savedRecipe != null) {
                             savedRecipeIds.add(savedRecipe.getId());
                             recipeList.add(savedRecipe);
+
+                            // Add a log statement to print the fetched recipe data
+                            Log.d("SavedFragment", "Fetched saved recipe: " + savedRecipe.toString());
                         }
                     }
 
