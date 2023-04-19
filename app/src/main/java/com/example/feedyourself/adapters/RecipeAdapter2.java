@@ -1,16 +1,27 @@
 package com.example.feedyourself.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.R;
+
+import com.example.feedyourself.adapters.Recipe;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -35,17 +46,14 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter2.ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-
+        Log.d("Adapter", "onBindViewHolder: " + position);
+       holder.recipeImage.setImageResource(recipe.getImgId());
         holder.recipeName.setText(recipe.getName());
-        holder.recipeMealType.setText(recipe.getMealType());
-        holder.recipeFlavor.setText(recipe.getFlavor());
-        holder.recipeIngredients.setText("Ingredients: " + String.join(", ", recipe.getIngredients()));
 
-        // Bind other data from the Recipe class to the views as needed
+
+
+
     }
-
-
-
 
 
     @Override
@@ -56,9 +64,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView recipeName;
-        public TextView recipeMealType;
-        public TextView recipeFlavor;
-        public TextView recipeIngredients;
+        public ImageView recipeImage;
 
 
 //        public ImageView recipeImage;
@@ -66,14 +72,12 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+//            recipeImage = itemView.findViewById(R.id.select_recipe_img);
+            recipeName = itemView.findViewById(R.id.select_recipe_name);
+            recipeImage = itemView.findViewById(R.id.select_recipe_background_image);
 
-            recipeName = itemView.findViewById(R.id.recipe_name);
-            recipeMealType = itemView.findViewById(R.id.recipe_meal_type);
-            recipeFlavor = itemView.findViewById(R.id.recipe_flavor);
-            recipeIngredients = itemView.findViewById(R.id.recipe_ingredients);
         }
     }
-}
 
 //    private void saveRecipe(Recipe recipe) {
 //        DatabaseReference savedRecipesRef = FirebaseDatabase.getInstance().getReference("savedRecipes").child(recipe.getId());
@@ -105,4 +109,4 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
 
 
-
+}
