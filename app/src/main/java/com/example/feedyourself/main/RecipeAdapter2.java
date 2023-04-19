@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.R;
@@ -49,6 +50,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
         Log.d("Adapter", "onBindViewHolder: " + position);
 //        holder.recipeImage.setImageResource(recipe.getImgId());
         holder.recipeName.setText(recipe.getName());
+        holder.recipeImage.setImageResource(recipe.getImgId());
 
 
 
@@ -64,6 +66,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView recipeName;
+        public ImageView recipeImage;
 
 
 //        public ImageView recipeImage;
@@ -73,6 +76,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
             super(itemView);
 //            recipeImage = itemView.findViewById(R.id.select_recipe_img);
             recipeName = itemView.findViewById(R.id.select_recipe_name);
+            recipeImage = itemView.findViewById(R.id.select_recipe_background_image);
 
         }
     }
