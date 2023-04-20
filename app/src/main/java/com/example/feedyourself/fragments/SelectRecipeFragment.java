@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.RecipeAdapter2;
 import com.example.feedyourself.utils.SharedViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,18 +32,13 @@ import java.util.List;
 
 public class SelectRecipeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private List<Recipe> recipeList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private RecipeAdapter2 recipeAdapter2;
+
+    private ImageButton imageButton;
 
     public SelectRecipeFragment() {
         // Required empty public constructor
@@ -50,6 +47,10 @@ public class SelectRecipeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imageButton = view.findViewById(R.id.imageButton1);
+        imageButton.setOnClickListener(v -> {
+            showBottomSheetDialog();
+        });
 
 
 
@@ -59,7 +60,6 @@ public class SelectRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
 
         View view =  inflater.inflate(R.layout.fragment_select_recipe, container, false);
         createRecyclerView(view);
@@ -127,4 +127,17 @@ public class SelectRecipeFragment extends Fragment {
 
 
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+    private void showBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_content, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
 }

@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/shadyyyyyl/Desktop/Code/NUMAD23Sp_HongruiLiu/KeyStore/FirstKey')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'FirstKey'
+        }
+    }
     namespace 'com.example.feedyourself'
     compileSdk 33
 
