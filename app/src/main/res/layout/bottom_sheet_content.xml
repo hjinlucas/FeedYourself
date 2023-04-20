@@ -10,14 +10,50 @@
         android:id="@+id/bottom_sheet_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bottom Sheet Title"
+        android:text="Select one of the options below"
         android:layout_marginBottom="16dp"/>
 
-    <Button
-        android:id="@+id/bottom_sheet_button"
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <RadioGroup-->
+<!--            android:id="@+id/sorting_filter_group"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/sorting_filter_calories"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Calories (low to high)"/>-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/sorting_filter_cooking_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Cooking time (low to high)"/>-->
+<!--        </RadioGroup>-->
+<!--    </ScrollView>-->
+    <CheckBox
+        android:id="@+id/sorting_filter_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click Me"
+        android:text="Calories (low to high)"/>
+
+    <CheckBox
+        android:id="@+id/sorting_filter_cooking_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cooking time (low to high)"/>
+
+    <Button
+        android:id="@+id/save_sorting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="16dp"
         app:cornerRadius="8dp"
         android:textColor="@color/white"/>
 

@@ -13,7 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.feedyourself.R;
@@ -28,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SelectRecipeFragment extends Fragment {
@@ -39,6 +45,9 @@ public class SelectRecipeFragment extends Fragment {
     private RecipeAdapter2 recipeAdapter2;
 
     private ImageButton imageButton;
+//    private RadioGroup sortingFilterGroup;
+    private RadioButton sortingFilterCalories;
+    private RadioButton sortingFilterCookingTime;
 
     public SelectRecipeFragment() {
         // Required empty public constructor
@@ -47,12 +56,11 @@ public class SelectRecipeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         imageButton = view.findViewById(R.id.imageButton1);
         imageButton.setOnClickListener(v -> {
             showBottomSheetDialog();
         });
-
-
 
     }
 
@@ -67,7 +75,6 @@ public class SelectRecipeFragment extends Fragment {
     }
 
     private void createRecyclerView(View view){
-        Log.d("SelectRecipeFragment", "createRecyclerView");
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
         SharedViewModel sharedViewModel;
         recyclerView = view.findViewById(R.id.borderlessRecyclerView);
@@ -81,15 +88,14 @@ public class SelectRecipeFragment extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientsMap->{
             String mealType = null;
-            Log.d("succ","2");
+
             for (String s : ingredientsMap.keySet()) {
                 if(s != null){
-                    Log.v("suc","1");
+
                    mealType = s;
                 }
             }
             if(mealType != null){
-                Log.v("succ","1");
                 List<String> mealTypeIngredients = ingredientsMap.get(mealType);
                 recipeList.clear();
                 recipesRef.addValueEventListener(new ValueEventListener() {
@@ -104,11 +110,9 @@ public class SelectRecipeFragment extends Fragment {
 //                                recipeList.add(recipe);
 //
 //                            }
-                            Log.v(recipe.getName(),"1");
                             recipeList.add(recipe);
                         }
                         recipeAdapter2.notifyDataSetChanged();
-                        Log.d("SelectRecipeFragment", "Recipes count: " + recipeList.size());
 
                     }
 
@@ -119,13 +123,6 @@ public class SelectRecipeFragment extends Fragment {
                 });
             }
         });
-
-        //After this, we will get the required recipes from the database
-
-
-
-
-
     }
 
     @Override
@@ -136,8 +133,39 @@ public class SelectRecipeFragment extends Fragment {
     private void showBottomSheetDialog() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
         View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_content, null);
+
+        CheckBox sortingFilterCalories = bottomSheetView.findViewById(R.id.sorting_filter_calories);
+        CheckBox sortingFilterCookingTime = bottomSheetView.findViewById(R.id.sorting_filter_cooking_time);
+        Button saveSortingButton = bottomSheetView.findViewById(R.id.save_sorting_button);
+
+        CompoundButton.OnCheckedChangeListener checkBoxListener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                if (buttonView.getId() == R.id.sorting_filter_calories) {
+                    sortingFilterCookingTime.setChecked(false);
+                } else if (buttonView.getId() == R.id.sorting_filter_cooking_time) {
+                    sortingFilterCalories.setChecked(false);
+                }
+            }
+        };
+
+        sortingFilterCalories.setOnCheckedChangeListener(checkBoxListener);
+        sortingFilterCookingTime.setOnCheckedChangeListener(checkBoxListener);
+
+        saveSortingButton.setOnClickListener(v -> {
+            if (sortingFilterCalories.isChecked()) {
+                Collections.sort(recipeList, (r1, r2) -> r1.getCalories().compareTo(r2.getCalories()));
+            } else if (sortingFilterCookingTime.isChecked()) {
+                Collections.sort(recipeList, (r1, r2) -> r1.getTime().compareTo(r2.getTime()));
+            }
+            recipeAdapter2.notifyDataSetChanged();
+            bottomSheetDialog.dismiss();
+        });
+
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
+
+
+
 
 }

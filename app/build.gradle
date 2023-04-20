@@ -6,7 +6,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/shadyyyyyl/Desktop/Code/NUMAD23Sp_HongruiLiu/KeyStore/FirstKey')
+            storeFile file('C:\\Users\\Ray\\StudioProjects\\keystore\\keystore.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'FirstKey'
