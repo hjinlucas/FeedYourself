@@ -39,16 +39,18 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
     @Override
     public RecipeAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.select_recipe_item, parent, false);
-        Log.d("Adapter", "onCreateViewHolder");
+
         return new RecipeAdapter2.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter2.ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-        Log.d("Adapter", "onBindViewHolder: " + position);
-       holder.recipeImage.setImageResource(recipe.getImgId());
+
+        holder.recipeImage.setImageResource(recipe.getImgId());
         holder.recipeName.setText(recipe.getName());
+        holder.recipeCalorie.setText(String.valueOf(recipe.getCalories()) + "kcal");
+        holder.recipeTime.setText(String.valueOf(recipe.getTime()) + "mins");
 
 
 
@@ -58,13 +60,16 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.d("Adapter", "getItemCount: " + recipeList.size());
+
         return recipeList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView recipeName;
         public ImageView recipeImage;
+        public TextView recipeCalorie;
+        public TextView recipeTime;
+
 //
 
 //        public ImageView recipeImage;
@@ -75,8 +80,11 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 //            recipeImage = itemView.findViewById(R.id.select_recipe_img);
             recipeName = itemView.findViewById(R.id.select_recipe_name);
             recipeImage = itemView.findViewById(R.id.select_recipe_background_image);
+            recipeCalorie = itemView.findViewById(R.id.select_recipe_calorie);
+            recipeTime = itemView.findViewById(R.id.select_recipe_time);
 
         }
+
     }
 
 //    private void saveRecipe(Recipe recipe) {
@@ -106,7 +114,10 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 //            }
 //        });
 //    }
-
+    public void updateData(List<Recipe> newData) {
+        this.recipeList = newData;
+        notifyDataSetChanged();
+    }
 
 
 }

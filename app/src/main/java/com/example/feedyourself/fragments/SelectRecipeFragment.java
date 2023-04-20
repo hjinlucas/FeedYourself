@@ -1,9 +1,11 @@
 package com.example.feedyourself.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,13 +67,42 @@ public class SelectRecipeFragment extends Fragment {
     }
 
     @Override
+    @SuppressLint("MissingInflatedId")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view =  inflater.inflate(R.layout.fragment_select_recipe, container, false);
+        View view = inflater.inflate(R.layout.fragment_select_recipe, container, false);
         createRecyclerView(view);
+
+        androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.select_recipe_searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchRecipes(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchRecipes(newText);
+                return false;
+            }
+        });
         return view;
+    }
+    private void searchRecipes(String searchText) {
+        if (searchText == null || searchText.trim().isEmpty()) {
+            recipeAdapter2.updateData(recipeList);
+        } else {
+            List<Recipe> filteredRecipes = new ArrayList<>();
+            for (Recipe recipe : recipeList) {
+                if (recipe.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                    filteredRecipes.add(recipe);
+                }
+            }
+            recipeAdapter2.updateData(filteredRecipes);
+        }
     }
 
     private void createRecyclerView(View view){

@@ -1,9 +1,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
-   >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,12 +14,61 @@
             android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/select_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/select_recipe_name"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:text="1" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:text="name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/select_recipe_name"
+            android:id="@+id/select_recipe_linear_calorie"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/select_recipe_calorie_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/fire"/>
+
+            <TextView
+                android:id="@+id/select_recipe_calorie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="calorie"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/select_recipe_linear_time"
+            android:layout_below="@+id/select_recipe_linear_calorie">
+
+
+
+            <ImageView
+                android:id="@+id/select_recipe_time_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/clock"/>
+
+            <TextView
+                android:id="@+id/select_recipe_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/select_recipe_linear_calorie"
+                android:textColor="@color/colorPrimary"
+                android:text="time"/>
+        </LinearLayout>
+
+
+
 
         <!-- Add other views (e.g., TextViews, Buttons, etc.) on top of the ImageView here -->
 

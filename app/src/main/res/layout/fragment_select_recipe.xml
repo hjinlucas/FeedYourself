@@ -24,6 +24,7 @@
                         android:layout_width="wrap_content"
                         app:iconifiedByDefault="false"
                         app:queryHint="Search here..."
+                        android:id="@+id/select_recipe_searchView"
                         android:layout_height="wrap_content">
 
                     </androidx.appcompat.widget.SearchView>
