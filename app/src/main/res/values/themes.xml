@@ -7,9 +7,11 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
     </style>
     <style name="MyCheckboxStyle">
         <item name="colorAccent">@color/colorPrimary</item>
+
     </style>
 </resources>

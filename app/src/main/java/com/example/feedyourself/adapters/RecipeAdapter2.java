@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.R;
-import com.example.feedyourself.main.RecipeDirections;
+import com.example.feedyourself.main.DirectionsActivity;
 
 import java.util.List;
 
@@ -77,7 +77,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 Recipe clickedRecipe = recipeList.get(position);
-                Intent intent = new Intent(context, RecipeDirections.class);
+                Intent intent = new Intent(context, DirectionsActivity.class);
                 intent.putExtra("recipe",clickedRecipe);
                 context.startActivity(intent);
             });

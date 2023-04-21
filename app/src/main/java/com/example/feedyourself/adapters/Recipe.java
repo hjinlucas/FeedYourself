@@ -185,6 +185,7 @@ public class Recipe implements Parcelable{
         dest.writeInt(calories);
         dest.writeInt(time);
         dest.writeString(directions);
+        dest.writeInt(imgId); // Add this line
     }
 
     public static Recipe fromDataSnapshot(DataSnapshot dataSnapshot) {
