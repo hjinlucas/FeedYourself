@@ -1,6 +1,8 @@
 package com.example.feedyourself.adapters;
 
 import java.util.List;
+
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -128,9 +130,26 @@ public class Recipe implements Parcelable{
         mealType = in.readString();
         ingredients = in.createStringArrayList();
         flavor = in.readString();
-        calories = (Integer) in.readValue(Integer.class.getClassLoader());
-        time = (Integer) in.readValue(Integer.class.getClassLoader());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isSaved = in.readBoolean();
+        }
+        calories = in.readInt();
+        time = in.readInt();
         directions = in.readString();
+        imgId = in.readInt();
+
+        /**
+         *          this.id = id;
+         *         this.name = name;
+         *         this.mealType = mealType;
+         *         this.ingredients = ingredients;
+         *         this.flavor = flavor;
+         *         this.isSaved= isSaved;
+         *         this.calories = calories;
+         *         this.time = time;
+         *         this.directions = directions;
+         *         this.imgId = imgId;
+         */
     }
 
 
@@ -160,8 +179,11 @@ public class Recipe implements Parcelable{
         dest.writeString(mealType);
         dest.writeStringList(ingredients);
         dest.writeString(flavor);
-        dest.writeValue(calories);
-        dest.writeValue(time);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dest.writeBoolean(isSaved);
+        }
+        dest.writeInt(calories);
+        dest.writeInt(time);
         dest.writeString(directions);
     }
 

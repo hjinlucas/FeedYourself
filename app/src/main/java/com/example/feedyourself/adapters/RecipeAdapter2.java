@@ -2,26 +2,17 @@ package com.example.feedyourself.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedyourself.R;
-
-import com.example.feedyourself.adapters.Recipe;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.feedyourself.main.RecipeDirections;
 
 import java.util.List;
 
@@ -55,6 +46,7 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
 
 
 
+
     }
 
 
@@ -82,6 +74,14 @@ public class RecipeAdapter2 extends RecyclerView.Adapter<RecipeAdapter2.ViewHold
             recipeImage = itemView.findViewById(R.id.select_recipe_background_image);
             recipeCalorie = itemView.findViewById(R.id.select_recipe_calorie);
             recipeTime = itemView.findViewById(R.id.select_recipe_time);
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                Recipe clickedRecipe = recipeList.get(position);
+                Intent intent = new Intent(context, RecipeDirections.class);
+                intent.putExtra("recipe",clickedRecipe);
+                context.startActivity(intent);
+            });
+
 
         }
 

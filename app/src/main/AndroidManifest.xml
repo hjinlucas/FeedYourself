@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -23,15 +25,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FeedYourself"
         tools:targetApi="31">
-
+        <activity
+            android:name=".main.RecipeDirections"
+            android:exported="false" />
         <activity
             android:name=".main.RecipeDetailsActivity"
             android:parentActivityName=".main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
-
-
         </activity>
         <activity
             android:name=".main.WelcomeActivity"
@@ -45,6 +47,7 @@
         <activity
             android:name=".main.MainActivity"
             android:exported="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAofQ2m5FQ_hgPuTl_6bTK2WYZxTi-fDQE" />
