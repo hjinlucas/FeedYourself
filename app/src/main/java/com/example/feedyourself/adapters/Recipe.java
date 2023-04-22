@@ -26,6 +26,7 @@ public class Recipe implements Parcelable{
     private Integer imgId;
 
 
+    private String imageUrls;
 
     public Recipe() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class Recipe implements Parcelable{
         this.time = time;
         this.directions = directions;
         this.imgId = imgId;
+        this.imageUrls = imageUrls;
     }
 
     public void setId(String id) {
@@ -124,6 +126,14 @@ public class Recipe implements Parcelable{
         this.time = time;
     }
 
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
     protected Recipe(Parcel in) {
         id = in.readString();
         name = in.readString();
@@ -137,6 +147,7 @@ public class Recipe implements Parcelable{
         time = in.readInt();
         directions = in.readString();
         imgId = in.readInt();
+        imageUrls = in.readString();
 
         /**
          *          this.id = id;
@@ -186,6 +197,7 @@ public class Recipe implements Parcelable{
         dest.writeInt(time);
         dest.writeString(directions);
         dest.writeInt(imgId); // Add this line
+        dest.writeString(imageUrls);
     }
 
     public static Recipe fromDataSnapshot(DataSnapshot dataSnapshot) {
