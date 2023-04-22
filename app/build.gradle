@@ -6,10 +6,10 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/lucasjin/Desktop/keystore.jks')
-            storePassword '123456'
-            keyPassword '123456'
-            keyAlias 'FirstKey'
+            storeFile file(findProperty('storeFile'))
+            storePassword findProperty('storePassword')
+            keyPassword findProperty('keyPassword')
+            keyAlias findProperty('keyAlias')
         }
     }
     namespace 'com.example.feedyourself'
