@@ -34,6 +34,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.feedyourself.R;
+import com.example.feedyourself.adapters.Recipe;
+import com.example.feedyourself.adapters.User;
 import com.example.feedyourself.databinding.FragmentUserInfoBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -55,6 +57,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -283,86 +286,82 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, login).commit();
     }
 
-    private void fetchUserInfo() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        sharedPreferences = requireActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+    private void fetchUserInfo() {FirebaseUser currentUser = mAuth.getCurrentUser();
+    sharedPreferences = requireActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
 
-        if (currentUser != null) {
-            String email = currentUser.getEmail();
-            binding.profileEmail.setText("Email: " + email);
+    if (currentUser != null) {
+        String email = currentUser.getEmail();
+        binding.profileEmail.setText("Email: " + email);
 
-            // Load the user's profile data
-            String userId = currentUser.getUid();
+        // Load the user's profile data
+        String userId = currentUser.getUid();
 
-            // Load data from SharedPreferences first
-            String imageUrl = sharedPreferences.getString("profileImageUrl", null);
-            String backgroundImageUrl = sharedPreferences.getString("backgroundImageUrl", null);
-            loadImageWithGlide(imageUrl, R.drawable.default_image, profileImage);
-            loadImageWithGlide(backgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
+        // Load data from SharedPreferences first
+        String imageUrl = sharedPreferences.getString("profileImageUrl", null);
+        String backgroundImageUrl = sharedPreferences.getString("backgroundImageUrl", null);
+        loadImageWithGlide(imageUrl, R.drawable.default_image, profileImage);
+        loadImageWithGlide(backgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
 
-            databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user;
 
-                    if (!dataSnapshot.exists()) {
-                        Map<String, Object> userData = new HashMap<>();
-                        userData.put("id", userId);
-                        userData.put("email", email);
-                        userData.put("username", "DEFAULT");
-                        databaseReference.child(userId).setValue(userData);
-                        binding.userName.setText("DEFAULT");
+                if (!dataSnapshot.exists()) {
+                    user = new User(userId, email, new ArrayList<Recipe>(), "DEFAULT", null, null);
+                    databaseReference.child(userId).setValue(user);
+                    binding.userName.setText("DEFAULT");
+                } else {
+                    String userName = dataSnapshot.child("username").getValue(String.class);
+                    if (userName != null && !userName.isEmpty()) {
+                        binding.userName.setText(userName);
                     } else {
-                        String userName = dataSnapshot.child("username").getValue(String.class);
-                        if (userName != null && !userName.isEmpty()) {
-                            binding.userName.setText(userName);
-                        } else {
-                            binding.userName.setText("DEFAULT");
-                        }
+                        binding.userName.setText("DEFAULT");
                     }
+                }
 
-                    // Save the username to SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("username", binding.userName.getText().toString());
+                // Save the username to SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", binding.userName.getText().toString());
+                editor.apply();
+
+                String newImageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                String newBackgroundImageUrl = dataSnapshot.child("backgroundImageUrl").getValue(String.class);
+
+                // Save data to SharedPreferences and update images only if they have changed
+                if (newImageUrl != null && !newImageUrl.equals(imageUrl)) {
+                    editor.putString("profileImageUrl", newImageUrl);
                     editor.apply();
-
-
-                    String newImageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
-                    String newBackgroundImageUrl = dataSnapshot.child("backgroundImageUrl").getValue(String.class);
-
-                    // Save data to SharedPreferences and update images only if they have changed
-                    if (newImageUrl != null && !newImageUrl.equals(imageUrl)) {
-                        editor.putString("profileImageUrl", newImageUrl);
-                        editor.apply();
-                        loadImageWithGlide(newImageUrl, R.drawable.default_image, profileImage);
-                    }
-                    if (newBackgroundImageUrl != null && !newBackgroundImageUrl.equals(backgroundImageUrl)) {
-                        editor.putString("backgroundImageUrl", newBackgroundImageUrl);
-                        editor.apply();
-                        loadImageWithGlide(newBackgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
-                    }
+                    loadImageWithGlide(newImageUrl, R.drawable.default_image, profileImage);
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (newBackgroundImageUrl != null && !newBackgroundImageUrl.equals(backgroundImageUrl)) {
+                    editor.putString("backgroundImageUrl", newBackgroundImageUrl);
+                    editor.apply();
+                    loadImageWithGlide(newBackgroundImageUrl, R.drawable.top_background_gradient, binding.topBackground);
                 }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
             });
         }
     }
+        private void loadImageWithGlide(String imageUrl, int placeholder, ImageView target) {
+            if (imageUrl != null) {
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .signature(new ObjectKey(imageUrl)) // Use Glide's signature to reload the image only when the source has been updated
+                        .centerCrop();
 
-    private void loadImageWithGlide(String imageUrl, int placeholder, ImageView target) {
-        if (imageUrl != null) {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .signature(new ObjectKey(imageUrl)) // Use Glide's signature to reload the image only when the source has been updated
-                    .centerCrop();
-
-            Glide.with(requireContext())
-                    .load(imageUrl)
-                    .apply(requestOptions)
-                    .into(target);
+                Glide.with(requireContext())
+                        .load(imageUrl)
+                        .apply(requestOptions)
+                        .into(target);
+            }
         }
-    }
 
 
     private void requestCameraPermission() {
