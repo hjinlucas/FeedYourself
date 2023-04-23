@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 public class CommentActivity extends AppCompatActivity {
 
     private String recipeName;
+    private String newImageUrl;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     Recipe recipe;
@@ -35,7 +36,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private DatabaseReference reviewsDatabaseReference;
     private DatabaseReference recipeDatabaseReference;
-    private User currentUser;
+
 
 
 
@@ -67,24 +68,24 @@ public class CommentActivity extends AppCompatActivity {
             databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    currentUser = dataSnapshot.getValue(User.class);
 
-                    if (currentUser != null) {
+
                         Log.d(TAG, "onDataChange: user");
 //                        TextView userNameTextView = findViewById(R.id.comment_user_name);
 //                        ImageView userProfileIcon = findViewById(R.id.comment_user_profile_icon);
 //                        TextView recipeName = findViewById(R.id.comment_recipe_name);
                         binding.commentRecipeName.setText(recipe.getName());
 
-
-                        binding.commentUserName.setText(currentUser.getUsername());
-                        if (currentUser.getProfileImageUrl() != null) {
+                        String userName = dataSnapshot.child("username").getValue(String.class);
+                        binding.commentUserName.setText(userName);
+                        newImageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                        if (newImageUrl != null) {
                             Glide.with(CommentActivity.this)
-                                    .load(currentUser.getProfileImageUrl())
+                                    .load(newImageUrl)
                                     .circleCrop()
                                     .into(binding.commentUserProfileIcon);
                         }
-                    }
+
                 }
 
                 @Override
@@ -105,7 +106,7 @@ public class CommentActivity extends AppCompatActivity {
             float rating = binding.commentRatingBar.getRating();
 
             if (reviewId != null) {
-                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating, currentUser.getProfileImageUrl());
+                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating, newImageUrl);
                 reviewsDatabaseReference.child(reviewId).setValue(review)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
