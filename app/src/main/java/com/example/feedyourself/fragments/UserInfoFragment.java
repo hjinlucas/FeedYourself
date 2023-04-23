@@ -303,6 +303,7 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
             databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                     if (!dataSnapshot.exists()) {
                         Map<String, Object> userData = new HashMap<>();
                         userData.put("id", userId);

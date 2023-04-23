@@ -68,6 +68,7 @@ public class CommentActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
+
                     if (currentUser != null) {
                         Log.d(TAG, "onDataChange: user");
 //                        TextView userNameTextView = findViewById(R.id.comment_user_name);

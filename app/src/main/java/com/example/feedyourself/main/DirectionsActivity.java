@@ -92,6 +92,7 @@ public class DirectionsActivity extends AppCompatActivity {
     }
     private void createRecyclerView(){
         reviewRef= FirebaseDatabase.getInstance().getReference("Reviews");
+        reviewList.clear();
         reviewAdapter = new ReviewAdapter(this, reviewList);
         binding.commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.commentsRecyclerView.setAdapter(reviewAdapter);
@@ -158,6 +159,9 @@ public class DirectionsActivity extends AppCompatActivity {
         binding.recipeInfoDirections.setText(recipeInfoText);
     }
 
-
-
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        createRecyclerView();
+//    }
 }

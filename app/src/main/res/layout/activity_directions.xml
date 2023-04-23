@@ -61,7 +61,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.Material3.Dark"
+
                 app:titleTextColor="@android:color/transparent"
                 android:layout_height="?attr/actionBarSize" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
