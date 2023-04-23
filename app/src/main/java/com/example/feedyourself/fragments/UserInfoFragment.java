@@ -62,7 +62,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
+public class UserInfoFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     static final int TAKE_PHOTO_REQUEST = 2;
@@ -79,15 +79,11 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
     private SharedPreferences sharedPreferences;
 
     private FragmentUserInfoBinding binding;
-    private MapView mapView;
-    private GoogleMap mMap;
     GoogleSignInOptions gso;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
-
 
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -95,7 +91,8 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
                 .requestEmail()
                 .build();
 
-
+        // Initialize GoogleSignInClient
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         // Initialize profileImage before calling fetchUserInfo()
@@ -105,8 +102,6 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
         String savedUsername = sharedPreferences.getString("username", "DEFAULT");
         binding.userName.setText(savedUsername);
         fetchUserInfo();
-
-
 
         profileImage = binding.profileImage;
         threeDotMenu = binding.threeDotMenu;
@@ -142,52 +137,6 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
                 binding.aboutButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
             }
         });
-
-        // Nearby grocery button click listener
-        binding.nearbyGroceryButton.setOnClickListener(view -> {
-            if (binding.nearbyGroceryLayout.getVisibility() == View.GONE) {
-                binding.nearbyGroceryLayout.setVisibility(View.VISIBLE);
-                binding.nearbyGroceryButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_up, 0);
-
-                // Check for location permissions
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    // Initialize the MapView
-                    binding.mapView.onCreate(null);
-                    binding.mapView.getMapAsync(googleMap -> {
-                        googleMap.setMyLocationEnabled(true);
-                    });
-                } else {
-                    // Request location permissions
-                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                }
-            } else {
-                binding.nearbyGroceryLayout.setVisibility(View.GONE);
-                binding.nearbyGroceryButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                initializeMapView();
-            } else {
-                Toast.makeText(requireContext(), "Location permission is required to display the map.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void initializeMapView() {
-        binding.mapView.onCreate(null);
-        binding.mapView.getMapAsync(googleMap -> {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                googleMap.setMyLocationEnabled(true);
-            }
-        });
     }
 
 
@@ -221,11 +170,6 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.mapView.onCreate(savedInstanceState);
-        binding.mapView.getMapAsync(this);
-
-
-        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
         binding.logoutButton.setOnClickListener(V -> {
             logOut();
         });
@@ -248,35 +192,6 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        binding.mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        binding.mapView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        binding.mapView.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        binding.mapView.onLowMemory();
     }
 
     private void logOut() {
