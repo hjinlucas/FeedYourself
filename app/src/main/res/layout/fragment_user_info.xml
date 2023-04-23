@@ -12,6 +12,7 @@
         android:background="@drawable/top_background_gradient"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,13 +20,13 @@
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="212dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/default_profile_image"
         android:scaleType="centerCrop"
         android:src="@drawable/default_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,13 +34,14 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="312dp"
         android:text="@string/default_user_name"
         android:textColor="@color/common_google_signin_btn_text_light_default"
-        android:layout_marginLeft="16dp"
         android:textSize="24sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/top_background"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -54,6 +56,13 @@
         app:layout_constraintTop_toBottomOf="@id/user_name">
 
         <!-- user info views here -->
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="44dp"
+            android:text="Log Out" />
     </LinearLayout>
 
     <ImageView
@@ -72,11 +81,15 @@
         android:id="@+id/profile_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:text="Email: "
         android:textColor="@color/common_google_signin_btn_text_light_default"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/user_name"
-        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.374"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/user_name" />
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -87,35 +100,24 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 
-    <Button
-        android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Log Out"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_background" />
-
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/about_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_marginTop="4dp"
         android:drawableEnd="@drawable/ic_arrow_down"
         android:text="About FeedYourself"
         android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:layout_constraintStart_toStartOf="@+id/logout_button"
-        app:layout_constraintTop_toBottomOf="@+id/logout_button" />
+        app:layout_constraintTop_toBottomOf="@+id/info_layout"
+        tools:layout_editor_absoluteX="16dp" />
 
     <LinearLayout
         android:id="@+id/about_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/about_button"
-        app:layout_constraintBottom_toTopOf="@+id/nearby_grocery_button">
+        app:layout_constraintTop_toBottomOf="@+id/about_button">
 
         <TextView
             android:id="@+id/about_info"
@@ -124,33 +126,6 @@
             android:layout_margin="14dp"
             android:text="Feed Yourself is a recipe Android application that allows users to find suitable dishes based on their available ingredients and additional needs, such as fitness or weight loss. With easy-to-follow steps, users can quickly make delicious meals that are tailored to their preferences." />
 
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/nearby_grocery_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawableEnd="@drawable/ic_arrow_down"
-        android:text="Want Get Some Grocery Nearby?"
-        android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:layout_constraintStart_toStartOf="@+id/about_button"
-        app:layout_constraintTop_toBottomOf="@+id/about_layout" />
-
-    <LinearLayout
-        android:id="@+id/nearby_grocery_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/nearby_grocery_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
 
     </LinearLayout>
 
