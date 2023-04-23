@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true"
     tools:context=".main.CommentActivity">
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Recipe Name"
+                android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -28,15 +32,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:scaleX="1.0"
+                android:scaleY="1.0"
                 android:numStars="5"
-                android:stepSize="1" />
+                android:stepSize="1"
+                android:progressTint="@color/colorYellow"
+                android:progressBackgroundTint="@color/grey"
+             />
+
+
 
             <ImageView
                 android:id="@+id/comment_user_profile_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="16dp"
-                />
+                 />
 
             <TextView
                 android:id="@+id/comment_user_name"
@@ -44,21 +55,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="User Name"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/comment_input"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/comment_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Leave a comment"
-                android:inputType="textMultiLine"
-                android:minLines="5"
-                android:padding="8dp" />
+                app:boxBackgroundMode="outline">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/comment_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Leave a comment"
+                    android:inputType="textMultiLine"
+                    android:minLines="5"
+                    android:padding="8dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,9 +86,11 @@
             android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
             android:text="Submit"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/teal_200"
+            app:strokeWidth="1dp" />
 
     </RelativeLayout>
-
 
 </ScrollView>

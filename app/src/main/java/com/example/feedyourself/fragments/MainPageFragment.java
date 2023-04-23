@@ -46,11 +46,37 @@ public class MainPageFragment extends Fragment {
 //    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7;
     private List<Recipe> allRecipes = new ArrayList<>();
 
+    private List<CheckBox> BrecheckBoxes = new ArrayList<>();
+    private List<CheckBox> LuncheckBoxes = new ArrayList<>();
+    private List<CheckBox> BrucheckBoxes = new ArrayList<>();
+    private List<CheckBox> DincheckBoxes = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_main_page, container, false);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Reset the state of all the checkboxes to unchecked
+        for (CheckBox checkBox : BrecheckBoxes) {
+            checkBox.setChecked(false);
+        }
+
+        for (CheckBox checkBox : LuncheckBoxes) {
+            checkBox.setChecked(false);
+        }
+
+        for (CheckBox checkBox : BrucheckBoxes) {
+            checkBox.setChecked(false);
+        }
+
+        for (CheckBox checkBox : DincheckBoxes) {
+            checkBox.setChecked(false);
+        }
     }
 
     @Override
@@ -157,7 +183,7 @@ public class MainPageFragment extends Fragment {
         CardView breakfastCard = view.findViewById(R.id.breakfastCard);
         TextView breakfastTitle = breakfastCard.findViewById(R.id.mealTypeTitle);
         breakfastTitle.setText("Breakfast");
-        List<CheckBox> BrecheckBoxes = new ArrayList<>();
+
         CheckBox breakfastcheckBox1 = breakfastCard.findViewById(R.id.checkBox1);
         BrecheckBoxes.add(breakfastcheckBox1);
         CheckBox breakfastcheckBox2 = breakfastCard.findViewById(R.id.checkBox2);
@@ -176,36 +202,36 @@ public class MainPageFragment extends Fragment {
 
 
 
-        List<CheckBox> LuncheckBoxes = new ArrayList<>();
+
         CardView lunchCard = view.findViewById(R.id.lunchCard);
         ImageView lunchBackground = lunchCard.findViewById(R.id.backgroundImage);
         lunchBackground.setImageResource(R.drawable.lunch);
         TextView lunchTitle = lunchCard.findViewById(R.id.mealTypeTitle);
         lunchTitle.setText("Lunch");
         CheckBox lunchcheckBox1 = lunchCard.findViewById(R.id.checkBox1);
-        lunchcheckBox1.setText("Turkey");
+        lunchcheckBox1.setText("Canned Tunna");
         LuncheckBoxes.add(lunchcheckBox1);
         CheckBox lunchcheckBox2 = lunchCard.findViewById(R.id.checkBox2);
-        lunchcheckBox2.setText("Bread");
+        lunchcheckBox2.setText("Sliced Bread");
         LuncheckBoxes.add(lunchcheckBox2);
         CheckBox lunchcheckBox3 = lunchCard.findViewById(R.id.checkBox3);
         lunchcheckBox3.setText("Ham");
         LuncheckBoxes.add(lunchcheckBox3);
         CheckBox lunchcheckBox4 = lunchCard.findViewById(R.id.checkBox4);
-        lunchcheckBox4.setText("Lettuce");
+        lunchcheckBox4.setText("Turkey");
         LuncheckBoxes.add(lunchcheckBox4);
         CheckBox lunchcheckBox5 = lunchCard.findViewById(R.id.checkBox5);
-        lunchcheckBox5.setText("Cheese");
+        lunchcheckBox5.setText("Spicy");
         LuncheckBoxes.add(lunchcheckBox5);
         CheckBox lunchcheckBox6 = lunchCard.findViewById(R.id.checkBox6);
-        lunchcheckBox6.setText("Tuna");
+        lunchcheckBox6.setText("Savory");
         LuncheckBoxes.add(lunchcheckBox6);
         CheckBox lunchcheckBox7 = lunchCard.findViewById(R.id.checkBox7);
-        lunchcheckBox7.setText("Mayonnaise");
+        lunchcheckBox7.setText("Sweet");
         LuncheckBoxes.add(lunchcheckBox7);
 
 
-        List<CheckBox> BrucheckBoxes = new ArrayList<>();
+
         CardView brunchCard = view.findViewById(R.id.brunchCard);
         ImageView brunchBackground = brunchCard.findViewById(R.id.backgroundImage);
         brunchBackground.setImageResource(R.drawable.brunch);
@@ -217,67 +243,67 @@ public class MainPageFragment extends Fragment {
         BrucheckBoxes.add(brunchcheckBox1);
 
         CheckBox brunchcheckBox2 = brunchCard.findViewById(R.id.checkBox2);
-        brunchcheckBox2.setText("Bacon");
+        brunchcheckBox2.setText("Pepper");
         BrucheckBoxes.add(brunchcheckBox2);
 
 
         CheckBox brunchcheckBox3 = brunchCard.findViewById(R.id.checkBox3);
-        brunchcheckBox3.setText("Avocado");
+        brunchcheckBox3.setText("Green onions");
         BrucheckBoxes.add(brunchcheckBox3);
 
         CheckBox brunchcheckBox4 = brunchCard.findViewById(R.id.checkBox4);
-        brunchcheckBox4.setText("Tomatoes");
+        brunchcheckBox4.setText("Cheddar Cheese");
         BrucheckBoxes.add(brunchcheckBox4);
 
         CheckBox brunchcheckBox5 = brunchCard.findViewById(R.id.checkBox5);
-        brunchcheckBox5.setText("Bagels");
+        brunchcheckBox5.setText("Savory");
         BrucheckBoxes.add(brunchcheckBox5);
 
         CheckBox brunchcheckBox6 = brunchCard.findViewById(R.id.checkBox6);
-        brunchcheckBox6.setText("Smoked salmon");
+        brunchcheckBox6.setText("Spicy");
         BrucheckBoxes.add(brunchcheckBox6);
 
 
         CheckBox brunchcheckBox7 = brunchCard.findViewById(R.id.checkBox7);
-        brunchcheckBox7.setText("Cream cheese");
+        brunchcheckBox7.setText("Sweet");
         BrucheckBoxes.add(brunchcheckBox7);
 
 
 
 
 
-        List<CheckBox> DincheckBoxes = new ArrayList<>();
+
         CardView dinnerCard = view.findViewById(R.id.dinnerCard);
         ImageView dinnerBackground = dinnerCard.findViewById(R.id.backgroundImage);
         dinnerBackground.setImageResource(R.drawable.dinner);
         TextView dinnerTitle = dinnerCard.findViewById(R.id.mealTypeTitle);
         dinnerTitle.setText("Dinner");
         CheckBox dinnercheckBox1 = dinnerCard.findViewById(R.id.checkBox1);
-        dinnercheckBox1.setText("Rice");
+        dinnercheckBox1.setText("Bacon");
         DincheckBoxes.add(dinnercheckBox1);
 
         CheckBox dinnercheckBox2 = dinnerCard.findViewById(R.id.checkBox2);
-        dinnercheckBox2.setText("Pasta");
+        dinnercheckBox2.setText("Sliced Bread");
         DincheckBoxes.add(dinnercheckBox2);
 
         CheckBox dinnercheckBox3 = dinnerCard.findViewById(R.id.checkBox3);
-        dinnercheckBox3.setText("Chicken breast");
+        dinnercheckBox3.setText("Lettuce");
         DincheckBoxes.add(dinnercheckBox3);
 
         CheckBox dinnercheckBox4 = dinnerCard.findViewById(R.id.checkBox4);
-        dinnercheckBox4.setText("Salmon");
+        dinnercheckBox4.setText("Tomato");
         DincheckBoxes.add(dinnercheckBox4);
 
         CheckBox dinnercheckBox5 = dinnerCard.findViewById(R.id.checkBox5);
-        dinnercheckBox5.setText("Broccoli");
+        dinnercheckBox5.setText("Savory");
         DincheckBoxes.add(dinnercheckBox5);
 
         CheckBox dinnercheckBox6 = dinnerCard.findViewById(R.id.checkBox6);
-        dinnercheckBox6.setText("Bell peppers");
+        dinnercheckBox6.setText("Sweet");
         DincheckBoxes.add(dinnercheckBox6);
 
         CheckBox dinnercheckBox7 = dinnerCard.findViewById(R.id.checkBox7);
-        dinnercheckBox7.setText("Olive oil");
+        dinnercheckBox7.setText("Sweet");
         DincheckBoxes.add(dinnercheckBox7);
 
         // Expand the first card view by default

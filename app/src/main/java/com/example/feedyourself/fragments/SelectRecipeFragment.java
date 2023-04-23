@@ -1,5 +1,7 @@
 package com.example.feedyourself.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
@@ -28,6 +30,7 @@ import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.RecipeAdapter2;
 import com.example.feedyourself.utils.SharedViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +50,8 @@ public class SelectRecipeFragment extends Fragment {
     private RecipeAdapter2 recipeAdapter2;
 
     private ImageButton imageButton;
+
+    private String mealType;
 
     public SelectRecipeFragment() {
         // Required empty public constructor
@@ -115,7 +120,7 @@ public class SelectRecipeFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientsMap->{
-            String mealType = null;
+             mealType = null;
 
             for (String s : ingredientsMap.keySet()) {
                 if(s != null){
@@ -126,27 +131,60 @@ public class SelectRecipeFragment extends Fragment {
             if(mealType != null){
                 List<String> mealTypeIngredients = ingredientsMap.get(mealType);
                 recipeList.clear();
-                recipesRef.addValueEventListener(new ValueEventListener() {
+//                recipesRef.addValueEventListener(new ValueEventListener() {
+//
+//
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                            Recipe recipe = dataSnapshot.getValue(Recipe.class);
+////                            if(recipe.getIngredients().retainAll(mealTypeIngredients)){//It means there are duplicates between the two lists
+////                                recipeList.add(recipe);
+////
+////                            }
+//                            recipeList.add(recipe);
+//                        }
+//                        recipeAdapter2.notifyDataSetChanged();
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
+                recipesRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Recipe recipe = snapshot.getValue(Recipe.class);
+                        Log.d(TAG, "onChildAdded: "+ mealType);
+                        if(recipe.getMealType().equals(mealType)){
+                            recipeList.add(recipe);
+                            recipeAdapter2.notifyDataSetChanged();
+                        }
+
+                    }
 
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Recipe recipe = dataSnapshot.getValue(Recipe.class);
-//                            if(recipe.getIngredients().retainAll(mealTypeIngredients)){//It means there are duplicates between the two lists
-//                                recipeList.add(recipe);
-//
-//                            }
-                            recipeList.add(recipe);
-                        }
-                        recipeAdapter2.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
