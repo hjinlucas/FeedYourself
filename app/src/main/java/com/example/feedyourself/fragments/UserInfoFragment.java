@@ -319,7 +319,6 @@ public class UserInfoFragment extends Fragment implements OnMapReadyCallback {
                         binding.userName.setText("DEFAULT");
                     }
                 }
-
                 // Save the username to SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("username", binding.userName.getText().toString());
