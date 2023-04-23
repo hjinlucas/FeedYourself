@@ -8,9 +8,26 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/add_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:padding="8dp"
+            android:elevation="2dp"/>
+
+
+
+
+        <ImageView
             android:id="@+id/select_recipe_background_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -42,35 +59,74 @@
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/select_recipe_linear_time"
-            android:layout_below="@+id/select_recipe_linear_calorie">
+            android:layout_below="@+id/select_recipe_linear_calorie"
+            android:orientation="vertical">
 
-
-
-            <ImageView
-                android:id="@+id/select_recipe_time_icon"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/clock"/>
-
-            <TextView
-                android:id="@+id/select_recipe_time"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/select_recipe_linear_calorie"
-                android:textColor="@color/colorPrimary"
-                android:text="time"/>
+                android:orientation="horizontal"
+                android:id="@+id/select_recipe_linear_time">
+
+                <ImageView
+                    android:id="@+id/select_recipe_time_icon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/clock"/>
+
+                <TextView
+                    android:id="@+id/select_recipe_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="time"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/select_recipe_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/select_recipe_linear_time"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/star_filled" />
+
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/star_filled" />
+
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/star_filled" />
+
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/star_filled" />
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/star_filled" />
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
-
-
-
-
-        <!-- Add other views (e.g., TextViews, Buttons, etc.) on top of the ImageView here -->
 
     </RelativeLayout>
 

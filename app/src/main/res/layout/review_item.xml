@@ -48,7 +48,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/baseline_star_24"
+                        android:src="@drawable/star"
                         />
 
                     <TextView

@@ -47,9 +47,6 @@ public class SelectRecipeFragment extends Fragment {
     private RecipeAdapter2 recipeAdapter2;
 
     private ImageButton imageButton;
-//    private RadioGroup sortingFilterGroup;
-    private RadioButton sortingFilterCalories;
-    private RadioButton sortingFilterCookingTime;
 
     public SelectRecipeFragment() {
         // Required empty public constructor
