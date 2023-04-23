@@ -184,7 +184,7 @@ public class DirectionsActivity extends AppCompatActivity {
         binding.recipeInfoDirections.setText(recipeInfoText);
     }
     private void addToSavedList() {
-        // Your code to add the recipe to the saved list
+        // Your code to add the recipe to the saved list//
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
