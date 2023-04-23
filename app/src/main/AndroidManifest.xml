@@ -29,6 +29,7 @@
             android:name=".main.CommentActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/CustomizedDirectionActivityTheme"
             android:name=".main.DirectionsActivity"
             android:exported="false" />
         <activity

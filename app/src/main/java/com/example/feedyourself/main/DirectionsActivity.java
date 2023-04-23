@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DirectionsActivity extends AppCompatActivity {
     private ActivityDirectionsBinding binding;
@@ -34,6 +37,8 @@ public class DirectionsActivity extends AppCompatActivity {
 
     private List<Review> reviewList = new ArrayList<>();
     private DatabaseReference reviewRef;
+
+    private List<String> ingredients = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +69,13 @@ public class DirectionsActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.recipeNameDirections.setText(recipe.getName());
         binding.commentIcon.setOnClickListener(v -> {
             leaveComments();
         });
+        displayDirections();
+        displayIngredients();
+        displayRecipeInfo();
         createRecyclerView();
 
     }
@@ -92,11 +101,10 @@ public class DirectionsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Review review = dataSnapshot.getValue(Review.class);
-//                            if(recipe.getIngredients().retainAll(mealTypeIngredients)){//It means there are duplicates between the two lists
-//                                recipeList.add(recipe);
-//
-//                            }
-                    reviewList.add(review);
+                    if(review.getRecipeName().equals(recipe.getName())){
+                        reviewList.add(review);
+                    }
+
                 }
                 reviewAdapter.notifyDataSetChanged();
             }
@@ -107,4 +115,49 @@ public class DirectionsActivity extends AppCompatActivity {
             }
         });
     }
+    private void displayDirections() {
+        String directionsString = recipe.getDirections();
+        if (directionsString != null && !directionsString.isEmpty()) {
+            String[] directionsArray = directionsString.split("#");
+            LinearLayout directionsContainer = binding.directionsContainer;
+
+            for (int i = 0; i < directionsArray.length; i++) {
+                TextView directionTextView = new TextView(this);
+                directionTextView.setText((i + 1) + ". " + directionsArray[i]);
+                directionTextView.setTextSize(16);
+                directionTextView.setPadding(0, 0, 0, 8);
+                directionsContainer.addView(directionTextView);
+            }
+        }
+    }
+    private void displayIngredients() {
+        List<String> ingredientsList = recipe.getIngredients();
+        if (ingredientsList != null && !ingredientsList.isEmpty()) {
+            LinearLayout ingredientsContainer = binding.ingredientsContainer;
+
+            for (String ingredient : ingredientsList) {
+                TextView ingredientTextView = new TextView(this);
+                ingredientTextView.setText("\u2022 " + ingredient); // Add a bullet point before each ingredient
+                ingredientTextView.setTextSize(16);
+                ingredientTextView.setPadding(0, 0, 0, 8);
+                ingredientsContainer.addView(ingredientTextView);
+            }
+        }
+    }
+    private void displayRecipeInfo() {
+        List<String> ingredientsList = recipe.getIngredients();
+        int numberOfIngredients = (ingredientsList != null) ? ingredientsList.size() : 0;
+        Integer calories = recipe.getCalories();
+        Integer cookTime = recipe.getTime();
+
+        String recipeInfoText = String.format(Locale.getDefault(),
+                "Ingredients: %d  |  Calories: %d kcal  |  Cook time: %d min",
+                numberOfIngredients,
+                calories,
+                cookTime);
+        binding.recipeInfoDirections.setText(recipeInfoText);
+    }
+
+
+
 }

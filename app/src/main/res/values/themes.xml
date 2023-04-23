@@ -14,4 +14,17 @@
         <item name="colorAccent">@color/colorPrimary</item>
 
     </style>
+    
+    <style name="CustomizedDirectionActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="actionOverflowButtonStyle">@style/CustomOverflowMenu</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+    <style name="CustomOverflowMenu" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/baseline_add_to_photos_24</item>
+    </style>
+
 </resources>

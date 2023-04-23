@@ -85,38 +85,59 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/ingredients_card"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ingredientsContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ingredients: ">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredients:"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <!-- Add content for the ingredients card here -->
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/directions_card"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Directions:          ">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Directions:"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
 
-                <!-- Add content for the directions card here -->
+                    <LinearLayout
+                        android:id="@+id/directions_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
             <RelativeLayout
