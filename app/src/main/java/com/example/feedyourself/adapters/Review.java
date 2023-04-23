@@ -10,6 +10,9 @@ public class Review {
 
     private String profileImageUrl;
 
+    public Review() {
+    }
+
     public Review(String id, String recipeName, String userId, String comments, float rating, String profileImageUrl) {
         this.id = id;
         this.recipeName = recipeName;
