@@ -35,6 +35,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private DatabaseReference reviewsDatabaseReference;
     private DatabaseReference recipeDatabaseReference;
+    private User currentUser;
 
 
 
@@ -66,7 +67,7 @@ public class CommentActivity extends AppCompatActivity {
             databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    User currentUser = dataSnapshot.getValue(User.class);
+                    currentUser = dataSnapshot.getValue(User.class);
                     if (currentUser != null) {
                         Log.d(TAG, "onDataChange: user");
 //                        TextView userNameTextView = findViewById(R.id.comment_user_name);
@@ -103,7 +104,7 @@ public class CommentActivity extends AppCompatActivity {
             float rating = binding.commentRatingBar.getRating();
 
             if (reviewId != null) {
-                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating);
+                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating, currentUser.getProfileImageUrl());
                 reviewsDatabaseReference.child(reviewId).setValue(review)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

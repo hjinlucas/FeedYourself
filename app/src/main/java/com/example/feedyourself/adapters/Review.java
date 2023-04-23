@@ -8,12 +8,15 @@ public class Review {
     private String comments;
     private float rating;
 
-    public Review(String id, String recipeName, String userId, String comments, float rating) {
+    private String profileImageUrl;
+
+    public Review(String id, String recipeName, String userId, String comments, float rating, String profileImageUrl) {
         this.id = id;
         this.recipeName = recipeName;
         this.userId = userId;
         this.comments = comments;
         this.rating= rating;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getId() {
@@ -53,5 +56,13 @@ public class Review {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
