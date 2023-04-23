@@ -19,6 +19,9 @@ public class User {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public User() {
+    }
+
     public String getId() {
         return id;
     }
