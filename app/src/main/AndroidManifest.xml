@@ -26,6 +26,9 @@
         android:theme="@style/Theme.FeedYourself"
         tools:targetApi="31">
         <activity
+            android:name=".main.CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".main.DirectionsActivity"
             android:exported="false" />
         <activity

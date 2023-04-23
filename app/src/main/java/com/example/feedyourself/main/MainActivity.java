@@ -64,21 +64,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         List<String> ingredients11 = Arrays.asList("sliced bread", "turkey", "cheddar cheese", "lettuce", "tomato", "mayonnaise");
-        Recipe recipe11 = new Recipe("11", "Turkey and Cheese Sandwich", "Lunch", ingredients11, "", false, 300, 10, "#Spread mayonnaise on one side of each slice of bread.#Layer turkey, cheddar cheese, lettuce, and tomato on one slice of bread.#Top with the second slice of bread, mayonnaise-side down.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole);
+        Recipe recipe11 = new Recipe("11", "Turkey and Cheese Sandwich", "Lunch", ingredients11, "", false, 300, 10, "#Spread mayonnaise on one side of each slice of bread.#Layer turkey, cheddar cheese, lettuce, and tomato on one slice of bread.#Top with the second slice of bread, mayonnaise-side down.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole,0);
         recipesRef.child(recipe11.getId()).setValue(recipe11);
 
         List<String> ingredients12 = Arrays.asList("sliced bread", "ham", "swiss cheese", "butter", "dijon mustard");
-        Recipe recipe12 = new Recipe("12", "Ham and Cheese Panini", "Lunch", ingredients12, "", false, 400, 15, "#Spread butter on one side of each slice of bread.#On the other side of one slice, spread dijon mustard.#Layer ham and swiss cheese on top of the mustard.#Place the second slice of bread on top, butter-side out.#Heat a skillet or panini press over medium heat.#Cook the sandwich for 3-4 minutes on each side or until bread is golden brown and cheese is melted.#Serve immediately.", R.drawable.bacon_egg_casserole);
+        Recipe recipe12 = new Recipe("12", "Ham and Cheese Panini", "Lunch", ingredients12, "", false, 400, 15, "#Spread butter on one side of each slice of bread.#On the other side of one slice, spread dijon mustard.#Layer ham and swiss cheese on top of the mustard.#Place the second slice of bread on top, butter-side out.#Heat a skillet or panini press over medium heat.#Cook the sandwich for 3-4 minutes on each side or until bread is golden brown and cheese is melted.#Serve immediately.", R.drawable.bacon_egg_casserole,0);
         recipesRef.child(recipe12.getId()).setValue(recipe12);
 
         List<String> ingredients13 = Arrays.asList("canned tuna", "mayonnaise", "diced celery", "diced onion", "salt", "pepper", "sliced bread", "lettuce");
-        Recipe recipe13 = new Recipe("13", "Tuna Salad Sandwich", "Lunch", ingredients13, "", false, 400, 15, "#In a medium bowl, mix together tuna, mayonnaise, diced celery, diced onion, salt, and pepper until well combined.#Spread the tuna salad onto a slice of bread.#Top with lettuce and another slice of bread.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole);
+        Recipe recipe13 = new Recipe("13", "Tuna Salad Sandwich", "Lunch", ingredients13, "", false, 400, 15, "#In a medium bowl, mix together tuna, mayonnaise, diced celery, diced onion, salt, and pepper until well combined.#Spread the tuna salad onto a slice of bread.#Top with lettuce and another slice of bread.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole,0);
         recipesRef.child(recipe13.getId()).setValue(recipe13);
 
         List<String> ingredients14 = Arrays.asList("sliced bread", "bacon", "lettuce", "tomato", "mayonnaise");
-        Recipe recipe14 = new Recipe("14", "Classic BLT Sandwich", "Lunch", ingredients14, "", false, 400, 20, "#Cook bacon in a skillet over medium heat until crispy. Set aside on paper towels to drain.#Spread mayonnaise on one side of each slice of bread.#Layer bacon, lettuce, and tomato on one slice of bread.#Top with the second slice of bread, mayonnaise-side down.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole);
+        Recipe recipe14 = new Recipe("14", "Classic BLT Sandwich", "Lunch", ingredients14, "", false, 400, 20, "#Cook bacon in a skillet over medium heat until crispy. Set aside on paper towels to drain.#Spread mayonnaise on one side of each slice of bread.#Layer bacon, lettuce, and tomato on one slice of bread.#Top with the second slice of bread, mayonnaise-side down.#Cut the sandwich in half and serve.", R.drawable.bacon_egg_casserole,0);
         recipesRef.child(recipe14.getId()).setValue(recipe14);
-
+        List<String> ingredients = Arrays.asList("sliced bread", "bacon", "lettuce", "tomato", "mayonnaise");
 
         List<Recipe> recipes = Arrays.asList(recipe11, recipe12, recipe13, recipe14);
         List<String> imagePaths = Arrays.asList("id11.png", "id12.png", "id13.png", "id14.png");

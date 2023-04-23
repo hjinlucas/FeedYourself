@@ -16,13 +16,14 @@ import com.google.android.material.appbar.AppBarLayout;
 
 public class DirectionsActivity extends AppCompatActivity {
     private ActivityDirectionsBinding binding;
+    private Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDirectionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
-        Recipe recipe = intent.getParcelableExtra("recipe");
+        recipe = intent.getParcelableExtra("recipe");
 
         binding.recipeDirectionImage.setImageResource(recipe.getImgId());
         setSupportActionBar(binding.toolbar);
@@ -46,6 +47,9 @@ public class DirectionsActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.commentIcon.setOnClickListener(v -> {
+            leaveComments();
+        });
 
     }
 
@@ -53,5 +57,10 @@ public class DirectionsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dir_act_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    private void leaveComments(){
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra("RecipeComment", recipe);
+        startActivity(intent);
     }
 }
