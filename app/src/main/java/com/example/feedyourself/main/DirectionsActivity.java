@@ -3,6 +3,7 @@ package com.example.feedyourself.main;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,15 +12,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.feedyourself.R;
 import com.example.feedyourself.adapters.Recipe;
 import com.example.feedyourself.adapters.Review;
 import com.example.feedyourself.adapters.ReviewAdapter;
 import com.example.feedyourself.databinding.ActivityDirectionsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +42,8 @@ public class DirectionsActivity extends AppCompatActivity {
     private ActivityDirectionsBinding binding;
     private Recipe recipe;
     private ReviewAdapter reviewAdapter;
+    private DatabaseReference savedRecipesRef;
+    private FirebaseAuth mAuth;
 
     private List<Review> reviewList = new ArrayList<>();
     private DatabaseReference reviewRef;
@@ -90,32 +100,47 @@ public class DirectionsActivity extends AppCompatActivity {
         intent.putExtra("RecipeComment", recipe);
         startActivity(intent);
     }
-    private void createRecyclerView(){
-        reviewRef= FirebaseDatabase.getInstance().getReference("Reviews");
+    private void createRecyclerView() {
+        Log.d(TAG, "createRecyclerView: ");
+        reviewRef = FirebaseDatabase.getInstance().getReference("Reviews");
         reviewList.clear();
         reviewAdapter = new ReviewAdapter(this, reviewList);
         binding.commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.commentsRecyclerView.setAdapter(reviewAdapter);
 
-        reviewRef.addValueEventListener(new ValueEventListener() {
+        reviewRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Review review = dataSnapshot.getValue(Review.class);
-                    if(review.getRecipeName().equals(recipe.getName())){
-                        reviewList.add(review);
-                    }
-
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                Review review = dataSnapshot.getValue(Review.class);
+                if (review.getRecipeName().equals(recipe.getName())) {
+                    reviewList.add(review);
+                    reviewAdapter.notifyDataSetChanged();
                 }
-                reviewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
     }
+
     private void displayDirections() {
         String directionsString = recipe.getDirections();
         if (directionsString != null && !directionsString.isEmpty()) {
@@ -158,10 +183,36 @@ public class DirectionsActivity extends AppCompatActivity {
                 cookTime);
         binding.recipeInfoDirections.setText(recipeInfoText);
     }
+    private void addToSavedList() {
+        // Your code to add the recipe to the saved list
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userId = user.getUid();
+        savedRecipesRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("savedRecipes");
+        savedRecipesRef.child(recipe.getId()).setValue(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(DirectionsActivity.this, "Recipe Saved", Toast.LENGTH_SHORT).show();
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        createRecyclerView();
-//    }
+                } else {
+                    Toast.makeText(DirectionsActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_save) {
+            // Perform the action when the menu item is clicked
+            addToSavedList();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

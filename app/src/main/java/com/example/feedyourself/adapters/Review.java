@@ -9,17 +9,27 @@ public class Review {
     private float rating;
 
     private String profileImageUrl;
+    private String userName;
 
     public Review() {
     }
 
-    public Review(String id, String recipeName, String userId, String comments, float rating, String profileImageUrl) {
+    public Review(String id, String recipeName, String userId, String comments, float rating, String profileImageUrl, String userName) {
         this.id = id;
         this.recipeName = recipeName;
         this.userId = userId;
         this.comments = comments;
         this.rating= rating;
         this.profileImageUrl = profileImageUrl;
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getId() {

@@ -30,6 +30,7 @@ public class CommentActivity extends AppCompatActivity {
     private String recipeName;
     private String newImageUrl;
     private FirebaseAuth mAuth;
+    private String userName;
     private DatabaseReference databaseReference;
     Recipe recipe;
     private ActivityCommentBinding binding;
@@ -76,7 +77,7 @@ public class CommentActivity extends AppCompatActivity {
 //                        TextView recipeName = findViewById(R.id.comment_recipe_name);
                         binding.commentRecipeName.setText(recipe.getName());
 
-                        String userName = dataSnapshot.child("username").getValue(String.class);
+                        userName = dataSnapshot.child("username").getValue(String.class);
                         binding.commentUserName.setText(userName);
                         newImageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
                         if (newImageUrl != null) {
@@ -106,7 +107,7 @@ public class CommentActivity extends AppCompatActivity {
             float rating = binding.commentRatingBar.getRating();
 
             if (reviewId != null) {
-                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating, newImageUrl);
+                Review review = new Review(reviewId, binding.commentRecipeName.getText().toString(), userId, comments, rating, newImageUrl, userName);
                 reviewsDatabaseReference.child(reviewId).setValue(review)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

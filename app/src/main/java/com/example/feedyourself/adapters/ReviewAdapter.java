@@ -39,7 +39,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 .load(review.getProfileImageUrl())
                 .circleCrop()
                 .into(holder.profileIcon);
-        holder.userName.setText(review.getComments());
+
+        holder.userName.setText(review.getUserName());
         holder.userRating.setText(String.valueOf(review.getRating()));
         holder.userReview.setText(review.getComments());
     }
