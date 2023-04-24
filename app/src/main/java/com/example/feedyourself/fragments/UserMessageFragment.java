@@ -52,6 +52,22 @@ public class UserMessageFragment extends Fragment {
             return;
         }
 
+        mAuth.fetchSignInMethodsForEmail(recipientEmail)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().getSignInMethods().isEmpty()) {
+                            Toast.makeText(getContext(), "The provided email address is not registered.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Continue with sending the message
+                            sendValidatedMessage(recipientEmail, message);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Failed to validate the email address.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void sendValidatedMessage(String recipientEmail, String message) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(getContext(), "Please sign in to send a message.", Toast.LENGTH_SHORT).show();
@@ -73,4 +89,5 @@ public class UserMessageFragment extends Fragment {
             }
         });
     }
+
 }
