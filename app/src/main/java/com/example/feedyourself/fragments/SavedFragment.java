@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +32,6 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 public class SavedFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecipeAdapter recipeAdapter;
@@ -74,6 +75,19 @@ public class SavedFragment extends Fragment {
         if (isUserLoggedIn) {
             fetchSavedRecipes();
         }
+
+        ImageView iv_msg = view.findViewById(R.id.iv_msg);
+        iv_msg.setOnClickListener(v -> {
+            // Create a new instance of UserMessageFragment
+            UserMessageFragment userMessageFragment = new UserMessageFragment();
+
+            // Perform Fragment transaction
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, userMessageFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
 
         return view;
     }
