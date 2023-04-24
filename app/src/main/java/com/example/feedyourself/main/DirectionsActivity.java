@@ -81,7 +81,14 @@ public class DirectionsActivity extends AppCompatActivity {
         });
         binding.recipeNameDirections.setText(recipe.getName());
         binding.commentIcon.setOnClickListener(v -> {
-            leaveComments();
+            mAuth = FirebaseAuth.getInstance();
+            FirebaseUser user = mAuth.getCurrentUser();
+            if(user != null){
+                leaveComments();
+            }else{
+                Toast.makeText(this, "You have to log in first to leave a comment", Toast.LENGTH_SHORT).show();
+            }
+
         });
         displayDirections();
         displayIngredients();
