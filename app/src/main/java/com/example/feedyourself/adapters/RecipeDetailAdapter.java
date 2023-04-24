@@ -1,5 +1,6 @@
 package com.example.feedyourself.adapters;
 
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pair<String, String> detail = details.get(position);
+
+        holder.detailKey.setTypeface(null, Typeface.BOLD);
         holder.detailKey.setText(detail.first);
 
         if (detail.first.equals("Directions")) {
@@ -45,7 +48,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
             holder.detailValue.setText(detail.second);
         }
     }
-
 
     @Override
     public int getItemCount() {

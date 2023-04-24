@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Pair;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.feedyourself.R;
@@ -22,6 +23,8 @@ import java.util.List;
 public class RecipeDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecipeDetailAdapter adapter;
+    private ImageView recipeImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recipe_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recipeImageView = findViewById(R.id.recipe_image_view);
+
 
         Intent intent = getIntent();
         Recipe selectedRecipe = intent.getParcelableExtra("selectedRecipe");
@@ -42,6 +47,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         details.add(new Pair<>("Calories", String.valueOf(selectedRecipe.getCalories())));
         details.add(new Pair<>("Time", String.valueOf(selectedRecipe.getTime())));
         details.add(new Pair<>("Directions", selectedRecipe.getDirections()));
+        recipeImageView.setImageResource(selectedRecipe.getImgId());
+
 
         adapter = new RecipeDetailAdapter(details);
         recyclerView.setAdapter(adapter);
