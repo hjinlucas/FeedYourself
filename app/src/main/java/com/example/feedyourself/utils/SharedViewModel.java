@@ -21,6 +21,7 @@ public class SharedViewModel extends ViewModel {
     public MutableLiveData<HashMap<String, List<String>>> getIngredients() {
         return ingredients;
     }
+
     public void setIngredients(String mealType, List<String> ingredientList) {
         HashMap<String, List<String>> currentIngredients = ingredients.getValue();
         if (currentIngredients != null) {
@@ -29,8 +30,8 @@ public class SharedViewModel extends ViewModel {
         }
     }
 
-
-
-
+    public void clearData() {
+        ingredients.setValue(new HashMap<>());
+    }
 
 }

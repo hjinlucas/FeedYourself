@@ -52,6 +52,7 @@ public class SelectRecipeFragment extends Fragment {
     private ImageButton imageButton;
 
     private String mealType;
+    private SharedViewModel sharedViewModel;
 
     public SelectRecipeFragment() {
         // Required empty public constructor
@@ -109,7 +110,7 @@ public class SelectRecipeFragment extends Fragment {
 
     private void createRecyclerView(View view){
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("recipes");
-        SharedViewModel sharedViewModel;
+
         recyclerView = view.findViewById(R.id.borderlessRecyclerView);
         recipeAdapter2 = new RecipeAdapter2(requireContext(),recipeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -229,6 +230,11 @@ public class SelectRecipeFragment extends Fragment {
 
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        sharedViewModel.clearData();
     }
 
 

@@ -323,10 +323,15 @@ public class MainPageFragment extends Fragment {
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
                         List<String> ingredients = new ArrayList<>();
-                        for (CheckBox box:BrecheckBoxes
-                             ) {
-                            if(box.isChecked()){
-                                ingredients.add(box.getText().toString());
+//                        for (CheckBox box:BrecheckBoxes
+//                             ) {
+//                            if(box.isChecked()){
+//                                ingredients.add(box.getText().toString());
+//                            }
+//                        }
+                        for (int i = 0; i < 4; i++) {
+                            if(BrecheckBoxes.get(i).isChecked()){
+                                ingredients.add(BrecheckBoxes.get(i).getText().toString());
                             }
                         }
                         sharedViewModel.setIngredients("Breakfast", ingredients);
@@ -341,14 +346,13 @@ public class MainPageFragment extends Fragment {
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
                         List<String> ingredients = new ArrayList<>();
-                        for (CheckBox box:BrucheckBoxes
-                        ) {
-                            if(box.isChecked()){
-                                ingredients.add(box.getText().toString());
+                        for (int i = 0; i < 4; i++) {
+                            if(BrucheckBoxes.get(i).isChecked()){
+                                ingredients.add(BrucheckBoxes.get(i).getText().toString());
                             }
                         }
                         sharedViewModel.setIngredients("Brunch", ingredients);
-                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+
                         loadFragment(new SelectRecipeFragment());
                     }
                     break;
@@ -357,14 +361,13 @@ public class MainPageFragment extends Fragment {
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
                         List<String> ingredients = new ArrayList<>();
-                        for (CheckBox box:LuncheckBoxes
-                        ) {
-                            if(box.isChecked()){
-                                ingredients.add(box.getText().toString());
+                        for (int i = 0; i < 4; i++) {
+                            if(LuncheckBoxes.get(i).isChecked()){
+                                ingredients.add(LuncheckBoxes.get(i).getText().toString());
                             }
                         }
                         sharedViewModel.setIngredients("Lunch", ingredients);
-                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+
                         loadFragment(new SelectRecipeFragment());
                     }
                     break;
@@ -374,14 +377,13 @@ public class MainPageFragment extends Fragment {
                         Toast.makeText(requireContext(), "You must select at least one ingredients to start", Toast.LENGTH_SHORT).show();
                     }else{
                         List<String> ingredients = new ArrayList<>();
-                        for (CheckBox box:DincheckBoxes
-                        ) {
-                            if(box.isChecked()){
-                                ingredients.add(box.getText().toString());
+                        for (int i = 0; i < 4; i++) {
+                            if(DincheckBoxes.get(i).isChecked()){
+                                ingredients.add(DincheckBoxes.get(i).getText().toString());
                             }
                         }
                         sharedViewModel.setIngredients("Dinner", ingredients);
-                        sharedViewModel.getIngredients().postValue(sharedViewModel.getIngredients().getValue());
+
                         loadFragment(new SelectRecipeFragment());
                     }
                     break;
